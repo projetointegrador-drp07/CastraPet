@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import Usuario, Animais
 
 def cadastro(request):
     if request.method == "GET":
@@ -24,8 +25,27 @@ def cadastro(request):
         sexo_animal = request.POST.getlist('sexo_animal')
         cor_animal = request.POST.getlist('cor_animal')
 
+        usuario = Usuario(
+            nome = nome,
+            cpf = cpf,
+            rg = rg,
+            email =email,
+            telefone1 = telefone1,
+            telefone2 = telefone2,
+            cep = cep,
+            endereco = endereco,
+            numero = numero,
+            bairro = bairro,
+            cidade = cidade,
+            uf = uf,
+            obs = obs
+        )
+        usuario.save()
 
-        print(nome_animal, especie_animal, idade_animal, sexo_animal,cor_animal)
+        for nome_animal, especie_animal, idade_animal, sexo_animal, cor_animal in zip(nome_animal, especie_animal, idade_animal, sexo_animal, cor_animal):
+            animal = Animais(usuario = usuario, nome_animal = nome_animal, especie_animal = especie_animal, idade_animal = idade_animal, sexo_animal = sexo_animal, cor_animal = cor_animal)
+            animal.save()
+
         return HttpResponse('Cadastrado com sucesso!')
     
 

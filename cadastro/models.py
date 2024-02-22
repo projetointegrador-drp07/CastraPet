@@ -19,7 +19,7 @@ class Usuario(models.Model):
         return self.nome
     
 class Animais(models.Model):
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, null = True)
     nome_animal = models.CharField(max_length=100)
     especie_animal = models.CharField(max_length=50)
     idade_animal = models.CharField(max_length=2)
