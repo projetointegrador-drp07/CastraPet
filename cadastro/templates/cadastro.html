@@ -1,11 +1,9 @@
 {% extends "base.html" %}
 {% load static %}
 
-
 {% block 'head' %}
     <link rel="stylesheet" href="{% static 'cadastro/css/cadastro.css' %}">
 {% endblock %}
-
 
 {% block 'dashboard' %}
 
@@ -42,13 +40,11 @@
                 </div>
 
                 <div class="row">
-                
                     <div class="col-md-8">
                         E-mail:
                         <input type="email" class="form-control" placeholder="nome@email.com" name="email" value="{{email}}">
                         <br>
                     </div>
-                
                     <div class="col-md-2">
                         Telefone:
                         <input type="text" class="form-control" placeholder="(__)____-____" name="telefone1" value="{{telefone1}}">
@@ -57,87 +53,72 @@
                         Telefone 2:
                         <input type="text" class="form-control" placeholder="(__)____-____" name="telefone2" value="{{telefone2}}">
                     </div>
-                        
-                    
                 </div>
-                
+
                 <p>Informações Residenciais:</p>
                 <hr style="background-color:gray;">
                 <div class="row">
-                
                     <div class="col-sm-2">
-                        CEP:
-                        <input type="text" id="cep" size="10" maxlength="9" class="form-control" placeholder="__.___-___" name="cep" value="{{cep}}">
+                        <label for="cep">CEP:</label>
+                        <input type="text" id="cep" size="10" maxlength="9" class="form-control" name="cep" placeholder="ex. 17500500">
                     </div>
-                
+                    
                     <div class="col-md-1 align-self-center">
-                        <button type="button" onclick ="pesquisa_cep('1')" class="btn btn-secondary w-60 " alt="Pesquisar CEP"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-circle" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
-                        </svg> </button>
+                        <button type="button" onclick="pesquisa_cep($('#cep').val())" class="btn btn-secondary w-60" alt="Pesquisar CEP">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-circle" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
+                            </svg>
+                        </button>                        
                     </div>
-                
+                    
                     <div class="col-md-8">
-                        Endereço:
-                        <input type="text" id="endereco" class="form-control" placeholder="Endereço" name="endereco" value="{{endereco}}">
+                        <label for="logradouro">Endereço:</label>
+                        <input type="text" id="logradouro" class="form-control" placeholder="Endereço" name="endereco" readonly>
                         <br>
                     </div>
-                
                     <div class="col-md-1">
                         Número:
                         <input type="text" class="form-control" placeholder="Número" name="numero" value="{{numero}}">
                         <br>
                     </div>
-                
                 </div>
-                
+
                 <div class="row">
                     <div class="col-md-6">
                         Bairro:
-                        <input type="text" id ="bairro" class="form-control" placeholder="Bairro" name="bairro" value="{{bairro}}">
+                        <input type="text" id="bairro" class="form-control" placeholder="Bairro" name="bairro" readonly>
                     </div>
-                
                     <div class="col-md-5">
                         Cidade:
-                        <input type="text" id ="cidade" class="form-control" placeholder="Cidade" name="cidade" value="{{cidade}}">
+                        <input type="text" id="cidade" class="form-control" placeholder="Cidade" name="cidade" readonly>
                     </div>
-                
                     <div class="col-md-1">
                         UF:
-                        <input type="text" id ="UF" class="form-control" placeholder="UF" name="uf" value="{{uf}}">
+                        <input type="text" id="UF" class="form-control" placeholder="UF" name="uf" readonly>
                     </div>
-                    <br>
-                    <hr style="background-color:gray;">
-                    
                 </div>
-                
-                Observações:
+
+                <p>Observações:</p>
                 <hr style="background-color:gray;">
                 <div class="row">
-                
                     <div class="col-md">
-                        <textarea class="form-control" rows="3" name="observacoes" value="{{observacoes}}"></textarea>
-                        
+                        <textarea class="form-control" rows="3" name="observacoes">{{observacoes}}</textarea>
                         <br>
                     </div>
-                
-                    <hr style="background-color:gray;">
-                    
                 </div>
+                <hr style="background-color:gray;">
+
                 <div id="animais">
                     <div class="col-md-1 align-self-center">
-                        <button type="button" onclick ="add_animal()" class="btn btn-secondary w-60 " alt="Adicionar Animal">Adicionar Animal<svg xmlns="http://www.w3.org/2000/svg" width="50" height="15" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
-                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
-                          </svg></button>
+                        <button type="button" onclick="add_animal()" class="btn btn-secondary w-60" alt="Adicionar Animal">Adicionar Animal
+                            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="15" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+                            </svg>
+                        </button>
                     </div>
-
                     <hr style="background-color:gray;">
-
-
                     <div id="form_animal">
-                        
                     </div>
-                   
-
                 </div>
                 <input type="submit" value="Cadastrar" class="btn-principal">
             </form>
@@ -149,12 +130,13 @@
                     <input type="text" class="form-control" placeholder="Nome" name="pesquisa_nome" value="">
                     <br>
                 </div>
+            </div>
         </div>
     </div>
-
 </div>
+
+
 <script src="{% static 'cadastro/js/cadastro.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-            
-
-{% endblock%}
+{% endblock %}

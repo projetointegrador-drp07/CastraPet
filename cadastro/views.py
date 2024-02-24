@@ -47,5 +47,3 @@ def cadastro(request):
             animal.save()
 
         return HttpResponse('Cadastrado com sucesso!')
-    
-
