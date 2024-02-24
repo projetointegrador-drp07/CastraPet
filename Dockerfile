@@ -15,6 +15,8 @@ RUN brew update \
 RUN pyenv install 3.9.18 \
     pyenv global 3.9.18
 
+RUN pip3 install -r requirements.txt
+
 COPY . .
 
 RUN python3 manage.py migrate \
