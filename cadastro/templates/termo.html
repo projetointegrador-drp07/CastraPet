@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block 'dashboard' %}
+<div id="container">
+    <h1><center>Campanha de Castração</center></h1>
+    <br>
+    Tutor : {{id}}, {{nome}}<br>
+    Endereço: {{endereco}}, {{numero}}<br>
+    Cidade: {{cidade}}<br>
+    Telefone: {{telefone1}}<br>
+    Telefone: {{telefone2}}<br>
+    E-mail: {{email}}<br>
+    CPF: {{cpf}}, RG: {{rg}} <br>
+  
+    <br>
+    <h3><center>TERMO DE RESPONSABILIDADE E AUTORIZAÇÃO PARA CIRURGIA</center></h3>
+    <br>
+    Desejo esterilizar meu(s) animal (is) abaixo descriminado(s) e declaro estar ciente dos riscos anestésicos, sendo o óbito um deles. Autorizo o Médico Veterinário responsável pela campanha de castração Dra. Lara Sicchieri – CRMV/SP – 35219, e, Dra. Thayrine Marques Oshima – CRMV/SP47661, a realizar o procedimento cirúrgico, nada podendo reivindicar em qualquer momento. Declaro também que meu animal está com a vacinação completa (v8 e raiva para canino e tríplice e raiva para felinos), aplicados há menos de um ano e vermifugado há pelo menos seis meses. Caso esses procedimentos não tenham sido feitos, reconheço que os riscos por doenças pré-existentes ou incubadas são maiores. Responsabilizo-me por cumprir as orientações recebidas aqui quanto ao préoperatório e pós-operatório e receituário do meu animal e assumo todos os encargos de eventuais complicações que possam ocorrer, nada podendo reclamar ou exigir do médico veterinário acima citado e responsável pelo procedimento. Sendo que ele não se responsabiliza se acaso o animal for encaminhado a outro veterinário, sem prévia autorização do cirurgião responsável.
+    <br>
+    <br>
+    DADOS DOS ANIMAIS:
+    <br>
+    <table class="table table-hover">
+        <tr>
+            <td scope="col">Nome</td>
+            <td scope="col">Espécie</td>
+            <td scope="col">Idade</td>
+            <td scope="col">Sexo</td>
+            <td scope="col">Cor</td>
+        </tr>
+        <tbody>
+            {% for list_animais in animais %}
+            
+                    <tr>
+                        <td>{{list_animais.nome_animal}} </td>
+                        <td>{{list_animais.especie_animal}}</td>
+                        <td>{{list_animais.idade_animal}}</td>
+                        <td>{{list_animais.sexo_animal}}</td>
+                        <td>{{list_animais.cor_animal}}</td>
+                    </tr>
+                
+            {%endfor%}
+        </tbody>
+    </table>
+    <br>
+    <br>
+    Por ter lido e concordado com os termos acima, assino a presente autorização.
+    <br>
+    <br>
+    Garça,<script>
+        date = new Date().toLocaleDateString();
+        document.write(date);
+    </script><br><br>
+
+   <center>{{nome}}</center>
+    
+    <br> <br>
+   
+
+</div>
+
+{% endblock %}

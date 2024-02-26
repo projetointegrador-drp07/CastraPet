@@ -1,10 +1,20 @@
 from django.shortcuts import render
-from django.http import HttpResponse
 from .models import Usuario, Animais
+from django.shortcuts import redirect
+from django.urls import reverse
 
 def cadastro(request):
     if request.method == "GET":
-        return render(request, 'cadastro.html')
+        #pesquisa todos os usuarios cadastrados
+        lista_usuarios =  {'lista_usuarios':Usuario.objects.all()}
+        txt_pesquisa = request.GET.get('pesquisa_nome')
+        
+        #caso tenha sido digitado algum dado no campo pesquisar faz a cosulta no banco de dados
+        if txt_pesquisa:    
+            lista_usuarios = {'lista_usuarios':Usuario.objects.filter(nome__icontains=txt_pesquisa)}
+
+        print(lista_usuarios)
+        return render(request, 'cadastro.html', lista_usuarios)
     elif request.method =="POST":
         nome = request.POST.get('nome')
         cpf = request.POST.get('cpf')
@@ -46,4 +56,61 @@ def cadastro(request):
             animal = Animais(usuario = usuario, nome_animal = nome_animal, especie_animal = especie_animal, idade_animal = idade_animal, sexo_animal = sexo_animal, cor_animal = cor_animal)
             animal.save()
 
-        return HttpResponse('Cadastrado com sucesso!')
+
+        dados = {
+            'id':usuario.id,
+            'nome': nome,
+            'cpf' : cpf,
+            'rg': rg,
+            'endereco' : endereco,
+            'numero': numero,
+            'cidade' : cidade,
+            'telefone1' : telefone1,
+            'telefone2' : telefone2,
+            'email': email,
+            'animais': Animais.objects.filter(usuario=usuario.id)
+        }
+       
+        return render(request,'termo.html', dados)
+    
+def apagar_usuario(request, id):
+    try:
+        usuario = Usuario.objects.get(id=id)
+        usuario.delete()
+        print('apagado com sucesso')
+        return redirect(reverse('cadastro'))
+    except:
+        return redirect(reverse('cadastro'))
+
+def termo(request, id):
+    usuario = Usuario.objects.get(id=id)
+    dados = {
+        'id':usuario.id,
+        'nome': usuario.nome,
+        'cpf' : usuario.cpf,
+        'rg': usuario.rg,
+        'endereco' : usuario.endereco,
+        'numero': usuario.numero,
+        'cidade' : usuario.cidade,
+        'telefone1' : usuario.telefone1,
+        'telefone2' : usuario.telefone2,
+        'email': usuario.email,
+        'animais': Animais.objects.filter(usuario=usuario.id)
+        }
+    return render(request,'termo.html', dados)
+
+def editar(request, id):
+    usuario = Usuario.objects.get(id=id)
+    dados = {
+        'id':usuario.id,
+        'nome': usuario.nome,
+        'cpf' : usuario.cpf,
+        'rg': usuario.rg,
+        'endereco' : usuario.endereco,
+        'numero': usuario.numero,
+        'cidade' : usuario.cidade,
+        'telefone1' : usuario.telefone1,
+        'telefone2' : usuario.telefone2,
+        'email': usuario.email,
+        'animais': Animais.objects.filter(usuario=usuario.id)
+    }
