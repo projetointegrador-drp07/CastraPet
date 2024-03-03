@@ -2,6 +2,9 @@ from django.shortcuts import render
 from .models import Usuario, Animais
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.http import JsonResponse, HttpResponse
+import json
+from django.core import serializers
 
 def cadastro(request):
     if request.method == "GET":
@@ -114,3 +117,24 @@ def editar(request, id):
         'email': usuario.email,
         'animais': Animais.objects.filter(usuario=usuario.id)
     }
+
+def exibe_dados(request):
+    if request.method == "POST":
+        dados = request.POST.get('pesquisa_nome')
+        print(dados)
+        if dados:
+            data= Usuario.objects.filter(nome__icontains=dados)
+            data1 = json.loads(serializers.serialize('json',data))
+            data1 = [{'fields': i['fields'], 'id': i['pk']} for i in data1]
+            context = {'dados':data1}
+            print(context)
+            return JsonResponse(context)
+        else:
+            data= Usuario.objects.all()
+            data1 = json.loads(serializers.serialize('json',data))
+            data1 = [{'fields': i['fields'], 'id': i['pk']} for i in data1]
+            context = {'dados':data1}
+            print(context)
+            return JsonResponse(context)
+    
+ 

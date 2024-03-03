@@ -62,3 +62,11 @@ body{
     border-radius: 0px 0px 8px 8px;
     padding: 3px;
 }
+
+.btn-pesqcep{
+    margin-top:15px;
+}
+
+.btn-pesqusuario{
+    margin-top:30px;
+}
