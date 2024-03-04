@@ -1,11 +1,20 @@
-FROM python:3.9.18-alpine
+FROM python:3.9.0
 
-RUN pip install --upgrade pip
+USER root
 
-WORKDIR /app
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
-COPY . .
+ADD requirements.txt requirements.txt
+RUN pip3 install -r requirements.txt
 
-RUN pip install -r requirements.txt
+COPY gunicorn.socket /etc/systemd/system/gunicorn.socket
+COPY gunicorn.service /etc/systemd/system/gunicorn.service
 
-ENTRYPOINT ["sh", "/entrypoint.sh"]
+RUN apt-get update && apt-get install -y sudo ufw
+
+ADD . .
+
+EXPOSE 8000
+
+ENTRYPOINT ["sh", "entrypoint.sh"]
