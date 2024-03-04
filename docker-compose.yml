@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  django_gunicorn:
+    env_file: 
+    - .env
+    environment:
+      DEBUG: "True"
+      ADMIN_EMAIL: "projetointegrador3.drp07@gmail.com"
+      ADMIN_USERNAME: "pi3drp07"
+      ADMIN_SECRET_KEY: ${ADMIN_SECRET_KEY}
+      ALLOWED_HOSTS: "127.0.0.1,localhost,0.0.0.0"
+    volumes:
+      - static:/static
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+  nginx:
+    build: Infra/nginx
+    volumes:
+      - static:/static
+    ports:
+      - "8081:80"
+    depends_on:
+      - django_gunicorn
+
+volumes:
+  static:
