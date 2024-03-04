@@ -91,13 +91,13 @@ function displayData(data) {
     document.getElementById('exibe_usuarios').innerHTML += codigo;
 
     for(i=0; i<data['dados'].length; i++){
-        $('#dados_usuarios').append('<tr><td>' + data['dados'][i]['id'] + '</td>'
+        $('#dados_usuarios').append('<tr id="user-' + data['dados'][i]['id'] + '"><td>' + data['dados'][i]['id'] + '</td>'
                                     +'<td>' + data['dados'][i]['fields']['cpf'] + '</td>'
                                     +'<td>' + data['dados'][i]['fields']['nome'] + '</td>'
                                     +'<td>' + data['dados'][i]['fields']['endereco'] + '</td>'
                                     +'<td>' + data['dados'][i]['fields']['telefone1'] + '</td>'
                                     +'<td>' + data['dados'][i]['fields']['telefone2'] + '</td>'
-                                    +'<td><a href="/editar_usuario/' + data['dados'][i]['id'] + '"><span><i class="fas fa-trash"></i></span><button class="btn btn-secondary w-100 py-1"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">'
+                                    +'<td><span><i class="fas fa-trash"></i></span><button class="btn btn-secondary w-100 py-1" data-toggle="modal" data-target="#exampleModal" onclick="editUser(' + data['dados'][i]['id'] + ')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">'
                                     +'<path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>'
                                     +'</svg> Editar</button></a></td>'
                                     +'<td><a href="/termo/' + data['dados'][i]['id'] + '"><span><i class="fas fa-trash"></i></span>'
@@ -113,4 +113,118 @@ function displayData(data) {
  
 }
 
+function editUser(id){
+    if (id){
+        
+        csrf_token = document.querySelector('[name=csrfmiddlewaretoken]').value
+        $.ajax({
+            type:'POST',
+            url:'edita_dados',
+            headers:{'X-CSRFToken':csrf_token},
+            data:{
+                id: id,
+                csrfmiddlewaretoken: csrf_token,
+            },
+            success: (data) => {
+                console.log(data['dados'][0]['id']);
+                id = data['dados'][0]['id'];
+                nome = data['dados'][0]['fields']['nome'];
+                cpf = data['dados'][0]['fields']['cpf'];
+                rg = data['dados'][0]['fields']['rg'];
+                email = data['dados'][0]['fields']['email'];
+                telefone1 = data['dados'][0]['fields']['telefone1'];
+                telefone2 = data['dados'][0]['fields']['telefone2'];
+                cep = data['dados'][0]['fields']['cep'];
+                endereco = data['dados'][0]['fields']['endereco'];
+                numero = data['dados'][0]['fields']['numero'];
+                bairro = data['dados'][0]['fields']['bairro'];
+                cidade =  data['dados'][0]['fields']['cidade'];
+                uf = data['dados'][0]['fields']['uf'];
+                obs = data['dados'][0]['fields']['obs'];
+                //console.log(nome, cpf, rg, email, telefone1, telefone2, cep, endereco, numero, bairro, cidade, uf, obs)
+                $('#form-id').val(id)
+                $('#nome_modal').val(nome);
+                $('#cpf_modal').val(cpf);
+                $('#rg_modal').val(rg);
+                $('#email_modal').val(email);
+                $('#telefone1_modal').val(telefone1);
+                $('#telefone2_modal').val(telefone2);
+                $('#cep_modal').val(cep);
+                $('#endereco_modal').val(endereco);
+                $('#numero_modal').val(numero);
+                $('#bairro_modal').val(bairro);
+                $('#cidade_modal').val(cidade);
+                $('#uf_modal').val(uf);
+                $('#observacoes_modal').val(obs);
 
+            }
+            
+        })
+
+    }
+
+}
+
+document.getElementById('updateUser').addEventListener('submit', function(event){
+    event.preventDefault();
+    var id = $('input[id="form-id"]').val();
+    var nome = $('input[id="nome_modal"]').val();
+    var cpf =  $('input[id="cpf_modal"]').val();
+    var rg =  $('input[id="rg_modal"]').val();
+    var email =  $('input[id="email_modal"]').val();
+    var telefone1 =  $('input[id="telefone1_modal"]').val();
+    var telefone2 =  $('input[id="telefone2_modal"]').val();
+    var cep =  $('input[id="cep_modal"]').val();
+    var endereco =  $('input[id="endereco_modal"]').val();
+    var numero =  $('input[id="numero_modal"]').val();
+    var bairro =  $('input[id="bairro_modal"]').val();
+    var cidade =   $('input[id="cidade_modal"]').val();
+    var uf =  $('input[id="uf_modal"]').val();
+    var obs =  document.getElementById('observacoes_modal').value;
+    console.log(id, nome, cpf, rg, email, telefone1, telefone2, cep, endereco, numero, bairro, cidade, uf, obs)
+    $.ajax({
+        url: 'att_usuario',
+        type:'POST',
+        headers:{'X-CSRFToken':csrf_token},
+        data:{
+            id: id,
+            nome: nome,
+            cpf: cpf,
+            rg: rg,
+            email: email,
+            telefone1: telefone1,
+            telefone2: telefone2,
+            cep: cep,
+            endereco: endereco,
+            numero: numero,
+            bairro: bairro,
+            cidade: cidade,
+            uf: uf,
+            observacoes: obs,
+            csrfmiddlewaretoken: csrf_token,
+        },
+        dataType: 'json',
+        sucess: function(data){
+            alert("Dados atualizados com sucesso!");
+        }
+    });
+    $('form#updateUser').trigger("reset");
+    $('#exampleModal').modal('hide');
+    return false;
+});
+
+function pesquisa_cep2(cep) {
+    $.ajax({
+        url: `https://viacep.com.br/ws/${cep}/json/`,
+        type: 'GET',
+        success: function(data) {
+            $('#endereco_modal').val(data.logradouro);
+            $('#bairro_modal').val(data.bairro);
+            $('#cidade_modal').val(data.localidade);
+            $('#uf_modal').val(data.uf);
+        },
+        error: function() {
+            alert('Erro ao buscar CEP. Por favor, tente novamente.');
+        }
+    });
+}

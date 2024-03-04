@@ -20,7 +20,7 @@
         <div class="content show" id="home">
             <form action="{% url 'cadastro' %}" method="POST">{% csrf_token %}
                 Informações do Usuário:<br>
-                <hr style="background-color:gray;">
+                <hr style="margin:2px; background-color:gray;">
                 <div class="row">
                     <div class="form-group col-md-8">
                         <label for="nome">Nome:</label>
@@ -148,14 +148,17 @@
                         </tr>
                         {%for usuarios in lista_usuarios%}
                             <tbody id="exibe_dados">
-                                <tr>
+                                <tr id="user-{{usuarios.id}}">
                                     <td>{{usuarios.id}} </td>
                                     <td>{{usuarios.cpf}}</td>
                                     <td>{{usuarios.nome}}</td>
                                     <td>{{usuarios.endereco}}</td>
                                     <td>{{usuarios.telefone1}}</td>
                                     <td>{{usuarios.telefone2}}</td>
-                                    <td><a href='/editar_usuario/{{usuarios.id}}'><span><i class="fas fa-trash"></i></span><button class="btn btn-secondary w-100 py-1"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                                    <!--<td><a href='/editar_usuario/{{usuarios.id}}'><span><i class="fas fa-trash"></i></span><button class="btn btn-secondary w-100 py-1"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                                        <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
+                                    </svg> Editar</button></a></td> -->
+                                    <td><span><i class="fas fa-trash"></i></span><button class="btn btn-secondary w-100 py-1" data-toggle="modal" data-target="#exampleModal" onclick="editUser({{usuarios.id}})"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
                                         <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
                                     </svg> Editar</button></a></td>
                                     <td><a href='/termo/{{usuarios.id}}'><span><i class="fas fa-trash"></i></span>
@@ -167,6 +170,7 @@
                                         <button class="btn btn-secondary w-100 py-1"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
                                         <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
                                     </svg> Apagar</button></a></td>
+                                </tr>
                         {% empty%}
                                 <tr>
                                     <td>Nenhum usuário encontrado!.</td>
@@ -174,11 +178,119 @@
                         {%endfor%}
                     </table>
             </div>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Editar Usuário</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="updateUser" action="{% url 'att_usuario' %}">{% csrf_token %}
+                                Informações do Usuário:<br>
+                                <hr style="margin:2px; background-color:gray;">
+                                <div class="row">
+                                    <div class="form-group col-md-8">
+                                        <input class="form-control" id="form-id" type="hidden" name="formId"/>
+                                        <label for="nome">Nome:</label>
+                                        <input type="text" class="form-control" placeholder="Nome" id="nome_modal" value="{{nome}}">
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label for="cpf">CPF:</label>
+                                        <input type="text" class="form-control" placeholder="___.___.___-__" id="cpf_modal" value="{{cpf}}">
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label for="rg">RG:</label>:
+                                        <input type="text" class="form-control" placeholder="__.___.___-_" id="rg_modal" value="{{rg}}">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col-md-8">
+                                        <label for="email">E-mail:</label>
+                                        <input type="email" class="form-control" placeholder="nome@email.com" id="email_modal" value="{{email}}">
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label for="telefone1">Telefone:</label>
+                                        <input type="text" class="form-control" placeholder="(__)____-____" id="telefone1_modal" value="{{telefone1}}">
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label for="telefone2">Telefone 2:</label>
+                                        <input type="text" class="form-control" placeholder="(__)____-____" id="telefone2_modal" value="{{telefone2}}">
+                                    </div>
+                                </div>
+
+                                Informações Residenciais:
+                                <hr style="background-color:gray;">
+                                <div class="row">
+                                    <div class="form-group col-sm-2">
+                                        <label for="cep">CEP:</label>
+                                        <input type="text" size="10" maxlength="9" class="form-control" id="cep_modal" placeholder="ex. 17500500" value={{cep}}>
+                                    </div>
+                                    
+                                    <div class="col-1 align-self-center">
+                                        <button type="button" onclick="pesquisa_cep2($('#cep_modal').val())" class="btn btn-secondary w-60 btn-pesqcep" alt="Pesquisar CEP">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-circle" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
+                                            </svg>
+                                        </button>                        
+                                    </div>
+                                    
+                                    <div class="form-group col-md-8">
+                                        <label for="logradouro">Endereço:</label>
+                                        <input type="text" class="form-control" placeholder="Endereço" id="endereco_modal" readonly>
+                                    </div>
+                                    <div class="form-group col-sm-1">
+                                        <label for="numero">Número:</label>
+                                        <input type="number" class="form-control" placeholder="Número" id="numero_modal" value="{{numero}}">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="bairro">Bairro:</label>
+                                        <input type="text" class="form-control" placeholder="Bairro" id="bairro_modal" readonly>
+                                    </div>
+                                    <div class="form-group col-md-5">
+                                        <label for="cidade">Cidade:</label>
+                                        <input type="text" class="form-control" placeholder="Cidade" id="cidade_modal" readonly>
+                                    </div>
+                                    <div class="form-group col-md-1">
+                                        <label for="uf">UF:</label>
+                                        <input type="text" class="form-control" placeholder="UF" id="uf_modal" readonly>
+                                    </div>
+                                </div>
+
+                                <p>Observações:</p>
+                                <hr style="background-color:gray;">
+                                <div class="row">
+                                    <div class="form-group col-md">
+                                        <textarea class="form-control" rows="3" id="observacoes_modal"></textarea>
+                                        
+                                    </div>
+                                </div>
+                                <hr style="background-color:gray;">
+                                
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                    <button type="submit" class="btn btn-primary">Salvar alterações</button>
+                                </div>
+
+
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <script src="{% static 'cadastro/js/cadastro.js' %}"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
 {% endblock %}

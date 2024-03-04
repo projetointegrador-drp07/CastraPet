@@ -5,6 +5,7 @@ urlpatterns = [
     path('', views.cadastro, name = "cadastro"),
     path('apagar_usuario/<int:id>', views.apagar_usuario, name = "apagar_usuario"),
     path('termo/<int:id>', views.termo, name = "termo"),
-    path('editar_usuario/<int:id>', views.editar, name="editar"),
-    path('exibe_dados', views.exibe_dados, name="exibe_dados")
+    path('edita_dados', views.edita_dados, name="edita_dados"),
+    path('exibe_dados', views.exibe_dados, name="exibe_dados"),
+    path('att_usuario', views.att_usuario, name="att_usuario"),
     ]
