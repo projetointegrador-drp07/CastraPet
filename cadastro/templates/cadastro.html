@@ -60,7 +60,7 @@
                     </div>
                     
                     <div class="col-1 align-self-center">
-                        <button type="button" onclick="pesquisa_cep($('#cep').val())" class="btn btn-secondary w-60 btn-pesqcep" alt="Pesquisar CEP">
+                        <button type="button" onclick="pesquisa_cep($('#cep').val(),'1')" class="btn btn-secondary w-60 btn-pesqcep" alt="Pesquisar CEP">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-circle" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
                             </svg>
@@ -149,15 +149,12 @@
                         {%for usuarios in lista_usuarios%}
                             <tbody id="exibe_dados">
                                 <tr id="user-{{usuarios.id}}">
-                                    <td>{{usuarios.id}} </td>
-                                    <td>{{usuarios.cpf}}</td>
-                                    <td>{{usuarios.nome}}</td>
-                                    <td>{{usuarios.endereco}}</td>
-                                    <td>{{usuarios.telefone1}}</td>
-                                    <td>{{usuarios.telefone2}}</td>
-                                    <!--<td><a href='/editar_usuario/{{usuarios.id}}'><span><i class="fas fa-trash"></i></span><button class="btn btn-secondary w-100 py-1"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
-                                        <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
-                                    </svg> Editar</button></a></td> -->
+                                    <td id="user-id-{{usuarios.id}}">{{usuarios.id}} </td>
+                                    <td id="user-cpf-{{usuarios.id}}">{{usuarios.cpf}}</td>
+                                    <td id="user-nome-{{usuarios.id}}">{{usuarios.nome}}</td>
+                                    <td id="user-endereco-{{usuarios.id}}">{{usuarios.endereco}}</td>
+                                    <td id="user-telefone1-{{usuarios.id}}">{{usuarios.telefone1}}</td>
+                                    <td id="user-telefone2-{{usuarios.id}}">{{usuarios.telefone2}}</td>
                                     <td><span><i class="fas fa-trash"></i></span><button class="btn btn-secondary w-100 py-1" data-toggle="modal" data-target="#exampleModal" onclick="editUser({{usuarios.id}})"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
                                         <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
                                     </svg> Editar</button></a></td>
@@ -232,7 +229,7 @@
                                     </div>
                                     
                                     <div class="col-1 align-self-center">
-                                        <button type="button" onclick="pesquisa_cep2($('#cep_modal').val())" class="btn btn-secondary w-60 btn-pesqcep" alt="Pesquisar CEP">
+                                        <button type="button" onclick="pesquisa_cep($('#cep_modal').val(),'2')" class="btn btn-secondary w-60 btn-pesqcep" alt="Pesquisar CEP">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-circle" viewBox="0 0 16 16">
                                                 <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
                                             </svg>
@@ -272,7 +269,13 @@
                                         
                                     </div>
                                 </div>
+
                                 <hr style="background-color:gray;">
+                                
+                                <div id="exibe_animais_modal">
+
+                                </div>       
+                                                              
                                 
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>

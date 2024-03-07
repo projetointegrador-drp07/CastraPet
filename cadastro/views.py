@@ -167,11 +167,17 @@ def att_usuario(request):
         obj.cidade = cidade
         obj.uf = uf
         obj.obs = obs
-        print ("\n" * 130) 
-        print(nome, cpf, rg, email, telefone1, telefone2, cep, endereco, numero, bairro, cidade, uf, obs)
+        #print ("\n" * 130) 
+        #print(nome, cpf, rg, email, telefone1, telefone2, cep, endereco, numero, bairro, cidade, uf, obs)
         obj.save()
 
-        return HttpResponse("Salvo com sucesso!")
+        data= Usuario.objects.filter(id__iexact=id1)
+        data1 = json.loads(serializers.serialize('json',data))
+        data1 = [{'fields': i['fields'], 'id': i['pk']} for i in data1]
+        context = {'dados':data1}
+        print(context)
+        return JsonResponse(context)    
+
 
     
  

@@ -30,15 +30,22 @@ function remove_animal(e){
     e.parentNode.parentNode.parentNode.outerHTML = '';
 }
 
-function pesquisa_cep(cep) {
+function pesquisa_cep(cep, tipo) {
     $.ajax({
         url: `https://viacep.com.br/ws/${cep}/json/`,
         type: 'GET',
         success: function(data) {
-            $('#logradouro').val(data.logradouro);
-            $('#bairro').val(data.bairro);
-            $('#cidade').val(data.localidade);
-            $('#UF').val(data.uf);
+            if (tipo =="1"){
+                $('#logradouro').val(data.logradouro);
+                $('#bairro').val(data.bairro);
+                $('#cidade').val(data.localidade);
+                $('#UF').val(data.uf);
+            }else if (tipo =="2"){
+                $('#endereco_modal').val(data.logradouro);
+                $('#bairro_modal').val(data.bairro);
+                $('#cidade_modal').val(data.localidade);
+                $('#uf_modal').val(data.uf);
+            }
         },
         error: function() {
             alert('Erro ao buscar CEP. Por favor, tente novamente.');
@@ -49,7 +56,7 @@ function pesquisa_cep(cep) {
 document.getElementById('pesquisa_usuario').addEventListener('submit', function(event){
     event.preventDefault();
     dados = document.getElementById('pesquisa_nome').value
-    console.log(dados)
+    
     ObterDados(dados);
 })
 
@@ -64,8 +71,9 @@ function ObterDados(dados) {
             csrfmiddlewaretoken: csrf_token,
         },
         success: (data) => {
-            console.log(data)
             displayData(data)
+
+
         }
         
     })
@@ -91,12 +99,12 @@ function displayData(data) {
     document.getElementById('exibe_usuarios').innerHTML += codigo;
 
     for(i=0; i<data['dados'].length; i++){
-        $('#dados_usuarios').append('<tr id="user-' + data['dados'][i]['id'] + '"><td>' + data['dados'][i]['id'] + '</td>'
-                                    +'<td>' + data['dados'][i]['fields']['cpf'] + '</td>'
-                                    +'<td>' + data['dados'][i]['fields']['nome'] + '</td>'
-                                    +'<td>' + data['dados'][i]['fields']['endereco'] + '</td>'
-                                    +'<td>' + data['dados'][i]['fields']['telefone1'] + '</td>'
-                                    +'<td>' + data['dados'][i]['fields']['telefone2'] + '</td>'
+        $('#dados_usuarios').append('<tr id="user-' + data['dados'][i]['id'] + '"><td id="user-id-' + data['dados'][i]['id'] + '">' + data['dados'][i]['id'] + '</td>'
+                                    +'<td id="user-cpf-' + data['dados'][i]['id'] + '">' + data['dados'][i]['fields']['cpf'] + '</td>'
+                                    +'<td id="user-nome-' + data['dados'][i]['id'] + '">' + data['dados'][i]['fields']['nome'] + '</td>'
+                                    +'<td id="user-endereco-' + data['dados'][i]['id'] + '">' + data['dados'][i]['fields']['endereco'] + '</td>'
+                                    +'<td id="user-telefone1-' + data['dados'][i]['id'] + '">' + data['dados'][i]['fields']['telefone1'] + '</td>'
+                                    +'<td id="user-telefone2-' + data['dados'][i]['id'] + '">' + data['dados'][i]['fields']['telefone2'] + '</td>'
                                     +'<td><span><i class="fas fa-trash"></i></span><button class="btn btn-secondary w-100 py-1" data-toggle="modal" data-target="#exampleModal" onclick="editUser(' + data['dados'][i]['id'] + ')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">'
                                     +'<path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>'
                                     +'</svg> Editar</button></a></td>'
@@ -126,7 +134,6 @@ function editUser(id){
                 csrfmiddlewaretoken: csrf_token,
             },
             success: (data) => {
-                console.log(data['dados'][0]['id']);
                 id = data['dados'][0]['id'];
                 nome = data['dados'][0]['fields']['nome'];
                 cpf = data['dados'][0]['fields']['cpf'];
@@ -157,12 +164,39 @@ function editUser(id){
                 $('#uf_modal').val(uf);
                 $('#observacoes_modal').val(obs);
 
+                div_animais = document.getElementById("exibe_animais_modal");
+                div_animais.innerHTML="";
+                for(i=0;i<data['animais'].length; i++){
+                    console.log(data['animais'][i])
+                    div_animais .innerHTML += "<div class='row'>"
+                    +"<div class='form-group col-md-5'>"
+                    +"Nome do animal:<input type='text' class='form-control' placeholder='Nome do animal' name='nome_animal_modal' value='"+ data['animais'][i]['fields']['nome_animal']+"'></div>"
+                    +"<div class='form-group col-md-4'>"
+                    +"Espécie:<input type='text' class='form-control' placeholder='Espécie' name='especie_animal_modal' value='"+ data['animais'][i]['fields']['especie_animal']+"'></div>"
+                    
+                    +"</div>"
+                    +"<div class='row'>"
+                    +"<div class='form-group col-md-3'>"
+                    +"Idade:<input type='text' class='form-control' placeholder='' name='idade_animal_modal' value='"+ data['animais'][i]['fields']['idade_animal']+"'></div>"
+                    +"<div class='form-group col-md-3'>"
+                    +"Sexo:<input type='text' class='form-control' placeholder='sexo' name='sexo_animal_modal' value='"+ data['animais'][i]['fields']['sexo_animal']+"'></div>"
+                    +"<div class='form-group col-md-3'>"
+                    +"Cor:<input type='text' class='form-control' placeholder='cor' name='cor_animal_modal' value='"+ data['animais'][i]['fields']['cor_animal']+"'></div>"
+                    +"<div>"
+                    +"  "
+                    +"<button type='button' class='btn btn-success btn-sm btn-alterar'>Alterar</button>"
+                    +"  "
+                    +"<button type='button' class='btn btn-danger btn-sm btn-alterar'>Excluir</button>"
+                    +"</div>"
+                    +"</div>"
+                    +"<div>"
+                    +"<hr style='background-color:gray;'>"
+                    +"</div>";
+                    
+                }
             }
-            
-        })
-
+       })
     }
-
 }
 
 document.getElementById('updateUser').addEventListener('submit', function(event){
@@ -181,7 +215,7 @@ document.getElementById('updateUser').addEventListener('submit', function(event)
     var cidade =   $('input[id="cidade_modal"]').val();
     var uf =  $('input[id="uf_modal"]').val();
     var obs =  document.getElementById('observacoes_modal').value;
-    console.log(id, nome, cpf, rg, email, telefone1, telefone2, cep, endereco, numero, bairro, cidade, uf, obs)
+    
     $.ajax({
         url: 'att_usuario',
         type:'POST',
@@ -205,26 +239,13 @@ document.getElementById('updateUser').addEventListener('submit', function(event)
         },
         dataType: 'json',
         sucess: function(data){
-            alert("Dados atualizados com sucesso!");
+
         }
     });
+
+
     $('form#updateUser').trigger("reset");
     $('#exampleModal').modal('hide');
     return false;
 });
 
-function pesquisa_cep2(cep) {
-    $.ajax({
-        url: `https://viacep.com.br/ws/${cep}/json/`,
-        type: 'GET',
-        success: function(data) {
-            $('#endereco_modal').val(data.logradouro);
-            $('#bairro_modal').val(data.bairro);
-            $('#cidade_modal').val(data.localidade);
-            $('#uf_modal').val(data.uf);
-        },
-        error: function() {
-            alert('Erro ao buscar CEP. Por favor, tente novamente.');
-        }
-    });
-}
