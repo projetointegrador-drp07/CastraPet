@@ -16,7 +16,7 @@ def cadastro(request):
         if txt_pesquisa:    
             lista_usuarios = {'lista_usuarios':Usuario.objects.filter(nome__icontains=txt_pesquisa)}
 
-        print(lista_usuarios)
+        #print(lista_usuarios)
         return render(request, 'cadastro.html', lista_usuarios)
     elif request.method =="POST":
         nome = request.POST.get('nome')
@@ -105,26 +105,26 @@ def termo(request, id):
 def exibe_dados(request):
     if request.method == "POST":
         dados = request.POST.get('pesquisa_nome')
-        print(dados)
+        #print(dados)
         if dados:
             data= Usuario.objects.filter(nome__icontains=dados)
             data1 = json.loads(serializers.serialize('json',data))
             data1 = [{'fields': i['fields'], 'id': i['pk']} for i in data1]
             context = {'dados':data1}
-            print(context)
+            #print(context)
             return JsonResponse(context)
         else:
             data= Usuario.objects.all()
             data1 = json.loads(serializers.serialize('json',data))
             data1 = [{'fields': i['fields'], 'id': i['pk']} for i in data1]
             context = {'dados':data1}
-            print(context)
+            #print(context)
             return JsonResponse(context)
         
 def edita_dados(request):
     if request.method == "POST":
         id_user = request.POST.get('id')
-        print(id_user)
+        #print(id_user)
         if id_user:
             data= Usuario.objects.filter(id__iexact=id_user)
             data1 = json.loads(serializers.serialize('json',data))
@@ -133,7 +133,7 @@ def edita_dados(request):
             animais1 = json.loads(serializers.serialize('json',animais))
             animais1 = [{'fields': i['fields'], 'id': i['pk']} for i in animais1]
             context = {'dados':data1, 'animais': animais1}
-            print(context)
+            #print(context)
             return JsonResponse(context)
     
 def att_usuario(request):
@@ -152,7 +152,15 @@ def att_usuario(request):
         cidade = request.POST.get('cidade')
         uf = request.POST.get('uf')
         obs = request.POST.get('observacoes')
+        id_animal = request.POST.getlist('ids[]')
+        nome_animal = request.POST.getlist('animais[]')
+        especie_animal = request.POST.getlist('especies[]')
+        idade_animal = request.POST.getlist('idades[]')
+        sexo_animal = request.POST.getlist('sexos[]')
+        cor_animal = request.POST.getlist('cores[]')
+        #print(id_animal, nome_animal, especie_animal, idade_animal, sexo_animal, cor_animal)
 
+        
         obj = Usuario.objects.get(id=id1)
         obj.nome = nome
         obj.cpf = cpf
@@ -171,11 +179,39 @@ def att_usuario(request):
         #print(nome, cpf, rg, email, telefone1, telefone2, cep, endereco, numero, bairro, cidade, uf, obs)
         obj.save()
 
+        for id_animal, nome_animal, especie_animal, idade_animal, sexo_animal, cor_animal in zip(id_animal, nome_animal, especie_animal, idade_animal, sexo_animal, cor_animal):
+             #   |animal = Animais(usuario = id1, nome_animal = nome_animal, especie_animal = especie_animal, idade_animal = idade_animal, sexo_animal = sexo_animal, cor_animal = cor_animal)
+          #  animal.save()
+            if id_animal == "":
+                print("novo animal cadastrado")
+                animal = Animais(
+                    usuario = obj,
+                    nome_animal = nome_animal,
+                    especie_animal = especie_animal,
+                    idade_animal = idade_animal,
+                    sexo_animal = sexo_animal,
+                    cor_animal = cor_animal,
+                )
+                animal.save()
+                #print(animal)
+            else:
+                print("atualizacao de animal")
+                #animal = Animais(usuario = id1, 
+                animal = Animais.objects.get(id = id_animal)
+                #print(animal.nome_animal)
+                animal.nome_animal = nome_animal
+                #print(nome_animal)
+                animal.especie_animal = especie_animal
+                animal.idade_animal = idade_animal
+                animal.sexo_animal = sexo_animal
+                animal.cor_animal = cor_animal
+                animal.save()
+
         data= Usuario.objects.filter(id__iexact=id1)
         data1 = json.loads(serializers.serialize('json',data))
         data1 = [{'fields': i['fields'], 'id': i['pk']} for i in data1]
         context = {'dados':data1}
-        print(context)
+        #print(context)
         return JsonResponse(context)    
 
 

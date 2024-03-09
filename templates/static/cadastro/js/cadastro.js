@@ -30,6 +30,34 @@ function remove_animal(e){
     e.parentNode.parentNode.parentNode.outerHTML = '';
 }
 
+function add_animal_modal(){
+    const subject = document.getElementById("exibe_animais_modal");
+    const codigo = "<div><div class='row'>"
+    +"<div><input type='hidden' class='form-control id_animal_modal' id = 'id_animal_modal' name='id_animal_modal' value=''></div>"
+    +"<div class='form-group col-md-5'>"
+    +"Nome do animal:<input type='text' class='form-control nome_animal_modal' placeholder='Nome do animal' id = 'nome_animal_modal' name='nome_animal_modal' value=''></div>"
+    +"<div class='form-group col-md-4'>"
+    +"Espécie:<input type='text' class='form-control especie_animal_modal' placeholder='Espécie' name='especie_animal_modal' value=''></div>"
+    +"</div>"
+    +"<div class='row'>"
+    +"<div class='form-group col-md-3'>"
+    +"Idade:<input type='text' class='form-control idade_animal_modal' placeholder='' name='idade_animal_modal' value=''></div>"
+    +"<div class='form-group col-md-3'>"
+    +"Sexo:<input type='text' class='form-control sexo_animal_modal' placeholder='sexo' name='sexo_animal_modal' value=''></div>"
+    +"<div class='form-group col-md-3'>"
+    +"Cor:<input type='text' class='form-control cor_animal_modal' placeholder='cor' name='cor_animal_modal' value=''></div>"
+    +"<div>"
+    +"  "
+    +"<button type='button' onclick='apagar_animal_novo_modal(this)' class='btn btn-danger btn-sm btn-alterar'>Excluir</button>"
+    +"</div>"
+    +"</div>"
+    +"<div>"
+    +"<hr style='background-color:gray;'>"
+    +"</div>"
+    +"</div>";
+    subject.insertAdjacentHTML("afterbegin",codigo,);
+}
+
 function pesquisa_cep(cep, tipo) {
     $.ajax({
         url: `https://viacep.com.br/ws/${cep}/json/`,
@@ -55,8 +83,8 @@ function pesquisa_cep(cep, tipo) {
 
 document.getElementById('pesquisa_usuario').addEventListener('submit', function(event){
     event.preventDefault();
-    dados = document.getElementById('pesquisa_nome').value
-    
+    dados = document.getElementById('pesquisa_nome').value;
+    //console.log(dados)
     ObterDados(dados);
 })
 
@@ -113,7 +141,7 @@ function displayData(data) {
                                     +'<path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"/>'
                                     +'<path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1"/>'
                                     +'</svg> Imprimir</button></a></td>'
-                                    +'<td><a href="/apagar_usuario/' + data['dados'][i]['id'] + '" onclick="return confirm("Tem certeza?")"><span><i class="fas fa-trash"></i></span>'
+                                    +'<td><a id="confirmacao" href="/apagar_usuario/' + data['dados'][i]['id'] + '" onclick="return confirm("Tem certeza?")"><span><i class="fas fa-trash"></i></span>'
                                     +'<button class="btn btn-secondary w-100 py-1"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">'
                                     +'<path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>'
                                     +'</svg> Apagar</button></a></td></tr>')
@@ -168,25 +196,24 @@ function editUser(id){
                 div_animais.innerHTML="";
                 for(i=0;i<data['animais'].length; i++){
                     console.log(data['animais'][i])
-                    div_animais .innerHTML += "<div class='row'>"
+                    div_animais.innerHTML += "<div class='row'>"
+                    +"<div><input type='hidden' class='form-control id_animal_modal' id = 'id_animal_modal' name='id_animal_modal' value='"+ data['animais'][i]['id'] +"'></div>"
                     +"<div class='form-group col-md-5'>"
-                    +"Nome do animal:<input type='text' class='form-control' placeholder='Nome do animal' name='nome_animal_modal' value='"+ data['animais'][i]['fields']['nome_animal']+"'></div>"
+                    +"Nome do animal:<input type='text' class='form-control nome_animal_modal' placeholder='Nome do animal' id = 'nome_animal_modal' name='nome_animal_modal' value='"+ data['animais'][i]['fields']['nome_animal']+"'></div>"
                     +"<div class='form-group col-md-4'>"
-                    +"Espécie:<input type='text' class='form-control' placeholder='Espécie' name='especie_animal_modal' value='"+ data['animais'][i]['fields']['especie_animal']+"'></div>"
+                    +"Espécie:<input type='text' class='form-control especie_animal_modal' placeholder='Espécie' name='especie_animal_modal' value='"+ data['animais'][i]['fields']['especie_animal']+"'></div>"
                     
                     +"</div>"
                     +"<div class='row'>"
                     +"<div class='form-group col-md-3'>"
-                    +"Idade:<input type='text' class='form-control' placeholder='' name='idade_animal_modal' value='"+ data['animais'][i]['fields']['idade_animal']+"'></div>"
+                    +"Idade:<input type='text' class='form-control idade_animal_modal' placeholder='' name='idade_animal_modal' value='"+ data['animais'][i]['fields']['idade_animal']+"'></div>"
                     +"<div class='form-group col-md-3'>"
-                    +"Sexo:<input type='text' class='form-control' placeholder='sexo' name='sexo_animal_modal' value='"+ data['animais'][i]['fields']['sexo_animal']+"'></div>"
+                    +"Sexo:<input type='text' class='form-control sexo_animal_modal' placeholder='sexo' name='sexo_animal_modal' value='"+ data['animais'][i]['fields']['sexo_animal']+"'></div>"
                     +"<div class='form-group col-md-3'>"
-                    +"Cor:<input type='text' class='form-control' placeholder='cor' name='cor_animal_modal' value='"+ data['animais'][i]['fields']['cor_animal']+"'></div>"
+                    +"Cor:<input type='text' class='form-control cor_animal_modal' placeholder='cor' name='cor_animal_modal' value='"+ data['animais'][i]['fields']['cor_animal']+"'></div>"
                     +"<div>"
                     +"  "
-                    +"<button type='button' class='btn btn-success btn-sm btn-alterar'>Alterar</button>"
-                    +"  "
-                    +"<button type='button' class='btn btn-danger btn-sm btn-alterar'>Excluir</button>"
+                    +"<button type='button' onclick='apagar_animal_modal("+ data['animais'][i]['id'] +")' class='btn btn-danger btn-sm btn-alterar'>Excluir</button>"
                     +"</div>"
                     +"</div>"
                     +"<div>"
@@ -215,6 +242,44 @@ document.getElementById('updateUser').addEventListener('submit', function(event)
     var cidade =   $('input[id="cidade_modal"]').val();
     var uf =  $('input[id="uf_modal"]').val();
     var obs =  document.getElementById('observacoes_modal').value;
+    var ids = [];
+    var ids_animal = document.querySelectorAll(".id_animal_modal");
+    var animais = [];
+    var nome_animal = document.querySelectorAll(".nome_animal_modal");
+    var especies = [];
+    var especie_animal = document.querySelectorAll(".especie_animal_modal");
+    var idades = [];
+    var idade_animal = document.querySelectorAll(".idade_animal_modal");
+    var sexos = [];
+    var sexo_animal = document.querySelectorAll(".sexo_animal_modal");
+    var cores = [];
+    var cor_animal = document.querySelectorAll(".cor_animal_modal");
+    
+    var id_animais = [].map.call(ids_animal, function(input){
+        return ids.push(input.value);
+    });
+
+    var nomes_animais = [].map.call(nome_animal, function(input){
+        return animais.push(input.value);
+    });
+    var especies_animais = [].map.call(especie_animal, function(input){
+        return especies.push(input.value);
+    });
+    var idades_animais = [].map.call(idade_animal, function(input){
+        return idades.push(input.value);
+    });
+    var sexos_animais = [].map.call(sexo_animal, function(input){
+        return sexos.push(input.value);
+    });
+    var cores_animais = [].map.call(cor_animal, function(input){
+        return cores.push(input.value);
+    });
+
+
+
+
+    //console.log(ids, animais, especies, idades, sexos, cores);
+
     
     $.ajax({
         url: 'att_usuario',
@@ -235,6 +300,12 @@ document.getElementById('updateUser').addEventListener('submit', function(event)
             cidade: cidade,
             uf: uf,
             observacoes: obs,
+            ids:ids,
+            animais: animais,
+            especies: especies,
+            idades: idades,
+            sexos, sexos,
+            cores: cores,
             csrfmiddlewaretoken: csrf_token,
         },
         dataType: 'json',
@@ -249,3 +320,13 @@ document.getElementById('updateUser').addEventListener('submit', function(event)
     return false;
 });
 
+function apagar_animal_modal(id){
+    console.log(id)
+    if (id){
+        alert("Deseja apagar o animal? "+ id );
+    }
+}
+
+function apagar_animal_novo_modal(e){
+    e.parentNode.parentNode.parentNode.outerHTML = '';
+}
