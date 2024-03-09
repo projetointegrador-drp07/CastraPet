@@ -215,5 +215,12 @@ def att_usuario(request):
         return JsonResponse(context)    
 
 
-    
+def apaga_animal(request, id):
+    try:
+        animal = Animais.objects.get(id=id)
+        animal.delete()
+        print('animal apagado com sucesso')
+        return redirect(reverse('cadastro'))
+    except:
+        return redirect(reverse('cadastro'))
  

@@ -32,7 +32,7 @@ function remove_animal(e){
 
 function add_animal_modal(){
     const subject = document.getElementById("exibe_animais_modal");
-    const codigo = "<div><div class='row'>"
+    const codigo = "<div id='animal_adicionado'><div class='row'>"
     +"<div><input type='hidden' class='form-control id_animal_modal' id = 'id_animal_modal' name='id_animal_modal' value=''></div>"
     +"<div class='form-group col-md-5'>"
     +"Nome do animal:<input type='text' class='form-control nome_animal_modal' placeholder='Nome do animal' id = 'nome_animal_modal' name='nome_animal_modal' value=''></div>"
@@ -100,8 +100,6 @@ function ObterDados(dados) {
         },
         success: (data) => {
             displayData(data)
-
-
         }
         
     })
@@ -113,7 +111,7 @@ function displayData(data) {
     novodiv.id = "exibe_usuarios";
     var pesquisa = document.querySelector("#pesquisa");
     pesquisa.appendChild(novodiv);
-    const codigo = ' <table class="table table-hover">'
+    const codigo = ' <table id = "tabela_usuarios" class="table table-hover">'
         +'<tr>'
         +'<td scope="col">#</td>'
         +'<td scope="col">CPF</td>'
@@ -127,12 +125,12 @@ function displayData(data) {
     document.getElementById('exibe_usuarios').innerHTML += codigo;
 
     for(i=0; i<data['dados'].length; i++){
-        $('#dados_usuarios').append('<tr id="user-' + data['dados'][i]['id'] + '"><td id="user-id-' + data['dados'][i]['id'] + '">' + data['dados'][i]['id'] + '</td>'
-                                    +'<td id="user-cpf-' + data['dados'][i]['id'] + '">' + data['dados'][i]['fields']['cpf'] + '</td>'
-                                    +'<td id="user-nome-' + data['dados'][i]['id'] + '">' + data['dados'][i]['fields']['nome'] + '</td>'
-                                    +'<td id="user-endereco-' + data['dados'][i]['id'] + '">' + data['dados'][i]['fields']['endereco'] + '</td>'
-                                    +'<td id="user-telefone1-' + data['dados'][i]['id'] + '">' + data['dados'][i]['fields']['telefone1'] + '</td>'
-                                    +'<td id="user-telefone2-' + data['dados'][i]['id'] + '">' + data['dados'][i]['fields']['telefone2'] + '</td>'
+        $('#dados_usuarios').append('<tr id="user-' + data['dados'][i]['id'] + '"><td class="userData" id="user-id-' + data['dados'][i]['id'] + '" name="user-id">' + data['dados'][i]['id'] + '</td>'
+                                    +'<td class="userData" id="user-cpf-' + data['dados'][i]['id'] + '" name="user-cpf">' + data['dados'][i]['fields']['cpf'] + '</td>'
+                                    +'<td class="userData" id="user-nome-' + data['dados'][i]['id'] + '"name="user-nome">' + data['dados'][i]['fields']['nome'] + '</td>'
+                                    +'<td class="userData" id="user-endereco-' + data['dados'][i]['id'] + '"name="user-endereco">' + data['dados'][i]['fields']['endereco'] + '</td>'
+                                    +'<td class="userData" id="user-telefone1-' + data['dados'][i]['id'] + '"name="user-telefone1">' + data['dados'][i]['fields']['telefone1'] + '</td>'
+                                    +'<td class="userData" id="user-telefone2-' + data['dados'][i]['id'] + '"name="user-telefone2">' + data['dados'][i]['fields']['telefone2'] + '</td>'
                                     +'<td><span><i class="fas fa-trash"></i></span><button class="btn btn-secondary w-100 py-1" data-toggle="modal" data-target="#exampleModal" onclick="editUser(' + data['dados'][i]['id'] + ')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">'
                                     +'<path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>'
                                     +'</svg> Editar</button></a></td>'
@@ -196,7 +194,7 @@ function editUser(id){
                 div_animais.innerHTML="";
                 for(i=0;i<data['animais'].length; i++){
                     console.log(data['animais'][i])
-                    div_animais.innerHTML += "<div class='row'>"
+                    div_animais.innerHTML += "<div id='animal_cadastrado-"+ data['animais'][i]['id'] + "'><div class='row'>"
                     +"<div><input type='hidden' class='form-control id_animal_modal' id = 'id_animal_modal' name='id_animal_modal' value='"+ data['animais'][i]['id'] +"'></div>"
                     +"<div class='form-group col-md-5'>"
                     +"Nome do animal:<input type='text' class='form-control nome_animal_modal' placeholder='Nome do animal' id = 'nome_animal_modal' name='nome_animal_modal' value='"+ data['animais'][i]['fields']['nome_animal']+"'></div>"
@@ -218,7 +216,7 @@ function editUser(id){
                     +"</div>"
                     +"<div>"
                     +"<hr style='background-color:gray;'>"
-                    +"</div>";
+                    +"</div></div>";
                     
                 }
             }
@@ -275,11 +273,6 @@ document.getElementById('updateUser').addEventListener('submit', function(event)
         return cores.push(input.value);
     });
 
-
-
-
-    //console.log(ids, animais, especies, idades, sexos, cores);
-
     
     $.ajax({
         url: 'att_usuario',
@@ -309,8 +302,10 @@ document.getElementById('updateUser').addEventListener('submit', function(event)
             csrfmiddlewaretoken: csrf_token,
         },
         dataType: 'json',
-        sucess: function(data){
-
+        success: (data) => {
+            dados = document.getElementById('pesquisa_nome').value;
+            //console.log(dados)
+            ObterDados(dados);
         }
     });
 
@@ -324,6 +319,22 @@ function apagar_animal_modal(id){
     console.log(id)
     if (id){
         alert("Deseja apagar o animal? "+ id );
+        csrf_token = document.querySelector('[name=csrfmiddlewaretoken]').value
+        $.ajax({
+            type:'POST',
+            url:'apaga_animal/'+id,
+            headers:{'X-CSRFToken':csrf_token},
+            data:{
+                id_animal: id,
+                csrfmiddlewaretoken: csrf_token,
+            },
+            success: () => {
+                //displayData(data)
+                var div_animal = document.getElementById("animal_cadastrado-"+id+"");
+                div_animal.remove();
+            }
+            
+        })
     }
 }
 
