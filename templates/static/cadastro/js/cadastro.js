@@ -112,16 +112,21 @@ function displayData(data) {
     var pesquisa = document.querySelector("#pesquisa");
     pesquisa.appendChild(novodiv);
     const codigo = ' <table id = "tabela_usuarios" class="table table-hover">'
+        +'<thead>'
         +'<tr>'
-        +'<td scope="col">#</td>'
-        +'<td scope="col">CPF</td>'
-        +'<td scope="col">Nome</td>'
-        +'<td scope="col">Endereço</td>'
-        +'<td scope="col">Telefone</td>'
-        +'<td scope="col">Telefone</td>'
+        +'<th scope="col">#</th>'
+        +'<th scope="col">CPF</th>'
+        +'<th scope="col">Nome</th>'
+        +'<th scope="col">Endereço</th>'
+        +'<th scope="col">Telefone</th>'
+        +'<th scope="col">Telefone</th>'
+        +'<th scope="col"></th>'
+        +'<th scope="col"></th>'
+        +'<th scope="col"></th>'
         +'</tr>'
+        +'</thead>'
         +'<tbody id="dados_usuarios">'
-        +'<tr>'
+        
     document.getElementById('exibe_usuarios').innerHTML += codigo;
 
     for(i=0; i<data['dados'].length; i++){
@@ -139,14 +144,46 @@ function displayData(data) {
                                     +'<path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"/>'
                                     +'<path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1"/>'
                                     +'</svg> Imprimir</button></a></td>'
-                                    +'<td><a id="confirmacao" href="/apagar_usuario/' + data['dados'][i]['id'] + '" onclick="return confirm("Tem certeza?")"><span><i class="fas fa-trash"></i></span>'
-                                    +'<button class="btn btn-secondary w-100 py-1"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">'
+                                    +'<td><button onclick="apagar_usuario('+ data['dados'][i]['id'] +')" class="btn btn-secondary w-100 py-1"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">'
                                     +'<path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>'
-                                    +'</svg> Apagar</button></a></td></tr>')
+                                    +'</svg> Apagar</button></td>'
+                                    )
     }
+    $('#tabela_usuarios').DataTable({
+        language: {
+            url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/pt-BR.json',
+            
+        },
+        "bFilter": false,
+    });
  
 }
 
+function apagar_usuario(id){
+    confirmar = confirm("Tem certeza?");
+    if (confirmar){
+        csrf_token = document.querySelector('[name=csrfmiddlewaretoken]').value
+        $.ajax({
+            type:'POST',
+            url:'apagar_usuario/'+id,
+            headers:{'X-CSRFToken':csrf_token},
+            data:{
+                id: id,
+                csrfmiddlewaretoken: csrf_token,
+            },
+            success: () => {
+                //displayData(data)
+                dados = document.getElementById('pesquisa_nome').value;
+                //console.log(dados)
+                ObterDados(dados);
+                alert("usuario apagado"+id);
+            }
+            
+        })
+        
+    }
+
+}
 function editUser(id){
     if (id){
         
@@ -317,8 +354,9 @@ document.getElementById('updateUser').addEventListener('submit', function(event)
 
 function apagar_animal_modal(id){
     console.log(id)
-    if (id){
-        alert("Deseja apagar o animal? "+ id );
+    confirmacao = confirm("Tem certeza que deseja excluir o animal ID: " + id + "?")
+    if (confirmacao){
+        //alert("Deseja apagar o animal? "+ id );
         csrf_token = document.querySelector('[name=csrfmiddlewaretoken]').value
         $.ajax({
             type:'POST',
@@ -341,3 +379,16 @@ function apagar_animal_modal(id){
 function apagar_animal_novo_modal(e){
     e.parentNode.parentNode.parentNode.outerHTML = '';
 }
+
+document.addEventListener('DOMContentLoaded', function(){ 
+    //$('#myTable').DataTable();
+    //alert("Carregado")
+    $('#tabela_usuarios').DataTable({
+        language: {
+            url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/pt-BR.json',
+        },
+        "bFilter": false,
+        
+    });
+
+}, false );

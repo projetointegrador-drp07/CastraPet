@@ -72,7 +72,10 @@ body{
 }
 
 .btn-alterar{
-    height:45px;
+    height:60px;
     margin-top: -30px;
-    
 }
+
+th, td {
+    white-space: nowrap;
+  }

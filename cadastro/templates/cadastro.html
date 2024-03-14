@@ -3,6 +3,7 @@
 
 {% block 'head' %}
     <link rel="stylesheet" href="{% static 'cadastro/css/cadastro.css' %}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.2/css/dataTables.dataTables.css" />
 {% endblock %}
 
 {% block 'dashboard' %}
@@ -52,7 +53,7 @@
                 </div>
 
                 Informações Residenciais:
-                <hr style="background-color:gray;">
+                <hr style="margin:2px; background-color:gray;">
                 <div class="row">
                     <div class="form-group col-sm-2">
                         <label for="cep">CEP:</label>
@@ -136,18 +137,23 @@
             </form>
            
             <div id="exibe_usuarios">
-                <table id = "tabela_usuarios" class="table table-hover">
-                        <tr>
-                            <td scope="col">#</td>
-                            <td scope="col">CPF</td>
-                            <td scope="col">Nome</td>
-                            <td scope="col">Endereço</td>
-                            <td scope="col">Telefone</td>
-                            <td scope="col">Telefone</td>
-
-                        </tr>
+                <table id = "tabela_usuarios" class="table table-hover" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">CPF</th>
+                                <th scope="col">Nome</th>
+                                <th scope="col">Endereço</th>
+                                <th scope="col">Telefone</th>
+                                <th scope="col">Telefone</th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="dados_usuarios">
                         {%for usuarios in lista_usuarios%}
-                            <tbody id="exibe_dados">
+                            
                                 <tr id="user-{{usuarios.id}}">
                                     <td class="userData" id="user-id-{{usuarios.id}}" name="user-id">{{usuarios.id}} </td>
                                     <td class="userData" id="user-cpf-{{usuarios.id}}" name = "user-cpf">{{usuarios.cpf}}</td>
@@ -173,6 +179,7 @@
                                     <td>Nenhum usuário encontrado!.</td>
                                 </tr>   
                         {%endfor%}
+                        </tbody>
                     </table>
             </div>
             <!-- Modal -->
@@ -303,7 +310,10 @@
     </div>
 </div>
 
+
 <script src="{% static 'cadastro/js/cadastro.js' %}"></script>
 
 
+
 {% endblock %}
+
