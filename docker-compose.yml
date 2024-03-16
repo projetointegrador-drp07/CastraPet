@@ -1,29 +1,26 @@
-version: '3.8'
-
+version: "3.9"
 services:
-  django_gunicorn:
-    env_file: 
-    - .env
-    environment:
-      DEBUG: "True"
-      ADMIN_EMAIL: "projetointegrador3.drp07@gmail.com"
-      ADMIN_USERNAME: "pi3drp07"
-      ADMIN_SECRET_KEY: ${ADMIN_SECRET_KEY}
-      ALLOWED_HOSTS: "127.0.0.1,localhost,0.0.0.0"
-    volumes:
-      - static:/static
-    build:
-      context: .
-    ports:
-      - "8000:8000"
   nginx:
-    build: Infra/nginx
+    build:
+      context: "./nginx/"
+    restart: always
     volumes:
-      - static:/static
+      - uwsgi_data:/tmp/uwsgi/
+      - web_static:/var/www/castrpet/assets/
     ports:
-      - "8081:80"
-    depends_on:
-      - django_gunicorn
-
+      - "80:80"
+      - "443:80"
+    depends_on: 
+      - django
+  django:
+    build: ./web/
+    restart: always
+    command: >
+      sh -c "uwsgi --ini CastrPet.uwsgi.ini"
+    volumes:
+      - uwsgi_data:/tmp/uwsgi/
+      - web_static:/code/static/
+      - web_static:/var/www/castrpet/assets/
 volumes:
-  static:
+  uwsgi_data:
+  web_static:
