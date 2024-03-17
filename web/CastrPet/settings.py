@@ -66,7 +66,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'CastrPet.wsgi.application'
+WSGI_APPLICATION = 'castrpet.wsgi.application'
 
 
 # Database
