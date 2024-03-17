@@ -44,11 +44,11 @@ body{
 }
 
 .tab-btn.active{
-    background-color: #b3d4f1;
+    background-color: #a4c3d9;
 }
 
 .tab-btn:hover{
-    background-color: #b3d4f1;
+    background-color: #a4c3d9;
 }
 
 .content{
@@ -58,7 +58,7 @@ body{
 .content.show{
     display:block;
     gap:14px;
-    background-color: #b3d4f1;
+    background-color: #a4c3d9;
     border-radius: 0px 0px 8px 8px;
     padding: 3px;
 }

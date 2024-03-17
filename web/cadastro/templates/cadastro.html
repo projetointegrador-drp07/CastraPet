@@ -25,11 +25,11 @@
                 <div class="row">
                     <div class="form-group col-md-8">
                         <label for="nome">Nome:</label>
-                        <input type="text" class="form-control" placeholder="Nome" name="nome" value="{{nome}}">
+                        <input type="text" class="form-control" placeholder="Nome" name="nome" value="{{nome}}" required>
                     </div>
                     <div class="form-group col-md-2">
                         <label for="cpf">CPF:</label>
-                        <input type="text" class="form-control" placeholder="___.___.___-__" name="cpf" value="{{cpf}}">
+                        <input type="text" class="form-control" placeholder="___.___.___-__" name="cpf" value="{{cpf}}" required>
                     </div>
                     <div class="form-group col-md-2">
                         <label for="rg">RG:</label>:
@@ -44,7 +44,7 @@
                     </div>
                     <div class="form-group col-md-2">
                         <label for="telefone1">Telefone:</label>
-                        <input type="text" class="form-control" placeholder="(__)____-____" name="telefone1" value="{{telefone1}}">
+                        <input type="text" class="form-control" placeholder="(__)____-____" name="telefone1" value="{{telefone1}}" required>
                     </div>
                     <div class="form-group col-md-2">
                         <label for="telefone2">Telefone 2:</label>
@@ -57,7 +57,7 @@
                 <div class="row">
                     <div class="form-group col-sm-2">
                         <label for="cep">CEP:</label>
-                        <input type="text" id="cep" size="10" maxlength="9" class="form-control" name="cep" placeholder="ex. 17500500">
+                        <input type="text" id="cep" size="10" maxlength="9" class="form-control" name="cep" placeholder="ex. 17500500" required>
                     </div>
                     
                     <div class="col-1 align-self-center">
@@ -116,7 +116,11 @@
                     </div>
                 </div>
                 <br>
-                <input type="submit" value="Cadastrar" class="btn btn-secondary w-60">
+                <div class="row">
+                    <div class="form-group col-md">
+                        <input type="submit" value="Cadastrar" class="btn btn-primary w-60" style="float:right;">
+                    </div>    
+                </div>
             </form>
         </div>
         <div class="content" id="pesquisa">
@@ -200,11 +204,11 @@
                                     <div class="form-group col-md-8">
                                         <input class="form-control" id="form-id" type="hidden" name="formId"/>
                                         <label for="nome">Nome:</label>
-                                        <input type="text" class="form-control" placeholder="Nome" id="nome_modal" value="{{nome}}">
+                                        <input type="text" class="form-control" placeholder="Nome" id="nome_modal" value="{{nome}}" required>
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label for="cpf">CPF:</label>
-                                        <input type="text" class="form-control" placeholder="___.___.___-__" id="cpf_modal" value="{{cpf}}">
+                                        <input type="text" class="form-control" placeholder="___.___.___-__" id="cpf_modal" value="{{cpf}}" required>
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label for="rg">RG:</label>:
@@ -219,7 +223,7 @@
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label for="telefone1">Telefone:</label>
-                                        <input type="text" class="form-control" placeholder="(__)____-____" id="telefone1_modal" value="{{telefone1}}">
+                                        <input type="text" class="form-control" placeholder="(__)____-____" id="telefone1_modal" value="{{telefone1}}" required>
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label for="telefone2">Telefone 2:</label>
@@ -232,7 +236,7 @@
                                 <div class="row">
                                     <div class="form-group col-sm-2">
                                         <label for="cep">CEP:</label>
-                                        <input type="text" size="10" maxlength="9" class="form-control" id="cep_modal" placeholder="ex. 17500500" value={{cep}}>
+                                        <input type="text" size="10" maxlength="9" class="form-control" id="cep_modal" placeholder="ex. 17500500" value={{cep}} required>
                                     </div>
                                     
                                     <div class="col-1 align-self-center">
