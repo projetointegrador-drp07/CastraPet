@@ -1,0 +1,52 @@
+name: Deploy EC2 Instance - AWS
+
+on:
+  workflow_dispatch:
+  # push:
+  #   branches:
+  #     - main
+  #   paths:
+  #     - 'terraform/ec2/**'
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  terraform_apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: arn:aws:iam::914256152987:role/GitHubActionsRole
+          role-session-name: castrpet-deploy-ec2-instance
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.4.0
+
+      - name: Terraform Init
+        run: |
+          cd terraform/ec2
+          terraform init
+
+      - name: Terraform Validate
+        run: |
+          cd terraform/ec2
+          terraform validate
+
+      - name: Terraform Plan
+        run: |
+          cd terraform/ec2
+          terraform plan
+
+      - name: Terraform Apply
+        env:
+        run: 
+          cd terraform/ec2
+          terraform apply -auto-approve
