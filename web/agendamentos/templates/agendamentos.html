@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block 'head' %}
+    <link rel="stylesheet" href="{% static 'agendamentos/css/agendamentos.css' %}">
+    
+{% endblock %}
+
+{% block 'dashboard' %}
+<div id="container">
+    <div class="tab-buttons">
+        <button class="tab-btn active" content-id="home">
+            Cadastrar 
+        </button>
+        <button class="tab-btn" content-id="pesquisa">
+            Pesquisar 
+        </button>
+    </div>
+    <div class="tab-contents">
+        <div class="content show" id="home">
+            <h3>inclusão de agendamentos</h3>
+        </div>
+        <div class="content" id="pesquisa">
+            <h3>pesquisa agendamentos</h3>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'agendamentos/js/agendamentos.js' %}"></script>
+
+{% endblock %}
