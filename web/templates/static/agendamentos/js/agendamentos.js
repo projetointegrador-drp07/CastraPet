@@ -14,3 +14,30 @@ const tabClicked = (tab) => {
     
     content.classList.add('show');
 }
+
+
+function ObterDados() {
+    csrf_token = document.querySelector('[name=csrfmiddlewaretoken]').value
+    dados = $("#pesquisa_nome").val();
+    console.log(dados)
+    $.ajax({
+        type:'POST',
+        url:'seleciona_dados',
+        headers:{'X-CSRFToken':csrf_token},
+        data:{
+            pesquisa_nome: dados,
+            csrfmiddlewaretoken: csrf_token,
+        },
+        success: (data) => {
+            displayData(data)
+        }
+        
+    })
+}
+function displayData(data) {
+    alert("Cheguei aqui!")
+}
+
+function SelectUser(id){
+    alert("Usuario Selecionado!")
+}

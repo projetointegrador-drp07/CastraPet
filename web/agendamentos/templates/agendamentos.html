@@ -10,7 +10,7 @@
 <div id="container">
     <div class="tab-buttons">
         <button class="tab-btn active" content-id="home">
-            Cadastrar 
+            Agendar 
         </button>
         <button class="tab-btn" content-id="pesquisa">
             Pesquisar 
@@ -18,7 +18,94 @@
     </div>
     <div class="tab-contents">
         <div class="content show" id="home">
-            <h3>inclusão de agendamentos</h3>
+            <form>
+                <div class="row">
+                    <div class="form-group col-md-2">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Pesquisar Usuário</button>
+
+                        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Pesquisar Usuários...</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form  id="pesquisa_usuario">{% csrf_token %}
+                                            <div class="row">
+                                                <div class="col-md-10">
+                                                    <label for="pesquisa_nome">Nome:</label>
+                                                    <input type="text" id="pesquisa_nome" class="form-control p-1" placeholder="Nome ou parte dele" name="pesquisa_nome" value="{{request.GET.pesquisa_nome}}" autocomplete="off">
+                                                    <br>
+                                                </div>
+                                                <div class="col-md">
+                                                    
+                                                    <label for="pesquisar">
+                                                    <input type="button" onclick="ObterDados()"name="pesquisar" value="Pesquisar" class="btn btn-secondary btn-pesqusuario"></label>
+                                                    
+                                                </div>
+                                            </div>     
+                                        </form>
+                                        Informações do Usuário:<br>
+                                        <hr style="margin:2px; background-color:gray;">
+                                        <div id="exibe_usuarios">
+                                            <table id = "tabela_usuarios" class="table table-hover" style="width:100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">#</th>
+                                                            <th scope="col">CPF</th>
+                                                            <th scope="col">Nome</th>
+                                                            <th scope="col">Endereço</th>
+                                                            <th scope="col">Telefone</th>
+                                                            <th scope="col">Telefone</th>
+                                                            <th scope="col"></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="dados_usuarios">
+                                                    {%for usuarios in lista_usuarios%}
+                                                        
+                                                            <tr id="user-{{usuarios.id}}">
+                                                                <td class="userData" id="user-id-{{usuarios.id}}" name="user-id">{{usuarios.id}} </td>
+                                                                <td class="userData" id="user-cpf-{{usuarios.id}}" name = "user-cpf">{{usuarios.cpf}}</td>
+                                                                <td class="userData" id="user-nome-{{usuarios.id}}" name = "user-nome">{{usuarios.nome}}</td>
+                                                                <td class="userData" id="user-endereco-{{usuarios.id}}" name = "user-endereco">{{usuarios.endereco}}</td>
+                                                                <td class="userData" id="user-telefone1-{{usuarios.id}}"name = "user-telefone1">{{usuarios.telefone1}}</td>
+                                                                <td class="userData" id="user-telefone2-{{usuarios.id}}" name="user-telefone2">{{usuarios.telefone2}}</td>
+                                                                <td><span><i class="fas fa-trash"></i></span><button class="btn btn-secondary w-100 py-1" data-toggle="modal" data-target="#exampleModal" onclick="SelectUser({{usuarios.id}})"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-circle" viewBox="0 0 16 16">
+                                                                    <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0"/>
+                                                                    <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z"/>
+                                                                  </svg> Selecionar</button></a></td>
+                                                            </tr>
+                                                    {% empty%}
+                                                            <tr>
+                                                                <td>Nenhum usuário encontrado!.</td>
+                                                            </tr>   
+                                                    {%endfor%}
+                                                    </tbody>
+                                                </table>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                      </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-1">
+                        <label for="codigo">Código:</label>
+                        <input type="text" class="form-control" placeholder="" name="codigo" id="codigo" required disabled>
+                    </div>
+                    <div class="form-group col-md">
+                        <label for="nome">Nome:</label>
+                        <input type="text" class="form-control" placeholder="Nome do usuário" name="nome" id="nome" required disabled>
+                    </div>
+                </div>
+            </form>
         </div>
         <div class="content" id="pesquisa">
             <h3>pesquisa agendamentos</h3>
