@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
-from cadastro.models import Usuario
+from cadastro.models import Usuario, Animais
 import json
 from django.core import serializers
 
@@ -30,5 +30,19 @@ def seleciona_dados(request):
             data1 = json.loads(serializers.serialize('json',data))
             data1 = [{'fields': i['fields'], 'id': i['pk']} for i in data1]
             context = {'dados':data1}
+            #print(context)
+            return JsonResponse(context)
+        
+
+def seleciona_animais(request):
+    if request.method == "POST":
+        id = request.POST.get('pesquisa_animal')
+        print(id)
+        if id:
+
+            data= Animais.objects.filter(usuario_id__exact=id)
+            data1 = json.loads(serializers.serialize('json',data))
+            data1 = [{'fields': i['fields'], 'id': i['pk']} for i in data1]
+            context = {'animais':data1}
             #print(context)
             return JsonResponse(context)
