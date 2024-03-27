@@ -47,13 +47,15 @@ document.addEventListener('DOMContentLoaded', function() {
 function ObterDados() {
     csrf_token = document.querySelector('[name=csrfmiddlewaretoken]').value
     dados = $("#pesquisa_nome").val();
-    //console.log(dados)
+    tipo = $("#selecao_pesquisa").val();
+    //console.log(tipo)
     $.ajax({
         type:'POST',
         url:'seleciona_dados',
         headers:{'X-CSRFToken':csrf_token},
         data:{
             pesquisa_nome: dados,
+            tipo: tipo,
             csrfmiddlewaretoken: csrf_token,
         },
         success: (data) => {
@@ -156,20 +158,22 @@ function Exibe_Animais(data){
     for(i=0; i<data['animais'].length; i++){
         
         if((data['animais'][i]['fields']['castr']) === 0){
-                $('#dados_animais').append('<tr id="animal-' + data['animais'][i]['id'] + '"><td class="animalData" id="animal-id-' + data['animais'][i]['id'] + '" name="animal-id">' + data['animais'][i]['id'] + '</td>'
+                $('#dados_animais').append('<tr id="animal-' + data['animais'][i]['id'] + '"><td class="animalData" id="animal-id-' + data['animais'][i]['id'] + '" name="animal-id">' + data['animais'][i]['id'] + ''
+                +'<input type="hidden" class="form-control id_animal_ativo" id = "id_animal_ativo" name="id_animal_ativo" value="'+ data['animais'][i]['id'] +'"></td>'
                 +'<td class="animalData" id="animal-nome-' + data['animais'][i]['id'] + '"name="animal-nome">' + data['animais'][i]['fields']['nome_animal'] + '</td>'
                 +'<td class="animalData" id="animal-especie-' + data['animais'][i]['id'] + '"name="animal-especie">' + data['animais'][i]['fields']['especie_animal'] + '</td>'
                 +'<td class="animalData" id="animal-idade-' + data['animais'][i]['id'] + '"name="animal-idade">' + data['animais'][i]['fields']['idade_animal'] + '</td>'
                 +'<td class="animalData" id="animal-sexo-' + data['animais'][i]['id'] + '"name="animal-sexo">' + data['animais'][i]['fields']['sexo_animal'] + '</td>'
-                +'<td><input type="checkbox" name ="seleciona_animal" id="seleciona_animal" enabled></td>'
+                +'<td><input type="checkbox" name ="seleciona_animal" id="seleciona_animal-' + data['animais'][i]['id'] + '" checked enabled style="width:35px; height:35px;"></td>'
                 )
         }else{
-                $('#dados_animais').append('<tr id="animal-' + data['animais'][i]['id'] + '"><td class="animalData" id="animal-id-' + data['animais'][i]['id'] + '" name="animal-id">' + data['animais'][i]['id'] + '</td>'
+                $('#dados_animais').append('<tr id="animal-' + data['animais'][i]['id'] + '"><td class="animalData" id="animal-id-' + data['animais'][i]['id'] + '" name="animal-id">' + data['animais'][i]['id'] + ''
+                +'<input type="hidden" class="form-control id_animal_inativo" id = "id_animal_inativo" name="id_animal_inativo" value="'+ data['animais'][i]['id'] +'"></td>'
                 +'<td class="animalData" id="animal-nome-' + data['animais'][i]['id'] + '"name="animal-nome"><s>' + data['animais'][i]['fields']['nome_animal'] + '</s></td>'
                 +'<td class="animalData" id="animal-especie-' + data['animais'][i]['id'] + '"name="animal-especie"><s>' + data['animais'][i]['fields']['especie_animal'] + '</s></td>'
                 +'<td class="animalData" id="animal-idade-' + data['animais'][i]['id'] + '"name="animal-idade"><s>' + data['animais'][i]['fields']['idade_animal'] + '</s></td>'
                 +'<td class="animalData" id="animal-sexo-' + data['animais'][i]['id'] + '"name="animal-sexo"><s>' + data['animais'][i]['fields']['sexo_animal'] + '</s></td>'
-                +'<td><input type="checkbox" name ="seleciona_animal" id="seleciona_animal" checked disabled></td>'
+                +'<td><input type="checkbox" name ="seleciona_animal" id="seleciona_animal_disabled" checked disabled style="width:35px; height:35px;"></td>'
                 )
         }                           
                                     
@@ -178,17 +182,65 @@ function Exibe_Animais(data){
 }
 
 function agendar(){
-    alert("Cheguei no agendamento")
     codigo = $('input[id="codigo"]').val();
     //alert(codigo)
-    if(codigo===undefined){
-        alert("selecione um usuario")
+    if(codigo===""){
+        alert("selecione um usuario!");
+        
+    }else{
+        data = document.getElementById('data_selecionada').value;
+        //alert(data)
+        if (data===""){
+            alert("Selecione uma data!");
+        }else{
+            data_agendamento = $('input[id="data_selecionada"]').val();
+            usuario_agendamento = $('input[id="nome"]').val();
+            var ids = [];
+            var ids_animal = document.querySelectorAll(".id_animal_ativo");
+            var id_animais = [].map.call(ids_animal, function(input){
+                return ids.push(input.value);
+            });
+            console.log("quantidade de itens que podem selecionados")
+            console.log(ids.length)
+            for (i=0;i<ids.length;i++){
+                //console.log(ids[i])
+                varia = ids[i]
+                console.log("id do item:")
+                console.log(varia)
+                controle = document.getElementById('seleciona_animal-'+varia);
+                console.log("Esta selecionado ou nao:")
+                console.log(controle.checked)
+                if(!controle.checked){
+                    var index = ids.indexOf(varia)
+                    console.log("vou excluir o item da posicao:")
+                    console.log(index)
+                    ids.splice(index,1)
+                    i--
+                }
+           
+            }
+            console.log(ids)
+            if(ids.length>0){
+                confirmar = confirm("Deseja Gravar agendamento para o dia " + data_agendamento + " do usuário " + usuario_agendamento + "?")
+                if(confirmar){
+                    $('#codigo').val("");
+                    $('#nome').val("");
+                    $('#data_selecionada').val("");
+                    document.getElementById('exibe_animais').remove();
+                    var novodiv = document.createElement("div");
+                    novodiv.id = "exibe_animais";
+                    var pesquisa = document.querySelector("#animais");
+                    pesquisa.appendChild(novodiv);
+                    alert("Dados gravados com sucesso!");
+                }
+            }else{
+                alert("Não existem animais selecionados!")
+            }
+
+
+        }
     }
-    data = document.getElementById('data_selecionada').value;
-    //alert(data)
-    if (data===""){
-        alert("Selecione uma data!")
-    }
+ 
 }
 
 document.addEventListener('DOMContentLoaded', function(){ 

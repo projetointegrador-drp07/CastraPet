@@ -17,14 +17,37 @@ def agendamentos(request):
 def seleciona_dados(request):
     if request.method == "POST":
         dados = request.POST.get('pesquisa_nome')
-        #print(dados)
+        tipo = request.POST.get('tipo')
+        #print(tipo)
         if dados:
-            data= Usuario.objects.filter(nome__icontains=dados)
-            data1 = json.loads(serializers.serialize('json',data))
-            data1 = [{'fields': i['fields'], 'id': i['pk']} for i in data1]
-            context = {'dados':data1}
-            #print(context)
-            return JsonResponse(context)
+            if tipo == "1":
+                data= Usuario.objects.filter(nome__icontains=dados)
+                data1 = json.loads(serializers.serialize('json',data))
+                data1 = [{'fields': i['fields'], 'id': i['pk']} for i in data1]
+                context = {'dados':data1}
+                #print(context)
+                return JsonResponse(context)
+            if tipo == "2":
+                data= Usuario.objects.filter(cpf__icontains=dados)
+                data1 = json.loads(serializers.serialize('json',data))
+                data1 = [{'fields': i['fields'], 'id': i['pk']} for i in data1]
+                context = {'dados':data1}
+                #print(context)
+                return JsonResponse(context)
+            if tipo == "3":
+                data= Usuario.objects.filter(telefone1__icontains=dados)
+                data1 = json.loads(serializers.serialize('json',data))
+                data1 = [{'fields': i['fields'], 'id': i['pk']} for i in data1]
+                context = {'dados':data1}
+                #print(context)
+                return JsonResponse(context)
+            if tipo == "4":
+                data= Usuario.objects.filter(email__icontains=dados)
+                data1 = json.loads(serializers.serialize('json',data))
+                data1 = [{'fields': i['fields'], 'id': i['pk']} for i in data1]
+                context = {'dados':data1}
+                #print(context)
+                return JsonResponse(context)
         else:
             data= Usuario.objects.all()
             data1 = json.loads(serializers.serialize('json',data))
@@ -46,3 +69,7 @@ def seleciona_animais(request):
             context = {'animais':data1}
             #print(context)
             return JsonResponse(context)
+
+
+def grava_agendamentos(request):
+    pass

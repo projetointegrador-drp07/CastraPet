@@ -37,9 +37,18 @@
                                     <div class="modal-body">
                                         <form  id="pesquisa_usuario">{% csrf_token %}
                                             <div class="row">
-                                                <div class="col-md-10">
-                                                    <label for="pesquisa_nome">Nome:</label>
-                                                    <input type="text" id="pesquisa_nome" class="form-control p-1" placeholder="Nome ou parte dele" name="pesquisa_nome" value="{{request.GET.pesquisa_nome}}" autocomplete="off">
+                                                <div class="col-md-2">
+                                                    <label for="selecao_pesquisa">Tipo de Pesquisa:</label>
+                                                    <select class="custom-select mr-sm-2" id="selecao_pesquisa" aria-label="Selecione o tipo de pesquisa">
+                                                        <option selected value="1">Nome</option>
+                                                        <option value="2">CPF</option>
+                                                        <option value="3">Telefone</option>
+                                                        <option value="4">E-mail</option>
+                                                      </select>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <label for="pesquisa_nome">Pesquisa:</label>
+                                                    <input type="text" id="pesquisa_nome" class="form-control p-1" placeholder="Pesquisar..." name="pesquisa_nome" value="{{request.GET.pesquisa_nome}}" autocomplete="off">
                                                     <br>
                                                 </div>
                                                 <div class="col-md">
@@ -122,11 +131,12 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-md-6">
-                        Data Selecionada ==><input type="text" id="data_selecionada" disabled>
+                    <div class="form-inline col-md">
+                        <label for="data_selecionada">Data Selecionada ==></label>
+                        <input type="text" class="form-control" id="data_selecionada" style="width: 75%; text-align: center;" disabled>
                     </div>
                     <div class="form-group col-md">
-                        <input type="button" value ="Agendar" onclick="agendar()" class="btn btn-primary w-60" style="float:right;">
+                        <input type="button" id="btnagendar" value ="Agendar" onclick="agendar()" class="btn btn-primary w-60" style="float:right; margin-top: 10px;">
                     </div> 
                 </div>
             </form>
