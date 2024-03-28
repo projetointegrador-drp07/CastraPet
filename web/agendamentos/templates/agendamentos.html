@@ -4,7 +4,7 @@
 {% block 'head' %}
     <link rel="stylesheet" href="{% static 'agendamentos/css/agendamentos.css' %}">
     <link rel="stylesheet" href="{% static 'dataTables/css/dataTables.dataTables.css' %}" />
-       
+    <link rel="stylesheet" href="{% static 'sweetAlert/css/sweetalert2.min.css' %}" />
     
 {% endblock %}
 
@@ -23,7 +23,7 @@
             <form id="agendamentos">
                 <div class="row">
                     <div class="form-group col-md-2">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Pesquisar Usuário</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" autofocus>Pesquisar Usuário</button>
 
                         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-xl">
@@ -149,5 +149,5 @@
 
 <script src="{% static 'agendamentos/js/agendamentos.js' %}"></script>
 <script src="{% static 'fullCalendar/js/index.global.min.js' %}"></script>
-
+<script src="{% static 'sweetAlert/js/sweetalert2.all.min.js' %}"></script>
 {% endblock %}

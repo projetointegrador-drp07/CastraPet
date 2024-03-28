@@ -76,7 +76,13 @@ function pesquisa_cep(cep, tipo) {
             }
         },
         error: function() {
-            alert('Erro ao buscar CEP. Por favor, tente novamente.');
+            // alert('Erro ao buscar CEP. Por favor, tente novamente.');
+            Swal.fire({
+                icon: "error",
+                title: "Erro ao buscar CEP. Por favor, tente novamente.",
+                showConfirmButton: false,
+                timer: 1500
+            });
         }
     });
 }
@@ -151,7 +157,7 @@ function displayData(data) {
     }
     $('#tabela_usuarios').DataTable({
         language: {
-            url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/pt-BR.json',
+            url: '/static/dataTables/plug-ins/pt-BR.json',
             
         },
         "bFilter": false,
@@ -160,28 +166,47 @@ function displayData(data) {
 }
 
 function apagar_usuario(id){
-    confirmar = confirm("Tem certeza?");
-    if (confirmar){
-        csrf_token = document.querySelector('[name=csrfmiddlewaretoken]').value
-        $.ajax({
-            type:'POST',
-            url:'apagar_usuario/'+id,
-            headers:{'X-CSRFToken':csrf_token},
-            data:{
-                id: id,
-                csrfmiddlewaretoken: csrf_token,
-            },
-            success: () => {
-                //displayData(data)
-                dados = document.getElementById('pesquisa_nome').value;
-                //console.log(dados)
-                ObterDados(dados);
-                alert("usuario apagado"+id);
-            }
-            
-        })
-        
-    }
+    //confirmar = confirm("Tem certeza?");
+    Swal.fire({
+        title: "Tem certeza que deseja excluir?",
+        text: "Essa ação não pode ser revertida!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sim, delete!",
+        cancelButtonText: "Cancelar!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+            csrf_token = document.querySelector('[name=csrfmiddlewaretoken]').value
+            $.ajax({
+                type:'POST',
+                url:'apagar_usuario/'+id,
+                headers:{'X-CSRFToken':csrf_token},
+                data:{
+                    id: id,
+                    csrfmiddlewaretoken: csrf_token,
+                },
+                success: () => {
+                    //displayData(data)
+                    dados = document.getElementById('pesquisa_nome').value;
+                    //console.log(dados)
+                    ObterDados(dados);
+                    // alert("usuario apagado"+id);
+                    Swal.fire({
+                        icon: "success",
+                        title: "Usuário apagado "+id,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+                
+            })
+
+
+        }
+      });
+
 
 }
 function editUser(id){
@@ -354,26 +379,36 @@ document.getElementById('updateUser').addEventListener('submit', function(event)
 
 function apagar_animal_modal(id){
     console.log(id)
-    confirmacao = confirm("Tem certeza que deseja excluir o animal ID: " + id + "?")
-    if (confirmacao){
-        //alert("Deseja apagar o animal? "+ id );
-        csrf_token = document.querySelector('[name=csrfmiddlewaretoken]').value
-        $.ajax({
-            type:'POST',
-            url:'apaga_animal/'+id,
-            headers:{'X-CSRFToken':csrf_token},
-            data:{
-                id_animal: id,
-                csrfmiddlewaretoken: csrf_token,
-            },
-            success: () => {
-                //displayData(data)
-                var div_animal = document.getElementById("animal_cadastrado-"+id+"");
-                div_animal.remove();
-            }
-            
-        })
-    }
+    Swal.fire({
+        title: "Confirma exclusão?",
+        text: "Tem certeza que deseja excluir o animal ID: " + id + "?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sim, excluir!",
+        cancelButtonText: "Cancelar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+            csrf_token = document.querySelector('[name=csrfmiddlewaretoken]').value
+            $.ajax({
+                type:'POST',
+                url:'apaga_animal/'+id,
+                headers:{'X-CSRFToken':csrf_token},
+                data:{
+                    id_animal: id,
+                    csrfmiddlewaretoken: csrf_token,
+                },
+                success: () => {
+                    //displayData(data)
+                    var div_animal = document.getElementById("animal_cadastrado-"+id+"");
+                    div_animal.remove();
+                }
+                
+            })
+        }
+      });
+
 }
 
 function apagar_animal_novo_modal(e){
@@ -385,10 +420,10 @@ document.addEventListener('DOMContentLoaded', function(){
     //alert("Carregado")
     $('#tabela_usuarios').DataTable({
         language: {
-            url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/pt-BR.json',
+            url: '/static/dataTables/plug-ins/pt-BR.json',
         },
         "bFilter": false,
         
     });
-
+   
 }, false );

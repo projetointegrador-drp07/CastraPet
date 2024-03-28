@@ -103,7 +103,7 @@ function displayData(data) {
     }
     $('#tabela_usuarios').DataTable({
         language: {
-            url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/pt-BR.json',
+            url: '/static/dataTables/plug-ins/pt-BR.json',
             
         },
         "bFilter": false,
@@ -185,16 +185,28 @@ function agendar(){
     codigo = $('input[id="codigo"]').val();
     //alert(codigo)
     if(codigo===""){
-        alert("selecione um usuario!");
+        Swal.fire({
+            icon: "error",
+            title: "Selecione um usuário!",
+            showConfirmButton: false,
+            timer: 1500
+          });
+        // alert("selecione um usuario!");
         
     }else{
         data = document.getElementById('data_selecionada').value;
         //alert(data)
         if (data===""){
-            alert("Selecione uma data!");
+            Swal.fire({
+                icon: "error",
+                title: "Selecione uma data!",
+                showConfirmButton: false,
+                timer: 1500
+              });
         }else{
             data_agendamento = $('input[id="data_selecionada"]').val();
             usuario_agendamento = $('input[id="nome"]').val();
+            id_usuario = $('input[id="codigo"]').val();
             var ids = [];
             var ids_animal = document.querySelectorAll(".id_animal_ativo");
             var id_animais = [].map.call(ids_animal, function(input){
@@ -221,20 +233,61 @@ function agendar(){
             }
             console.log(ids)
             if(ids.length>0){
-                confirmar = confirm("Deseja Gravar agendamento para o dia " + data_agendamento + " do usuário " + usuario_agendamento + "?")
-                if(confirmar){
-                    $('#codigo').val("");
-                    $('#nome').val("");
-                    $('#data_selecionada').val("");
-                    document.getElementById('exibe_animais').remove();
-                    var novodiv = document.createElement("div");
-                    novodiv.id = "exibe_animais";
-                    var pesquisa = document.querySelector("#animais");
-                    pesquisa.appendChild(novodiv);
-                    alert("Dados gravados com sucesso!");
-                }
+                Swal.fire({
+                    title: "Confirma agendamento?",
+                    text: "Agendamento do usuário: "+usuario_agendamento+" para a data: "+data_agendamento+" ",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Sim, confirme!",
+                    cancelButtonText: "Cancelar",
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                        //Gravar dados
+                        $.ajax({
+                            type:'POST',
+                            url:'grava_agendamentos',
+                            headers:{'X-CSRFToken':csrf_token},
+                            data:{
+                                usuario_agendamento: id_usuario,
+                                data_agendamento: data_agendamento,
+                                animais:ids,
+                                csrfmiddlewaretoken: csrf_token,
+                            },
+                            success: (data) => {
+                                //Exibe_Animais(data)
+                            }
+                            
+                        })
+
+                        //limpar tela
+                        $('#codigo').val("");
+                        $('#nome').val("");
+                        $('#data_selecionada').val("");
+                        document.getElementById('exibe_animais').remove();
+                        var novodiv = document.createElement("div");
+                        novodiv.id = "exibe_animais";
+                        var pesquisa = document.querySelector("#animais");
+                        pesquisa.appendChild(novodiv);
+                        Swal.fire({
+                            icon: "success",
+                            title: "Dados Gravados com sucesso!",
+                            showConfirmButton: false,
+                            timer: 1500
+                          });
+
+                    
+                    }
+                  });
+
             }else{
-                alert("Não existem animais selecionados!")
+                Swal.fire({
+                    icon: "error",
+                    title: "Não foram selecionados os animais!",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
             }
 
 
@@ -246,9 +299,10 @@ function agendar(){
 document.addEventListener('DOMContentLoaded', function(){ 
     //$('#myTable').DataTable();
     //alert("Carregado")
+    
     $('#tabela_usuarios').DataTable({
         language: {
-            url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/pt-BR.json',
+            url: '/static/dataTables/plug-ins/pt-BR.json',
         },
         "bFilter": false,
         

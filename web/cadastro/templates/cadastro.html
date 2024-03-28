@@ -4,6 +4,7 @@
 {% block 'head' %}
     <link rel="stylesheet" href="{% static 'cadastro/css/cadastro.css' %}">
     <link rel="stylesheet" href="{% static 'dataTables/css/dataTables.dataTables.css' %}" />
+    <link rel="stylesheet" href="{% static 'sweetAlert/css/sweetalert2.min.css' %}" />
 {% endblock %}
 
 {% block 'dashboard' %}
@@ -25,7 +26,7 @@
                 <div class="row">
                     <div class="form-group col-md-8">
                         <label for="nome">Nome:</label>
-                        <input type="text" class="form-control" placeholder="Nome" name="nome" value="{{nome}}" required>
+                        <input type="text" class="form-control" placeholder="Nome" name="nome" value="{{nome}}" autofocus required>
                     </div>
                     <div class="form-group col-md-2">
                         <label for="cpf">CPF:</label>
@@ -173,10 +174,10 @@
                                             <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"/>
                                             <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1"/>
                                           </svg> Imprimir</button></a></td>
-                                    <td><a href='/apagar_usuario/{{usuarios.id}}'  onclick="return confirm('Tem certeza?')"><span><i class="fas fa-trash"></i></span>
-                                        <button class="btn btn-secondary w-100 py-1"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                    <td><button class="btn btn-secondary w-100 py-1" onclick="apagar_usuario('{{usuarios.id}}')"><span><i class="fas fa-trash"></i></span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
                                         <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
-                                    </svg> Apagar</button></a></td>
+                                    </svg> Apagar</button></td>
                                 </tr>
                         {% empty%}
                                 <tr>
@@ -316,7 +317,7 @@
 
 
 <script src="{% static 'cadastro/js/cadastro.js' %}"></script>
-
+<script src="{% static 'sweetAlert/js/sweetalert2.all.min.js' %}"></script>
 
 
 {% endblock %}
