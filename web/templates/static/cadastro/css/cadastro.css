@@ -71,9 +71,14 @@ body{
     margin-top:30px;
 }
 
-.btn-alterar{
-    height:60px;
-    margin-top: -30px;
+.btn-excluir{
+    height:35px;
+    margin-top: 25px;
+}
+
+.btn-remove{
+    height: 35px;
+    margin-top: 15px;
 }
 
 th, td {

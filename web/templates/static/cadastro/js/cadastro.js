@@ -18,11 +18,16 @@ const tabClicked = (tab) => {
 function add_animal(){
     const subject = document.querySelector("#subject");
     const codigo = "<div id='adicionados'>"
-    +"<div class='row'><div class='col-md-8'>Nome do animal:<input type='text' class='form-control' placeholder='Nome do animal' name='nome_animal'><br></div><div class='col-md'>Espécie:<input type='text' class='form-control' placeholder='Espécie' name='especie_animal'><br></div></div>"
-    +"<div class='row'><div class='col-md-2'>Idade:<input type='text' class='form-control' placeholder='' name='idade_animal'><br></div><div class='col-md'>Sexo:<input type='text' class='form-control' placeholder='sexo' name='sexo_animal'><br></div><div class='col-md'>Cor:<input type='text' class='form-control' placeholder='cor' name='cor_animal'><br></div>"
-    +"<div class='col-md-1 align-self-center'><button type='button' onclick='remove_animal(this)' class='btn btn-secondary w-60 ' alt='Excluir Animal'>"
-    +"<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-plus-circle-fill' viewBox='0 0 16 16'>"
-    +"<path d='M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M4.5 7.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1z'/></svg></button></div></div><hr style='background-color:gray;'></div>";
+    +"<div class='row'>"
+    +"<div class='col-md-4'>Nome do animal:<input type='text' class='form-control' placeholder='Nome do animal' name='nome_animal'maxlength='100' required></div>"
+    +"<div class='col-md-2'><label for='especie_animal'>Espécie:<select name='especie_animal' class='form-control' id='especie_animal' style='width:250%'><option value = 's_opcao'></option><option value = 'Canino'>Canino</option><option value = 'Felino'>Felino</option></select></label><br></div>"
+    //+"<div class='row'>"
+    +"<div class='col-md-1'>Idade:<input type='number' class='form-control' placeholder='' name='idade_animal' min='0' max='20'></div>"
+    +"<div class='col-md-2'><label for='sexo_animal'>Sexo:<select name='sexo_animal' class='form-control' id='sexo_animal'style='width:250%'><option value = 's_opcao'>     </option><option value = 'Femea'>Femea</option><option value = 'Macho'>Macho</option></select></label></div>"
+    +"<div class='col-md-2'>Cor:<input type='text' class='form-control' placeholder='cor' name='cor_animal'maxlength='20'></div>"
+    +"<div class='col-md-1 align-self-center'><button type='button' onclick='remove_animal(this)' class='btn btn-danger btn-sm btn-remove' alt='Excluir Animal'>Excluir</button></div>"
+    +"</div><hr style='background-color:gray;'>";
+    //+"</div>";
     subject.insertAdjacentHTML("beforebegin",codigo,);
 }
 
@@ -34,21 +39,21 @@ function add_animal_modal(){
     const subject = document.getElementById("exibe_animais_modal");
     const codigo = "<div id='animal_adicionado'><div class='row'>"
     +"<div><input type='hidden' class='form-control id_animal_modal' id = 'id_animal_modal' name='id_animal_modal' value=''></div>"
-    +"<div class='form-group col-md-5'>"
-    +"Nome do animal:<input type='text' class='form-control nome_animal_modal' placeholder='Nome do animal' id = 'nome_animal_modal' name='nome_animal_modal' value=''></div>"
-    +"<div class='form-group col-md-4'>"
-    +"Espécie:<input type='text' class='form-control especie_animal_modal' placeholder='Espécie' name='especie_animal_modal' value=''></div>"
-    +"</div>"
-    +"<div class='row'>"
     +"<div class='form-group col-md-3'>"
-    +"Idade:<input type='text' class='form-control idade_animal_modal' placeholder='' name='idade_animal_modal' value=''></div>"
-    +"<div class='form-group col-md-3'>"
-    +"Sexo:<input type='text' class='form-control sexo_animal_modal' placeholder='sexo' name='sexo_animal_modal' value=''></div>"
-    +"<div class='form-group col-md-3'>"
-    +"Cor:<input type='text' class='form-control cor_animal_modal' placeholder='cor' name='cor_animal_modal' value=''></div>"
+    +"Nome do animal:<input type='text' class='form-control nome_animal_modal' placeholder='Nome do animal' id = 'nome_animal_modal' name='nome_animal_modal' value=''maxlength='100' required></div>"
+    +"<div class='form-group col-md-2'>"
+    +"<label for='especie_animal_modal'>Espécie:<select name='especie_animal_modal' class='form-control especie_animal_modal' id='especie_animal_modal'style='width:160%'><option value = 's_opcao'></option><option value = 'Canino'>Canino</option><option value = 'Felino'>Felino</option></select></label></div>"
+    //+"</div>"
+    //+"<div class='row'>"
+    +"<div class='form-group col-md-1'>"
+    +"Idade:<input type='number' class='form-control idade_animal_modal' placeholder='' name='idade_animal_modal' value='' min='0' max='20'></div>"
+    +"<div class='form-group col-md-2'>"
+    +"<label for='sexo_animal_modal'>Sexo:<select name='sexo_animal_modal' class='form-control' id='sexo_animal_modal'style='width:160%'><option value = 's_opcao'></option><option value = 'Femea'>Femea</option><option value = 'Macho'>Macho</option></select></label></div>"
+    +"<div class='form-group col-md-2'>"
+    +"Cor:<input type='text' class='form-control cor_animal_modal' placeholder='cor' name='cor_animal_modal' value=''maxlength='20'></div>"
     +"<div>"
     +"  "
-    +"<button type='button' onclick='apagar_animal_novo_modal(this)' class='btn btn-danger btn-sm btn-alterar'>Excluir</button>"
+    +"<button type='button' onclick='apagar_animal_novo_modal(this)' class='btn btn-danger btn-sm btn-excluir'>Excluir</button>"
     +"</div>"
     +"</div>"
     +"<div>"
@@ -145,11 +150,22 @@ function displayData(data) {
                                     +'<td><span><i class="fas fa-trash"></i></span><button class="btn btn-secondary w-100 py-1" data-toggle="modal" data-target="#exampleModal" onclick="editUser(' + data['dados'][i]['id'] + ')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">'
                                     +'<path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>'
                                     +'</svg> Editar</button></a></td>'
-                                    +'<td><a href="/termo/' + data['dados'][i]['id'] + '"><span><i class="fas fa-trash"></i></span>'
-                                    +'<button class="btn btn-secondary w-100 py-1"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer" viewBox="0 0 16 16">'
+                                    // +'<td><a href="/termo/' + data['dados'][i]['id'] + '"><span><i class="fas fa-trash"></i></span>'
+                                    // +'<button class="btn btn-secondary w-100 py-1"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer" viewBox="0 0 16 16">'
+                                    // +'<path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"/>'
+                                    // +'<path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1"/>'
+                                    // +'</svg> Imprimir</button></a></td>'
+                                    +'<td><div class="dropdown">'
+                                    +'<button class="btn btn-secondary dropdown-toggle w-100 py-1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'
+                                    +'<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer" viewBox="0 0 16 16">'
                                     +'<path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"/>'
                                     +'<path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1"/>'
-                                    +'</svg> Imprimir</button></a></td>'
+                                    +'</svg> Imprimir</button>'
+                                    +'<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">'
+                                    +'<a class="dropdown-item" href="/termo/'+ data['dados'][i]['id'] +'" target="_blank">Termo de Responsabilidade</a>'
+                                    +'<a class="dropdown-item" href="#">Termo Pré-Operatório</a>'
+                                    +'<a class="dropdown-item" href="#">Termo Pós-Operatório</a>'
+                                    +'</div></div></td>'
                                     +'<td><button onclick="apagar_usuario('+ data['dados'][i]['id'] +')" class="btn btn-secondary w-100 py-1"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">'
                                     +'<path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>'
                                     +'</svg> Apagar</button></td>'
@@ -256,30 +272,33 @@ function editUser(id){
                 div_animais.innerHTML="";
                 for(i=0;i<data['animais'].length; i++){
                     console.log(data['animais'][i])
+                    especie =  data['animais'][i]['fields']['especie_animal'];
+                    sexo =  data['animais'][i]['fields']['sexo_animal'];
                     div_animais.innerHTML += "<div id='animal_cadastrado-"+ data['animais'][i]['id'] + "'><div class='row'>"
                     +"<div><input type='hidden' class='form-control id_animal_modal' id = 'id_animal_modal' name='id_animal_modal' value='"+ data['animais'][i]['id'] +"'></div>"
-                    +"<div class='form-group col-md-5'>"
-                    +"Nome do animal:<input type='text' class='form-control nome_animal_modal' placeholder='Nome do animal' id = 'nome_animal_modal' name='nome_animal_modal' value='"+ data['animais'][i]['fields']['nome_animal']+"'></div>"
-                    +"<div class='form-group col-md-4'>"
-                    +"Espécie:<input type='text' class='form-control especie_animal_modal' placeholder='Espécie' name='especie_animal_modal' value='"+ data['animais'][i]['fields']['especie_animal']+"'></div>"
-                    
-                    +"</div>"
-                    +"<div class='row'>"
                     +"<div class='form-group col-md-3'>"
-                    +"Idade:<input type='text' class='form-control idade_animal_modal' placeholder='' name='idade_animal_modal' value='"+ data['animais'][i]['fields']['idade_animal']+"'></div>"
-                    +"<div class='form-group col-md-3'>"
-                    +"Sexo:<input type='text' class='form-control sexo_animal_modal' placeholder='sexo' name='sexo_animal_modal' value='"+ data['animais'][i]['fields']['sexo_animal']+"'></div>"
-                    +"<div class='form-group col-md-3'>"
+                    +"Nome do animal:<input type='text' class='form-control nome_animal_modal' placeholder='Nome do animal' id = 'nome_animal_modal' name='nome_animal_modal' value='"+ data['animais'][i]['fields']['nome_animal']+"' maxlength='100'></div>"
+                    +"<div class='form-group col-md-2'>"
+                    //+"Espécie:<input type='text' class='form-control especie_animal_modal' placeholder='Espécie' name='especie_animal_modal' value='"+ data['animais'][i]['fields']['especie_animal']+"'></div>"
+                    +"<label for='especie_animal_modal'>Espécie:<select name='especie_animal_modal' class='form-control especie_animal_modal' id='especie_animal_modal'style='width:160%;'><option value = '"+ data['animais'][i]['fields']['especie_animal']+"'>"+ data['animais'][i]['fields']['especie_animal']+"</option><option value = 'Canino'>Canino</option><option value = 'Felino'>Felino</option></select></label></div>"
+                    //+"</div>"
+                    //+"<div class='row'>"
+                    +"<div class='form-group col-md-1'>"
+                    +"Idade:<input type='number' class='form-control idade_animal_modal' placeholder='' name='idade_animal_modal' value='"+ data['animais'][i]['fields']['idade_animal']+"' min ='0' max='20'></div>"
+                    +"<div class='form-group col-md-2'>"
+                    //+"Sexo:<input type='text' class='form-control sexo_animal_modal' placeholder='sexo' name='sexo_animal_modal' value='"+ data['animais'][i]['fields']['sexo_animal']+"'></div>"
+                    +"<label for='sexo_animal_modal'>Sexo:<select name='sexo_animal_modal' class='form-control sexo_animal_modal' id='sexo_animal_modal'style='width:160%;'><option value = '"+ data['animais'][i]['fields']['sexo_animal']+"'>"+ data['animais'][i]['fields']['sexo_animal']+"</option><option value = 'Femea'>Femea</option><option value = 'Macho'>Macho</option></select></label></div>"
+                    +"<div class='form-group col-md-2'>"
                     +"Cor:<input type='text' class='form-control cor_animal_modal' placeholder='cor' name='cor_animal_modal' value='"+ data['animais'][i]['fields']['cor_animal']+"'></div>"
                     +"<div>"
                     +"  "
-                    +"<button type='button' onclick='apagar_animal_modal("+ data['animais'][i]['id'] +")' class='btn btn-danger btn-sm btn-alterar'>Excluir</button>"
+                    +"<button type='button' onclick='apagar_animal_modal("+ data['animais'][i]['id'] +")' class='btn btn-danger btn-sm btn-excluir'>Excluir</button>"
                     +"</div>"
                     +"</div>"
                     +"<div>"
                     +"<hr style='background-color:gray;'>"
                     +"</div></div>";
-                    
+                    //$('#especie_animal_modal option[value='+especie+']').atrr('selected', true)
                 }
             }
        })
