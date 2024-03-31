@@ -4,7 +4,7 @@ provider "aws" {
 
 terraform {
   backend "s3" {
-    bucket         = "castrpet-terraform"
+    bucket         = "castrapet-terraform"
     key            = "iam/terraform.tfstate"
     region         = "us-east-1"
   }
