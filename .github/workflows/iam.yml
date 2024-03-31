@@ -1,4 +1,4 @@
-name: Deploy EC2 Instance - AWS
+name: Configure IAM credentials -AWS
 
 on:
   workflow_dispatch:
@@ -6,11 +6,7 @@ on:
   #   branches:
   #     - main
   #   paths:
-  #     - 'terraform/ec2/**'
-
-permissions:
-  id-token: write
-  contents: read
+  #     - 'terraform/iam/**'
 
 jobs:
   terraform_apply:
@@ -19,12 +15,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v3
-        with:
-          role-to-assume: arn:aws:iam::914256152987:role/GitHubActionsRole
-          role-session-name: castrapet-deploy-ec2-instance
-
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
@@ -32,21 +22,26 @@ jobs:
 
       - name: Terraform Init
         run: |
-          cd terraform/ec2
+          cd terraform/iam
           terraform init
 
       - name: Terraform Validate
         run: |
-          cd terraform/ec2
+          cd terraform/iam
           terraform validate
 
       - name: Terraform Plan
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
         run: |
-          cd terraform/ec2
+          cd terraform/iam
           terraform plan
 
       - name: Terraform Apply
         env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
         run: 
-          cd terraform/ec2
+          cd terraform/iam
           terraform apply -auto-approve
