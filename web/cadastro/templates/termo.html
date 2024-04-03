@@ -1,5 +1,10 @@
-{% extends "base.html" %}
+
 {% load static %}
+
+{% block 'head' %}
+<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}" />
+<link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+{% endblock %}
 
 {% block 'dashboard' %}
 <div id="container">

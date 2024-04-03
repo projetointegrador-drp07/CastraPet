@@ -73,8 +73,9 @@ def cadastro(request):
             'email': email,
             'animais': Animais.objects.filter(usuario=usuario.id)
         }
-       
-        return render(request,'termo.html', dados)
+        lista_usuarios =  {'lista_usuarios':Usuario.objects.all()}
+        #return render(request,'termo.html', dados)
+        return render(request, 'cadastro.html', lista_usuarios)
     
 def apagar_usuario(request, id):
     try:
@@ -158,7 +159,7 @@ def att_usuario(request):
         idade_animal = request.POST.getlist('idades[]')
         sexo_animal = request.POST.getlist('sexos[]')
         cor_animal = request.POST.getlist('cores[]')
-        #print(id_animal, nome_animal, especie_animal, idade_animal, sexo_animal, cor_animal)
+        print(id_animal, nome_animal, especie_animal, idade_animal, sexo_animal, cor_animal)
 
         
         obj = Usuario.objects.get(id=id1)
@@ -182,6 +183,7 @@ def att_usuario(request):
         for id_animal, nome_animal, especie_animal, idade_animal, sexo_animal, cor_animal in zip(id_animal, nome_animal, especie_animal, idade_animal, sexo_animal, cor_animal):
              #   |animal = Animais(usuario = id1, nome_animal = nome_animal, especie_animal = especie_animal, idade_animal = idade_animal, sexo_animal = sexo_animal, cor_animal = cor_animal)
           #  animal.save()
+            print(id_animal)
             if id_animal == "":
                 print("novo animal cadastrado")
                 animal = Animais(

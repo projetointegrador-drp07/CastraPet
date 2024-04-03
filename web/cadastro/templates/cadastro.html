@@ -14,42 +14,42 @@
         <button class="tab-btn active" content-id="home">
             Cadastrar Usuários
         </button>
-        <button class="tab-btn" content-id="pesquisa">
+        <button class="tab-btn" content-id="pesquisa" id="botao_pesquisar">
             Pesquisar
         </button>
     </div>
     <div class="tab-contents">
         <div class="content show" id="home">
-            <form action="{% url 'cadastro' %}" method="POST">{% csrf_token %}
+            <form action="{% url 'cadastro' %}" method="POST" id="form_cadastrar">{% csrf_token %}
                 Informações do Usuário:<br>
                 <hr style="margin:2px; background-color:gray;">
                 <div class="row">
                     <div class="form-group col-md-8">
                         <label for="nome">Nome:</label>
-                        <input type="text" class="form-control" placeholder="Nome" name="nome" value="{{nome}}" autofocus required maxlength="255">
+                        <input type="text" id="nome" class="form-control" placeholder="Nome" name="nome" value="{{nome}}" autofocus required maxlength="255">
                     </div>
                     <div class="form-group col-md-2">
                         <label for="cpf">CPF:</label>
-                        <input type="text" class="form-control" placeholder="___.___.___-__" name="cpf" value="{{cpf}}" required maxlength="11">
+                        <input type="text" id="cpf" class="form-control" placeholder="___.___.___-__" name="cpf" value="{{cpf}}" required maxlength="11">
                     </div>
                     <div class="form-group col-md-2">
                         <label for="rg">RG:</label>:
-                        <input type="text" class="form-control" placeholder="__.___.___-_" name="rg" value="{{rg}}" maxlength="9">
+                        <input type="text" id="rg" class="form-control" placeholder="__.___.___-_" name="rg" value="{{rg}}" maxlength="9">
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="form-group col-md-8">
                         <label for="email">E-mail:</label>
-                        <input type="email" class="form-control" placeholder="nome@email.com" name="email" value="{{email}}" maxlength="100">
+                        <input type="email" id="email" class="form-control" placeholder="nome@email.com" name="email" value="{{email}}" maxlength="100">
                     </div>
                     <div class="form-group col-md-2">
                         <label for="telefone1">Telefone:</label>
-                        <input type="text" class="form-control" placeholder="(__)____-____" name="telefone1" value="{{telefone1}}" required maxlength="10">
+                        <input type="text" id="telefone1" class="form-control" placeholder="(__)____-____" name="telefone1" value="{{telefone1}}" required maxlength="10">
                     </div>
                     <div class="form-group col-md-2">
                         <label for="telefone2">Telefone 2:</label>
-                        <input type="text" class="form-control" placeholder="(__)____-____" name="telefone2" value="{{telefone2}}" maxlength="10">
+                        <input type="text" id="telefone2" class="form-control" placeholder="(__)____-____" name="telefone2" value="{{telefone2}}" maxlength="10">
                     </div>
                 </div>
 
@@ -75,7 +75,7 @@
                     </div>
                     <div class="form-group col-sm-1">
                         <label for="numero">Número:</label>
-                        <input type="number" class="form-control" placeholder="Número" name="numero" value="{{numero}}">
+                        <input type="number" id = "numero" class="form-control" placeholder="Número" name="numero" value="{{numero}}">
                     </div>
                 </div>
 
@@ -98,7 +98,7 @@
                 <hr style="background-color:gray;">
                 <div class="row">
                     <div class="form-group col-md">
-                        <textarea class="form-control" rows="3" name="observacoes" maxlength="255">{{observacoes}}</textarea>
+                        <textarea class="form-control" id="observacoes"rows="3" name="observacoes" maxlength="255">{{observacoes}}</textarea>
                         
                     </div>
                 </div>
@@ -119,7 +119,7 @@
                 <br>
                 <div class="row">
                     <div class="form-group col-md">
-                        <input type="submit" value="Cadastrar" class="btn btn-primary w-60" style="float:right;">
+                        <input type="submit" value="Cadastrar" class="btn btn-primary w-60" style="float:right;" id="cadastrar_usuario">
                     </div>    
                 </div>
             </form>
@@ -142,7 +142,7 @@
             </form>
            
             <div id="exibe_usuarios">
-                <table id = "tabela_usuarios" class="table table-hover" style="width:100%">
+                <!-- <table id = "tabela_usuarios" class="table table-hover" style="width:100%">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
@@ -169,11 +169,6 @@
                                     <td><span><i class="fas fa-trash"></i></span><button class="btn btn-secondary w-100 py-1" data-toggle="modal" data-target="#exampleModal" onclick="editUser({{usuarios.id}})"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
                                         <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
                                     </svg> Editar</button></a></td>
-                                    <!--<td><a href='/termo/{{usuarios.id}}'><span><i class="fas fa-trash"></i></span>
-                                        <button class="btn btn-secondary w-100 py-1"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer" viewBox="0 0 16 16">
-                                            <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"/>
-                                            <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1"/>
-                                          </svg> Imprimir</button></a></td>-->
                                     <td>
                                         <div class="dropdown">
                                             <button class="btn btn-secondary dropdown-toggle w-100 py-1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -200,7 +195,7 @@
                                 </tr>   
                         {%endfor%}
                         </tbody>
-                    </table>
+                    </table> -->
             </div>
             <!-- Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

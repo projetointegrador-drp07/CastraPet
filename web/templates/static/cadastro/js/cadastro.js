@@ -15,16 +15,21 @@ const tabClicked = (tab) => {
     content.classList.add('show');
 }
 
+document.getElementById('botao_pesquisar').addEventListener('click', function(event){
+    //alert("Cheguei na pesquisa")
+    ObterDados('');
+})
+
 function add_animal(){
     const subject = document.querySelector("#subject");
     const codigo = "<div id='adicionados'>"
     +"<div class='row'>"
-    +"<div class='col-md-4'>Nome do animal:<input type='text' class='form-control' placeholder='Nome do animal' name='nome_animal'maxlength='100' required></div>"
-    +"<div class='col-md-2'><label for='especie_animal'>Espécie:<select name='especie_animal' class='form-control' id='especie_animal' style='width:250%'><option value = 's_opcao'></option><option value = 'Canino'>Canino</option><option value = 'Felino'>Felino</option></select></label><br></div>"
+    +"<div class='col-md-4'>Nome do animal:<input type='text' id='nome_animal' class='form-control nome_animal' placeholder='Nome do animal' name='nome_animal'maxlength='100' required></div>"
+    +"<div class='col-md-2'><label for='especie_animal'>Espécie:<select name='especie_animal' class='form-control especie_animal' id='especie_animal' style='width:200%'><option value = 's_opcao'></option><option value = 'Canino'>Canino</option><option value = 'Felino'>Felino</option></select></label><br></div>"
     //+"<div class='row'>"
-    +"<div class='col-md-1'>Idade:<input type='number' class='form-control' placeholder='' name='idade_animal' min='0' max='20'></div>"
-    +"<div class='col-md-2'><label for='sexo_animal'>Sexo:<select name='sexo_animal' class='form-control' id='sexo_animal'style='width:250%'><option value = 's_opcao'>     </option><option value = 'Femea'>Femea</option><option value = 'Macho'>Macho</option></select></label></div>"
-    +"<div class='col-md-2'>Cor:<input type='text' class='form-control' placeholder='cor' name='cor_animal'maxlength='20'></div>"
+    +"<div class='col-md-1'>Idade:<input type='number' id='idade_animal' class='form-control idade_animal' placeholder='' name='idade_animal' min='0' max='20'></div>"
+    +"<div class='col-md-2'><label for='sexo_animal'>Sexo:<select name='sexo_animal' class='form-control sexo_animal' id='sexo_animal'style='width:200%'><option value = 's_opcao'>     </option><option value = 'Femea'>Femea</option><option value = 'Macho'>Macho</option></select></label></div>"
+    +"<div class='col-md-2'>Cor:<input type='text' id='cor_animal' class='form-control cor_animal' placeholder='cor' name='cor_animal'maxlength='20'></div>"
     +"<div class='col-md-1 align-self-center'><button type='button' onclick='remove_animal(this)' class='btn btn-danger btn-sm btn-remove' alt='Excluir Animal'>Excluir</button></div>"
     +"</div><hr style='background-color:gray;'>";
     //+"</div>";
@@ -48,7 +53,8 @@ function add_animal_modal(){
     +"<div class='form-group col-md-1'>"
     +"Idade:<input type='number' class='form-control idade_animal_modal' placeholder='' name='idade_animal_modal' value='' min='0' max='20'></div>"
     +"<div class='form-group col-md-2'>"
-    +"<label for='sexo_animal_modal'>Sexo:<select name='sexo_animal_modal' class='form-control' id='sexo_animal_modal'style='width:160%'><option value = 's_opcao'></option><option value = 'Femea'>Femea</option><option value = 'Macho'>Macho</option></select></label></div>"
+    //+"<label for='sexo_animal_modal'>Sexo:<select name='sexo_animal_modal' class='form-control sexo_animal_modal' id='sexo_animal_modal'style='width:160%;'><option value = '"+ data['animais'][i]['fields']['sexo_animal']+"'>"+ data['animais'][i]['fields']['sexo_animal']+"</option><option value = 'Femea'>Femea</option><option value = 'Macho'>Macho</option></select></label></div>"
+    +"<label for='sexo_animal_modal'>Sexo:<select name='sexo_animal_modal' class='form-control sexo_animal_modal' id='sexo_animal_modal'style='width:160%'><option value = 's_opcao'></option><option value = 'Femea'>Femea</option><option value = 'Macho'>Macho</option></select></label></div>"
     +"<div class='form-group col-md-2'>"
     +"Cor:<input type='text' class='form-control cor_animal_modal' placeholder='cor' name='cor_animal_modal' value=''maxlength='20'></div>"
     +"<div>"
@@ -354,7 +360,7 @@ document.getElementById('updateUser').addEventListener('submit', function(event)
         return cores.push(input.value);
     });
 
-    
+    //console.log(ids, animais, especies, idades, sexos, cores)
     $.ajax({
         url: 'att_usuario',
         type:'POST',
@@ -434,15 +440,112 @@ function apagar_animal_novo_modal(e){
     e.parentNode.parentNode.parentNode.outerHTML = '';
 }
 
-document.addEventListener('DOMContentLoaded', function(){ 
-    //$('#myTable').DataTable();
-    //alert("Carregado")
-    $('#tabela_usuarios').DataTable({
-        language: {
-            url: '/static/dataTables/plug-ins/pt-BR.json',
-        },
-        "bFilter": false,
+// document.addEventListener('DOMContentLoaded', function(){ 
+//     //$('#myTable').DataTable();
+//     //alert("Carregado")
+//     $('#tabela_usuarios').DataTable({
+//         language: {
+//             url: '/static/dataTables/plug-ins/pt-BR.json',
+//         },
+//         "bFilter": false,
         
-    });
+//     });
    
-}, false );
+// }, false );
+
+// document.getElementById('form_cadastrar').addEventListener('submit', function(event){
+//     event.preventDefault();
+       
+//     //capturar dados
+//     var nome = $('input[id="nome"]').val();
+//     var cpf =  $('input[id="cpf"]').val();
+//     var rg =  $('input[id="rg"]').val();
+//     var email =  $('input[id="email"]').val();
+//     var telefone1 =  $('input[id="telefone1"]').val();
+//     var telefone2 =  $('input[id="telefone2"]').val();
+//     var cep =  $('input[id="cep"]').val();
+//     var endereco =  $('input[id="logradouro"]').val();
+//     var numero =  $('input[id="numero"]').val();
+//     var bairro =  $('input[id="bairro"]').val();
+//     var cidade =   $('input[id="cidade"]').val();
+//     var uf =  $('input[id="UF"]').val();
+//     var obs =  document.getElementById('observacoes').value;
+
+//     //console.log(nome, cpf, rg, email, telefone1, telefone2, cep, endereco, numero, bairro, cidade, uf, obs)
+
+//     var animais = [];
+//     var nome_animal = document.querySelectorAll(".nome_animal");
+//     var especies = [];
+//     var especie_animal = document.querySelectorAll(".especie_animal");
+//     var idades = [];
+//     var idade_animal = document.querySelectorAll(".idade_animal");
+//     var sexos = [];
+//     var sexo_animal = document.querySelectorAll(".sexo_animal");
+//     var cores = [];
+//     var cor_animal = document.querySelectorAll(".cor_animal");
+
+
+//     var nomes_animais = [].map.call(nome_animal, function(input){
+//         return animais.push(input.value);
+//     });
+//     var especies_animais = [].map.call(especie_animal, function(input){
+//         return especies.push(input.value);
+//     });
+//     var idades_animais = [].map.call(idade_animal, function(input){
+//         return idades.push(input.value);
+//     });
+//     var sexos_animais = [].map.call(sexo_animal, function(input){
+//         return sexos.push(input.value);
+//     });
+//     var cores_animais = [].map.call(cor_animal, function(input){
+//         return cores.push(input.value);
+//     });
+
+//     console.log(animais, especies, idades, sexos, cores)
+//     //alert("cheguei na requisicao de dados")
+//     csrf_token = document.querySelector('[name=csrfmiddlewaretoken]').value
+//     $.ajax({
+//         url: '',
+//         type:'POST',
+//         headers:{'X-CSRFToken':csrf_token},
+//         data:{
+           
+//             nome: nome,
+//             cpf: cpf,
+//             rg: rg,
+//             email: email,
+//             telefone1: telefone1,
+//             telefone2: telefone2,
+//             cep: cep,
+//             endereco: endereco,
+//             numero: numero,
+//             bairro: bairro,
+//             cidade: cidade,
+//             uf: uf,
+//             observacoes: obs,
+//             nome_animal: animais,
+//             especie_animal: especies,
+//             idade_animal: idades,
+//             sexo_animal, sexos,
+//             cor_animal: cores,
+//             //csrfmiddlewaretoken: csrf_token,
+//         },
+//         dataType: 'json',
+
+
+//     });
+//     //alert('dados salvos com sucesso')
+//     document.getElementById('form_animal').remove();
+//     var novodiv = document.createElement("div");
+//     novodiv.id = "form_animais";
+//     var pesquisa = document.querySelector("#animais");
+//     pesquisa.appendChild(novodiv);
+//     Swal.fire({
+//         icon: "success",
+//         title: "Dados Gravados com sucesso!",
+//         showConfirmButton: false,
+//         timer: 1500
+//       });
+
+
+// })
