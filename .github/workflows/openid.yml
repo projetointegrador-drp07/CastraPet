@@ -43,6 +43,6 @@ jobs:
           terraform plan
 
       - name: Terraform Apply
-        run: 
+        run: |
           cd terraform/iam
           terraform apply -auto-approve
