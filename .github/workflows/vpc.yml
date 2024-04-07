@@ -1,4 +1,4 @@
-name: Deploy EC2 Instance - AWS
+name: Deploy VPC Infraestructure - AWS
 
 on:
   workflow_dispatch:
@@ -6,7 +6,7 @@ on:
   #   branches:
   #     - main
   #   paths:
-  #     - 'terraform/ec2/**'
+  #     - 'terraform/vpc/**'
 
 permissions:
   id-token: write
@@ -46,7 +46,6 @@ jobs:
           terraform plan
 
       - name: Terraform Apply
-        env:
         run: 
           cd terraform/ec2
           terraform apply -auto-approve
