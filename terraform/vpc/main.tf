@@ -40,6 +40,11 @@ resource "aws_route_table" "castrapet-public-rt" {
   }
 }
 
+resource "aws_route_table_association" "castrapet-public-1-association" {
+  subnet_id      = aws_subnet.castrapet-public-1.id
+  route_table_id = aws_route_table.castrapet-public-rt.id
+}
+
 resource "aws_default_security_group" "castrapet-default-sg" {
   vpc_id = aws_vpc.castrapet-vpc.id
 
