@@ -4,22 +4,20 @@ resource "aws_iam_role" "github_actions_role" {
     assume_role_policy = <<EOF
         {
             "Version": "2012-10-17",
-            "Statement": {
-                "Effect": "Allow",
-                "Principal": {
-                    "Service": [
-                        "ec2.amazonaws.com",
-                        "s3.amazonaws.com",
-                        "iam.amazonaws.com"
-                    ]
-                },
-                "Action": "sts:AssumeRoleWithWebIdentity",
-                "Condition": {
-                    "StringEquals": {
-                        "sts:WebIdentityTokenIssuer": "arn:aws:iam::914256152987:oidc-provider/token.actions.githubusercontent.com"
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Principal": {
+                        "Federated": "arn:aws:iam::914256152987:oidc-provider/token.actions.githubusercontent.com"
+                    },
+                    "Action": "sts:AssumeRoleWithWebIdentity",
+                    "Condition": {
+                        "StringLike": {
+                            "token.actions.githubusercontent.com:sub": "repo:projetointegrador-drp07/*"
+                        }
                     }
                 }
-            }
+            ]
         }
     EOF
 }
