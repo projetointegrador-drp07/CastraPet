@@ -42,6 +42,6 @@ jobs:
           terraform plan
 
       - name: Terraform Apply
-        run: 
+        run: |
           cd terraform/ec2
           terraform apply -auto-approve
