@@ -2,11 +2,11 @@ name: Configure IAM credentials -AWS
 
 on:
   workflow_dispatch:
-  # push:
-  #   branches:
-  #     - main
-  #   paths:
-  #     - 'terraform/iam/**'
+  push:
+    branches:
+      - main
+    paths:
+      - 'terraform/iam/**'
 
 permissions:
   id-token: write 
