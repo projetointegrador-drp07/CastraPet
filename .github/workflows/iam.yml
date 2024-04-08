@@ -1,4 +1,4 @@
-name: Configure IAM credentials -AWS
+name: Configure IAM credentials - AWS
 
 on:
   workflow_dispatch:
