@@ -2,11 +2,11 @@ name: Deploy VPC Infraestructure - AWS
 
 on:
   workflow_dispatch:
-  # push:
-  #   branches:
-  #     - main
-  #   paths:
-  #     - 'terraform/vpc/**'
+  push:
+    branches:
+      - main
+    paths:
+      - 'terraform/vpc/**'
 
 permissions:
   id-token: write
@@ -23,7 +23,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v3
         with:
           role-to-assume: arn:aws:iam::914256152987:role/GitHubActionsRole
-          role-session-name: castrapet-deploy-ec2-instance
+          role-session-name: castrapet-deploy-vpc-infraestructure
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
