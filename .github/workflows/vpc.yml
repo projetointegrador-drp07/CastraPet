@@ -22,6 +22,7 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v3
         with:
+          aws-region: us-east-1
           role-to-assume: arn:aws:iam::914256152987:role/GitHubActionsRole
           role-session-name: castrapet-deploy-vpc-infraestructure
 
