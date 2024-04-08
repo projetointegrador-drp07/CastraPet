@@ -2,11 +2,6 @@ name: Deploy EC2 Instance - AWS
 
 on:
   workflow_dispatch:
-  # push:
-  #   branches:
-  #     - main
-  #   paths:
-  #     - 'terraform/ec2/**'
 
 permissions:
   id-token: write

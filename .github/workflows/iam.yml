@@ -24,6 +24,7 @@ jobs:
         with:
           aws-region: us-east-1
           role-to-assume: arn:aws:iam::914256152987:role/GitHubActionsRole
+          role-session-name: castrapet-configure-iam-credentials
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
