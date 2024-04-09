@@ -2,11 +2,217 @@
 {% load static %}
 
 {% block 'head' %}
-    <link rel="stylesheet" href="{% static 'agendamentos/css/agendamentos.css' %}">
+    <link rel="stylesheet" href="{% static 'configuracoes/css/configuracoes.css' %}">
     
 {% endblock %}
 
 {% block 'dashboard' %}
-<h3>configurações</h3>
+<div id="container">
+    <div id="dados_empresa">
+        <form id="empresa">{% csrf_token %}
+            {%if dados_empresa %}
+            {%for empresa in dados_empresa%}
+            Informações da Empresa Licitada:
+            <hr style="margin:2px; background-color:gray;">
+            <div class="row">
+                <div class="form-group col-md">
+                    <label for="nome">Nome da Empresa:</label>
+                    <input type="text" id="nome" class="form-control" placeholder="Nome da Empresa" name="nome" autofocus required maxlength="255" value="{{empresa.nome}}">               
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md">
+                    <label for="endereco">Endereço:</label>
+                    <input type="text" id="endereco" class="form-control" placeholder="Endereço" name="endereco" required maxlength="255" value="{{empresa.endereco}}">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-2">
+                    <label for="telefone1">Telefone:</label>
+                    <input type="tel" id="telefone1" pattern="[0-9]{2}[0-9]{4,5}[0-9]{4}" class="form-control" placeholder="(__)____-____" name="telefone1"  required maxlength="11" value="{{empresa.telefone1}}">
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="telefone2">Telefone 2:</label>
+                    <input type="tel" id="telefone2" pattern="[0-9]{2}[0-9]{4,5}[0-9]{4}" class="form-control" placeholder="(__)____-____" name="telefone2"  maxlength="11" value="{{empresa.telefone2}}">
+                </div>
+                <div class="form-group col-md">
+                    <input type="button" onclick="salvar_empresa()" value="Salvar dados da Empresa" class="btn btn-primary" style="float:right; margin-top:50px" name="cadastrar_valores" id="cadastrar_valores">
+                </div>
+            </div>
+            {%endfor%}
+            {%else%}
+            <hr style="margin:2px; background-color:gray;">
+            <div class="row">
+                <div class="form-group col-md">
+                    <label for="nome">Nome da Empresa:</label>
+                    <input type="text" id="nome" class="form-control" placeholder="Nome da Empresa" name="nome" autofocus required maxlength="255" value="{{empresa.nome}}">  
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md">
+                    <label for="endereco">Endereço:</label>
+                    <input type="text" id="endereco" class="form-control" placeholder="Endereço" name="endereco" required maxlength="255" value="{{empresa.endereco}}">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-2">
+                    <label for="telefone1">Telefone:</label>
+                    <input type="tel" id="telefone1" pattern="[0-9]{2}[0-9]{4,5}[0-9]{4}" class="form-control" placeholder="(__)____-____" name="telefone1"  required maxlength="11" value="{{empresa.telefone1}}">
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="telefone2">Telefone 2:</label>
+                    <input type="tel" id="telefone2" pattern="[0-9]{2}[0-9]{4,5}[0-9]{4}" class="form-control" placeholder="(__)____-____" name="telefone2"  maxlength="11" value="{{empresa.telefone2}}">
+                </div>
+                <div class="form-group col-md">
+                    <input type="button" onclick="salvar_empresa()" value="Salvar dados da Empresa" class="btn btn-primary" style="float:right; margin-top:50px" name="cadastrar_valores" id="cadastrar_valores">
+                </div>
+            </div>
+            {%endif%}
+        </form>
+    </div>
+    <div id="dados_profissionais">
+        <form id="profissionais">{% csrf_token %}
+            Informações dos profissionais veterinários:
+            <hr style="margin:2px; background-color:gray;">
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="medico">Nome:</label>
+                    <input type="text" id="medico" class="form-control" placeholder="Nome do profissional" name="medico" required maxlength="255">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="crmv">CRMV:</label>
+                    <input type="text" id="crmv" class="form-control" placeholder="" name="crmv" required maxlength="10">
+                </div>
+                <div class="form-group col-md">
+                    <label for="crmv-uf">UF:</label>
+                    <select name="crmv-uf" class="form-control" id="crmv-uf" >
+                        <option value ="s_opcao"></option>
+                        <option value ="SP">SP</option>
+                        <option value="AC">AC</option>
+                        <option value="AL">Al</option>
+                        <option value="AP">AP</option>
+                        <option value="AM">AM</option>
+                        <option value="BA">BA</option>
+                        <option value="CE">CE</option>
+                        <option value="DF">DF</option>
+                        <option value="ES">ES</option>
+                        <option value="GO">GO</option>
+                        <option value="MA">MA</option>
+                        <option value="MT">MT</option>
+                        <option value="MS">MS</option>
+                        <option value="MG">MG</option>
+                        <option value="PA">PA</option>
+                        <option value="PB">PB</option>
+                        <option value="PR">PR</option>
+                        <option value="PE">PE</option>
+                        <option value="PI">PI</option>
+                        <option value="RJ">RJ</option>
+                        <option value="RN">RN</option>
+                        <option value="RS">RS</option>
+                        <option value="RO">RO</option>
+                        <option value="RR">RR</option>
+                        <option value="SC">SC</option>
+                        <option value="SE">SE</option>
+                        <option value="TO">TO</option>
+                    </select>
+                </div>
+                <div class="form-group col-md">
+                    <input type="button" onclick="add_medico()"value="Cadastrar" class="btn btn-primary w-60" style="float:right; margin-top:35px;" id="cadastrar_profissional">
+                </div>
+            </div>
+        </form>
+        <div id="exibe_profissionais">
+            <div id="lista_profissionais">
+                <hr style="margin:2px; background-color:gray;">
+                <table id = "tabela_profissionais" class="table table-hover" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nome</th>
+                            <th scope="col">CRMV</th>
+                            <th scope="col">UF</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dados_usuarios">
+                        {%for medicos in dados_profissionais%}
+                                    
+                            <tr id="user-{{medicos.id}}">
+                                <td class="userData" id="user-id-{{medicos.id}}" name="user-id">{{medicos.id}} </td>
+                                <td class="userData" id="user-cpf-{{medicos.id}}" name = "user-nome">{{medicos.profissional}}</td>
+                                <td class="userData" id="user-cpf-{{medicos.id}}" name = "user-crmv">{{medicos.crmv}}</td>
+                                <td class="userData" id="user-cpf-{{medicos.id}}" name = "user-uf">{{medicos.uf}}</td>
+                                <td class="userData"><button type='button' onclick='remove_medico({{medicos.id}})' class='btn btn-danger btn-sm btn-remove' alt='Excluir Profissional'>Excluir</button></td>
+                            </tr>
+                        {% empty%}
+                            <tr>
+                                <td>Nenhum Profissional encontrado!.</td>
+                            </tr>   
+                        {%endfor%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div id="configuracoes">
 
+        Informações de valores das castrações:
+        <hr style="margin:2px; background-color:gray;">
+        <form id="valores">{% csrf_token %}
+           
+            <div class="row">
+                <div class="input-group col-md mb-3">
+                    <label for="referencia">Valor de Referencia Mensal Total:</label>
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">R$</span>
+                    </div>
+                    <input type="number" id="referencia" class="form-control" placeholder="" name="referencia"  required maxlength="10" value="{{referencia.referencia}}">
+                </div>
+           
+            {%if canino_femea %}
+                <div class="input-group col-md mb-3">
+                    <label for="canino_femea">Valor Castração para Canino/Fêmea:</label>
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">R$</span>
+                    </div>
+                    <input type="number" min="1" id="canino_femea" class="form-control" placeholder="" name="canino_femea"  required maxlength="10" value="{{canino_femea.canino_femea}}">
+                </div>
+            {%endif%}
+            {%if canino_macho%}
+                <div class="input-group col-md mb-3">
+                    <label for="canino_macho">Valor Castração para Canino/Macho:</label>
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">R$</span>
+                    </div>
+                    <input type="number" min="1" id="canino_macho" class="form-control" placeholder="" name="canino_macho"  required maxlength="10" value="{{canino_macho.canino_macho}}">
+                </div>
+            {%endif%}
+            {%if felino_femea %}
+                <div class="input-group col-md mb-3">
+                    <label for="felino_femea">Valor Castração para Felino/Fêmea:</label>
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">R$</span>
+                    </div>
+                    <input type="number" min="1" id="felino_femea" class="form-control" placeholder="" name="felino_femea"  required maxlength="10" value="{{felino_femea.felino_femea}}">
+                </div>
+            {%endif%}
+            {%if felino_macho%}
+                <div class="input-group col-md mb-3">
+                    <label for="felino_macho">Valor Castração para Felino/Macho:</label>
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">R$</span>
+                    </div>
+                    <input type="number" min="1" id="felino_macho" class="form-control" placeholder="" name="felino_macho"  required maxlength="10" value="{{felino_macho.felino_macho}}">
+                </div>
+            {%endif%}
+                <div class="form-group col-md">
+                    <input type="button" onclick="definir_valores()"value="Salvar Valores" class="btn btn-primary" style="float:right; margin-top:35px;" id="cadastrar_valores">
+                </div>
+            </div>
+        </form>
+        
+    </div>
+
+</div>
+<script src="{% static 'configuracoes/js/configuracoes.js' %}"></script>
+<script src="{% static 'sweetAlert/js/sweetalert2.all.min.js' %}"></script>
 {% endblock %}

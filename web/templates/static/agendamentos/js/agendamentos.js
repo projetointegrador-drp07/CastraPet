@@ -299,7 +299,7 @@ function agendar(){
 document.addEventListener('DOMContentLoaded', function(){ 
     //$('#myTable').DataTable();
     //alert("Carregado")
-    
+    busca_valores();
     $('#tabela_usuarios').DataTable({
         language: {
             url: '/static/dataTables/plug-ins/pt-BR.json',
@@ -308,4 +308,46 @@ document.addEventListener('DOMContentLoaded', function(){
         
     });
 
+
 }, false );
+
+
+function busca_valores(){
+    $.ajax({
+        type:'GET',
+        url:'/cadastro/obter_valores',
+        //headers:{'X-CSRFToken':csrf_token},
+        data:{
+  
+        },
+        success: (data) => {
+            atualiza_percent(data);
+        }
+        
+    });
+}
+
+function atualiza_percent(data){
+   
+    document.getElementById("percent").remove();
+    var novodiv = document.createElement("div");
+    novodiv.id = "percent";
+    var pesquisa = document.querySelector("#total");
+    pesquisa.appendChild(novodiv);
+    
+
+    referencia = data['referencia']
+    total = data['valor_total']
+    percentual = ((total / referencia) * 100).toFixed(2);
+    if (percentual <50){
+        document.getElementById("total").style.backgroundColor = "#008F7A";
+    }else if (percentual >= 50 && percentual < 75){
+        document.getElementById("total").style.backgroundColor = "#FFC75F";
+    }else if(percentual >= 75){
+        document.getElementById("total").style.backgroundColor = "red";
+    };
+    console.log(referencia, total, percentual)
+    percent = document.querySelector("#percent");
+    percent.insertAdjacentHTML("afterbegin",percentual,);
+    
+}

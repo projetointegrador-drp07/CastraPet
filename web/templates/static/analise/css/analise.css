@@ -1,0 +1,34 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    
+}
+
+.row{
+    margin-left: 10px;
+}
+
+.col-sm-1 {
+    max-width: 4%;
+    margin-top: -1px;
+}
+
+.col-sm-2 {
+    margin-left: 10px;
+
+}
+
+.form-check-label {
+    margin-top: 5px;
+}
+
+.form-check-input {
+    margin-top: 10px;
+}

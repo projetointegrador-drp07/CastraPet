@@ -2,9 +2,13 @@ from django.shortcuts import render
 from .models import Usuario, Animais
 from django.shortcuts import redirect
 from django.urls import reverse
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse
 import json
 from django.core import serializers
+from django.db.models.aggregates import Count
+from datetime import datetime, date
+from configuracoes.models import Valores
+
 
 def cadastro(request):
     if request.method == "GET":
@@ -226,3 +230,80 @@ def apaga_animal(request, id):
     except:
         return redirect(reverse('cadastro'))
  
+def pre(request, id):
+    usuario = Usuario.objects.get(id=id)
+    dados = {
+       'id':usuario.id,
+       'nome': usuario.nome,
+       'cpf' : usuario.cpf,
+       'rg': usuario.rg,
+       'endereco' : usuario.endereco,
+       'numero': usuario.numero,
+       'cidade' : usuario.cidade,
+       'telefone1' : usuario.telefone1,
+       'telefone2' : usuario.telefone2,
+       'email': usuario.email,
+       'animais': Animais.objects.filter(usuario=usuario.id)
+    }
+    return render(request,'pre.html', dados)
+
+def pos(request, id):
+    usuario = Usuario.objects.get(id=id)
+    dados = {
+       'id':usuario.id,
+       'nome': usuario.nome,
+       'cpf' : usuario.cpf,
+       'rg': usuario.rg,
+       'endereco' : usuario.endereco,
+       'numero': usuario.numero,
+       'cidade' : usuario.cidade,
+       'telefone1' : usuario.telefone1,
+       'telefone2' : usuario.telefone2,
+       'email': usuario.email,
+       'animais': Animais.objects.filter(usuario=usuario.id)
+    }
+    return render(request,'pos.html', dados)
+
+def obter_valores(request):
+
+    data= date.today()
+    mes = data.month
+    ano = data.year
+
+    canino_femea = Animais.objects.filter(usuario__data_cadastro__month=mes, usuario__data_cadastro__year=ano, especie_animal='Canino', sexo_animal='Femea').aggregate(total_animais=Count('id'))
+    canino_femea = canino_femea['total_animais']
+    canino_macho = Animais.objects.filter(usuario__data_cadastro__month=mes, usuario__data_cadastro__year=ano, especie_animal='Canino', sexo_animal='Macho').aggregate(total_animais=Count('id'))
+    canino_macho = canino_macho['total_animais']
+    felino_femea = Animais.objects.filter(usuario__data_cadastro__month=mes, usuario__data_cadastro__year=ano, especie_animal='Felino', sexo_animal='Femea').aggregate(total_animais=Count('id'))
+    felino_femea = felino_femea['total_animais']
+    felino_macho = Animais.objects.filter(usuario__data_cadastro__month=mes, usuario__data_cadastro__year=ano, especie_animal='Felino', sexo_animal='Macho').aggregate(total_animais=Count('id'))
+    felino_macho = felino_macho['total_animais']
+
+    if Valores.objects.get(id=1):
+        valores = Valores.objects.get(id=1)
+        valor_referencia = valores.referencia
+        valor_canino_femea = valores.canino_femea
+        valor_canino_macho = valores.canino_macho
+        valor_felino_femea = valores.felino_femea
+        valor_felino_macho = valores.felino_macho
+    else:
+        valor_referencia = 0
+        valor_canino_femea = 0
+        valor_canino_macho = 0
+        valor_felino_femea = 0
+        valor_felino_macho = 0
+    
+    valor_canino_femea = valor_canino_femea * canino_femea
+    valor_canino_macho = valor_canino_macho * canino_macho
+    valor_felino_femea = valor_felino_femea * felino_femea
+    valor_felino_macho = valor_felino_macho * felino_macho
+    total = valor_canino_femea+valor_canino_macho+valor_felino_femea+valor_felino_macho
+    
+    if total > valor_referencia:
+        print("ultrapassou o valor de referencia")
+
+    print('Valores: Qtde/Canino/Femea: {}, Qtde/Canino/Macho: {}, Qtde/Felino/Femea: {}, Qtde/Felino/Macho: {}'.format(canino_femea, canino_macho, felino_femea, felino_macho))
+    print('valor total: R$/Canino/Femea: {}, R$/Canino/Macho: {}, R$/Felino/Femea: {}, R$/Felino/Macho: {}'.format(valor_canino_femea, valor_canino_macho,valor_felino_femea,valor_felino_macho))
+
+    context = {'valor_total':total, 'referencia':valor_referencia}
+    return JsonResponse(context)

@@ -8,6 +8,7 @@
 
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}" />
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{% static 'base/css/base.css' %}" />
     {% block 'head' %}{% endblock %}
 
     <title>{% block 'title' %}{% endblock %}</title>
@@ -29,10 +30,16 @@
               <a class="nav-link" href="{% url 'agendamentos' %}"><strong>Agendamentos</strong></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="#"><strong>Análise</strong></a>
+                <a class="nav-link" href="{% url 'analise' %}"><strong>Análise</strong></a>
             </li>
           </ul>
           <form class="d-flex">
+            <div id ="valores" style="padding:25px">
+              % do Mês:
+            </div>
+            <div id="total">
+              <div id="percent"></div>
+            </div>
             <a class="nav-link" href="{% url 'configuracoes' %}">
             <button class="btn" type="button"><i class="bi bi-gear"></i><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
               <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0"/>

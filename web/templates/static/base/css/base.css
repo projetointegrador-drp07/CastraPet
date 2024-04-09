@@ -1,0 +1,18 @@
+#total{
+    width: 75px;
+    height: 70px; 
+    background-color: #008F7A; 
+    border-radius: 10px;
+    text-align: center;
+    font-size: 25px;
+    margin:0 auto;
+    padding:15px;
+    padding-left: 0px;
+    font-weight: bold;
+    color:white;
+    box-shadow: 10px 5px 5px grey;
+}
+
+#percent{
+    margin-left:5px;
+}

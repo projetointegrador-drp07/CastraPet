@@ -5,8 +5,8 @@ class Usuario(models.Model):
     cpf = models.CharField(max_length=11)
     rg = models.CharField(max_length=9)
     email = models.CharField(max_length=100)
-    telefone1 = models.CharField(max_length=10)
-    telefone2 = models.CharField(max_length=10)
+    telefone1 = models.CharField(max_length=11)
+    telefone2 = models.CharField(max_length=11)
     cep = models.CharField(max_length=8)
     endereco = models.CharField(max_length=255)
     numero = models.CharField(max_length=5)
@@ -14,6 +14,7 @@ class Usuario(models.Model):
     cidade = models.CharField(max_length=50)
     uf = models.CharField(max_length=2)
     obs = models.CharField(max_length=255)
+    data_cadastro = models.DateField(auto_now_add=True)
 
     def __str__(self) -> str:
         return self.nome

@@ -1,0 +1,79 @@
+
+{% load static %}
+
+{% block 'head' %}
+<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}" />
+<link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+{% endblock %}
+
+{% block 'dashboard' %}
+<div id="container">
+    <h1><center>CIRURGIA DE CASTRAÇÃO</center></h1>
+    <br>
+    Tutor : {{id}}, {{nome}}<br>
+    Endereço: {{endereco}}, {{numero}}<br>
+    Cidade: {{cidade}}<br>
+    Telefone: {{telefone1}}<br>
+    Telefone: {{telefone2}}<br>
+    E-mail: {{email}}<br>
+    CPF: {{cpf}}, RG: {{rg}} <br>
+  
+    <br>
+    <h3><center>CUIDADOS NO PÓS-OPERATÓRIO </center></h3>
+    <br>
+    <br>    
+    •Ao receber seu animal, ele ainda estará sob o efeito do anestésico, poderá não reconhecer o dono, andar cambaleante, latir diferente do habitual, evacuar e urinar sem controle e vomitar;<br>     
+    •Alguns animais demoram mais para acordar, por apresentar características próprias de comportamento, portanto, sua recuperação poderá ser diferenciada;<br>     
+    •Nas primeiras 24 horas o animal deverá descansar em local tranquilo, limpo e com pouca iluminação para permitir uma boa recuperação;<br>     
+    •Aquecer o animal com panos ou cobertores, pois ele sentirá frio;<br>     
+    •A primeira alimentação somente poderá ser oferecida após o animal estar totalmente acordado;<br>
+    •Após a cirurgia, o animal receberá antibiótico, anti-inflamatório e analgésico. Os cuidados posteriores serão de responsabilidade do proprietário; <br>
+    •O animal deverá usar protetor como o colar elisabetano ou a “roupinha cirúrgica” desde o momento que acordar da anestesia até a retirada dos pontos;<br>     
+    O proprietário receberá no dia da castração uma receita médica com a indicação do uso de medicamentos, cuidados específicos e contatos em caso de dúvidas e/ou emergências.  <br>
+    <br>
+    <br>
+    DADOS DOS ANIMAIS:
+    <br>
+    <table class="table table-hover">
+        <tr>
+            <td scope="col">Nome</td>
+            <td scope="col">Espécie</td>
+            <td scope="col">Idade</td>
+            <td scope="col">Sexo</td>
+            <td scope="col">Cor</td>
+        </tr>
+        <tbody>
+            {% for list_animais in animais %}
+            
+                    <tr>
+                        <td>{{list_animais.nome_animal}} </td>
+                        <td>{{list_animais.especie_animal}}</td>
+                        <td>{{list_animais.idade_animal}}</td>
+                        <td>{{list_animais.sexo_animal}}</td>
+                        <td>{{list_animais.cor_animal}}</td>
+                    </tr>
+                
+            {%endfor%}
+        </tbody>
+    </table>
+    <br>
+    <br>
+    <center>"Parabéns pela iniciativa. Tire o dia para ficar com seu animal, ele merece sua atenção e carinho." </center>
+    <br>
+    <br>
+    Declaro que recebi as orientações necessárias para o pré e pós-operatório da cirurgia de castração.
+    <br>
+    <br>
+    Garça,<script>
+        date = new Date().toLocaleDateString();
+        document.write(date);
+    </script><br><br>
+
+   <center>{{nome}}</center>
+    
+    <br> <br>
+   
+
+</div>
+
+{% endblock %}
