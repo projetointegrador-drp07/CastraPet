@@ -270,34 +270,46 @@ def obter_valores(request):
     mes = data.month
     ano = data.year
 
-    canino_femea = Animais.objects.filter(usuario__data_cadastro__month=mes, usuario__data_cadastro__year=ano, especie_animal='Canino', sexo_animal='Femea').aggregate(total_animais=Count('id'))
-    canino_femea = canino_femea['total_animais']
-    canino_macho = Animais.objects.filter(usuario__data_cadastro__month=mes, usuario__data_cadastro__year=ano, especie_animal='Canino', sexo_animal='Macho').aggregate(total_animais=Count('id'))
-    canino_macho = canino_macho['total_animais']
-    felino_femea = Animais.objects.filter(usuario__data_cadastro__month=mes, usuario__data_cadastro__year=ano, especie_animal='Felino', sexo_animal='Femea').aggregate(total_animais=Count('id'))
-    felino_femea = felino_femea['total_animais']
-    felino_macho = Animais.objects.filter(usuario__data_cadastro__month=mes, usuario__data_cadastro__year=ano, especie_animal='Felino', sexo_animal='Macho').aggregate(total_animais=Count('id'))
-    felino_macho = felino_macho['total_animais']
-
-    if Valores.objects.get(id=1):
-        valores = Valores.objects.get(id=1)
-        valor_referencia = valores.referencia
-        valor_canino_femea = valores.canino_femea
-        valor_canino_macho = valores.canino_macho
-        valor_felino_femea = valores.felino_femea
-        valor_felino_macho = valores.felino_macho
-    else:
-        valor_referencia = 0
+    #canino_femea = Animais.objects.filter(usuario__data_cadastro__month=mes, usuario__data_cadastro__year=ano, especie_animal='Canino', sexo_animal='Femea').aggregate(total_animais=Count('id'))
+    #canino_femea = canino_femea['total_animais']
+    canino_femea = Animais.objects.filter(data_cad_anim__year=ano, data_cad_anim__month=mes, especie_animal='Canino', sexo_animal='Femea').count()
+    #canino_macho = Animais.objects.filter(usuario__data_cadastro__month=mes, usuario__data_cadastro__year=ano, especie_animal='Canino', sexo_animal='Macho').aggregate(total_animais=Count('id'))
+    #canino_macho = canino_macho['total_animais']
+    canino_macho = Animais.objects.filter(data_cad_anim__year=ano, data_cad_anim__month=mes, especie_animal='Canino', sexo_animal='Macho').count()
+    #felino_femea = Animais.objects.filter(usuario__data_cadastro__month=mes, usuario__data_cadastro__year=ano, especie_animal='Felino', sexo_animal='Femea').aggregate(total_animais=Count('id'))
+    #felino_femea = felino_femea['total_animais']
+    felino_femea = Animais.objects.filter(data_cad_anim__year=ano, data_cad_anim__month=mes, especie_animal='Felino', sexo_animal='Femea').count()
+    #felino_macho = Animais.objects.filter(usuario__data_cadastro__month=mes, usuario__data_cadastro__year=ano, especie_animal='Felino', sexo_animal='Macho').aggregate(total_animais=Count('id'))
+    #felino_macho = felino_macho['total_animais']
+    felino_macho = Animais.objects.filter(data_cad_anim__year=ano, data_cad_anim__month=mes, especie_animal='Felino', sexo_animal='Macho').count()
+    
+    try:
+        if Valores.objects.get(id=1):
+            valores = Valores.objects.get(id=1)
+            valor_referencia = valores.referencia
+            valor_canino_femea = valores.canino_femea
+            valor_canino_macho = valores.canino_macho
+            valor_felino_femea = valores.felino_femea
+            valor_felino_macho = valores.felino_macho
+        else:
+            valor_referencia = 0
+            valor_canino_femea = 0
+            valor_canino_macho = 0
+            valor_felino_femea = 0
+            valor_felino_macho = 0
+        
+        valor_canino_femea = valor_canino_femea * canino_femea
+        valor_canino_macho = valor_canino_macho * canino_macho
+        valor_felino_femea = valor_felino_femea * felino_femea
+        valor_felino_macho = valor_felino_macho * felino_macho
+        total = valor_canino_femea+valor_canino_macho+valor_felino_femea+valor_felino_macho
+    except:
         valor_canino_femea = 0
         valor_canino_macho = 0
         valor_felino_femea = 0
         valor_felino_macho = 0
-    
-    valor_canino_femea = valor_canino_femea * canino_femea
-    valor_canino_macho = valor_canino_macho * canino_macho
-    valor_felino_femea = valor_felino_femea * felino_femea
-    valor_felino_macho = valor_felino_macho * felino_macho
-    total = valor_canino_femea+valor_canino_macho+valor_felino_femea+valor_felino_macho
+        total = 0
+        valor_referencia = 0
     
     if total > valor_referencia:
         print("ultrapassou o valor de referencia")

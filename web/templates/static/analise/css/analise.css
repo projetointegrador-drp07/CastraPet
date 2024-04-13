@@ -32,3 +32,82 @@ body{
 .form-check-input {
     margin-top: 10px;
 }
+
+#exibicao{
+    display: flex;
+    justify-content: center;
+    position:relative;
+}
+
+#total_cadastros_mes{
+    background-color:#2C73D2;
+    height: 200px;
+    display: inline-block;
+    width: 300px;
+    margin: 0 auto;
+    border-radius: 10px;
+    box-shadow: 10px 5px 5px grey;
+}
+
+#dados_total_cadastros_mes{
+    justify-content: center;
+    text-align: center; 
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%); 
+    font-size:25px; 
+    font-weight:700;
+}
+
+#valor_cadastros_mes{
+    background-color:#008F7A;
+    display: inline-block;
+    height: 200px;
+    width: 300px;
+    margin: 0 auto; 
+    border-radius: 10px; 
+    box-shadow: 10px 5px 5px grey;
+}
+
+#dados_valor_cadastros_mes{
+    justify-content: center;
+    text-align: center; 
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%); 
+    font-size:25px;
+    font-weight:700;
+}
+
+#percentual_cadastros_mes{
+    background-color:#FFC75F;
+    display: inline-block;
+    height: 200px;
+    width: 300px;
+    margin: 0 auto; 
+    border-radius: 10px; 
+    box-shadow: 10px 5px 5px grey;    
+}
+
+#dados_percentual_cadastros_mes{
+    justify-content: center;
+    text-align: center; 
+    position: relative;
+    top: 50%;transform: translateY(-50%); 
+    font-size:25px;
+    font-weight:700;
+}
+
+#graficos_animais{
+    position: absolute;
+    top: 250px; 
+    left:50px;
+    width: 600px;
+}
+
+#grafico_bairros{
+    position: absolute;
+    top: 250px; 
+    left:750px;
+    width: 600px;
+}

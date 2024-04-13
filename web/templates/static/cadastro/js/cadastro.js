@@ -585,7 +585,12 @@ function atualiza_percent(data){
 
     referencia = data['referencia']
     total = data['valor_total']
-    percentual = ((total / referencia) * 100).toFixed(2);
+    if (referencia !== 0 && total !==0){
+        percentual = ((total / referencia) * 100).toFixed(2);
+    }else{
+        percentual = 0
+    }
+    
     if (percentual <50){
         document.getElementById("total").style.backgroundColor = "#008F7A";
     }else if (percentual >= 50 && percentual < 75){

@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Usuario(models.Model):
     nome = models.CharField(max_length=255)
     cpf = models.CharField(max_length=11)
@@ -27,4 +28,4 @@ class Animais(models.Model):
     sexo_animal = models.CharField(max_length=10)
     cor_animal = models.CharField(max_length=20)
     castr = models.IntegerField(default=0)
-    
+    data_cad_anim = models.DateField(auto_now_add=True)
