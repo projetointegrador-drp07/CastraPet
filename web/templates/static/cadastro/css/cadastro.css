@@ -82,5 +82,14 @@ body{
 }
 
 th, td {
+    word-wrap:break-word;
+    max-width: 300px;
+}
+
+.bt-editar{
+    white-space: nowrap;
+}
+
+.bt-apagar{
     white-space: nowrap;
 }

@@ -1,9 +1,11 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from .models import Empresa, Profissionais, Valores
 from django.http import JsonResponse
 import json
 from django.core import serializers
 
+@login_required
 def configuracoes(request):
     if request.method =="GET":
         valores = Valores.objects.all()
@@ -27,7 +29,7 @@ def configuracoes(request):
         
         return render(request, 'configuracoes.html', dados_empresa)
     
-
+@login_required
 def config_empresa(request):
     if request.method =="POST":
         empresa = request.POST.get('nome')
@@ -57,6 +59,7 @@ def config_empresa(request):
         dados_empresa =  {'dados_empresa':Empresa.objects.all(), 'dados_profissionais':Profissionais.objects.all(), 'valores':Valores.objects.all()}
         return render(request, 'configuracoes.html', dados_empresa)
 
+@login_required
 def salva_profissionais(request):
     if request.method=="POST":
         medico = request.POST.get('profissional')
@@ -72,6 +75,7 @@ def salva_profissionais(request):
         dados_empresa =  {'dados_empresa':Empresa.objects.all(), 'dados_profissionais':Profissionais.objects.all(), 'valores':Valores.objects.all()}
         return render(request, 'configuracoes.html', dados_empresa)
 
+@login_required
 def exibe_profissionais(request):
     if request.method=="POST":
         dados_profissionais = Profissionais.objects.all()
@@ -81,6 +85,7 @@ def exibe_profissionais(request):
         print(context)
         return JsonResponse(context)
 
+@login_required
 def exclui_profissionais(request, id):
     if request.method=="POST":
             try:
@@ -101,7 +106,7 @@ def exclui_profissionais(request, id):
                 print(context)
                 return JsonResponse(context)
             
-
+@login_required
 def att_valores(request):
     if request.method=="POST":
         referencia = request.POST.get('referencia')

@@ -14,7 +14,7 @@
         <button class="tab-btn active" content-id="home">
             Agendar 
         </button>
-        <button class="tab-btn" content-id="pesquisa">
+        <button class="tab-btn" content-id="pesquisa"  id="botao_pesquisar">
             Pesquisar 
         </button>
     </div>
@@ -85,7 +85,7 @@
                                                                     <td class="userData" id="user-endereco-{{usuarios.id}}" name = "user-endereco">{{usuarios.endereco}}</td>
                                                                     <td class="userData" id="user-telefone1-{{usuarios.id}}"name = "user-telefone1">{{usuarios.telefone1}}</td>
                                                                     <td class="userData" id="user-telefone2-{{usuarios.id}}" name="user-telefone2">{{usuarios.telefone2}}</td>
-                                                                    <td><span><i class="fas fa-trash"></i></span><button class="btn btn-secondary w-100 py-1" data-dismiss="modal" onclick="SelectUser({{usuarios.id}},'{{usuarios.nome}}')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-circle" viewBox="0 0 16 16">
+                                                                    <td><span><i class="fas fa-trash"></i></span><button class="btn btn-secondary w-100 py-1 bt-seleciona" data-dismiss="modal" onclick="SelectUser({{usuarios.id}},'{{usuarios.nome}}')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-circle" viewBox="0 0 16 16">
                                                                         <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0"/>
                                                                         <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z"/>
                                                                     </svg> Selecionar</button></a></td>
@@ -142,7 +142,24 @@
             </form>
         </div>
         <div class="content" id="pesquisa">
-            <h3>pesquisa agendamentos</h3>
+            <form action="{% url 'exibe_agendamentos' %}" method="POST" id="pesquisa_agendamento">{% csrf_token %}
+                <div class="row">
+                    <div class="col-md-10">
+                        <label for="pesquisa_nome">Nome:</label>
+                        <input type="text" id="input_pesquisa_nome" class="form-control p-1" placeholder="Nome ou parte dele" name="input_pesquisa_nome" value="{{request.GET.pesquisa_nome}}" autocomplete="off">
+                        <br>
+                    </div>
+                    <div class="col-md">
+                        
+                        <label for="pesquisar">
+                        <input type="submit" name="pesquisar" value="Pesquisar" class="btn btn-secondary btn-pesqusuario"></label>
+                        
+                    </div>
+                </div>     
+            </form>
+           
+            <div id="exibe_agendamentos">
+            </div>
         </div>
     </div>
 </div>

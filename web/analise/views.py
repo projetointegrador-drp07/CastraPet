@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.db.models.aggregates import Count
 from cadastro.models import Usuario, Animais
@@ -7,6 +8,7 @@ from configuracoes.models import Valores
 from django.core import serializers
 import json
 
+@login_required
 def analise(request):
     dados_anos = Usuario.objects.values('data_cadastro__year').annotate(total_por_ano=Count('data_cadastro__year'))
     anos = []
@@ -39,7 +41,8 @@ def analise(request):
             }
         print(dados)
         return render(request, 'analise.html', dados)
-    
+
+@login_required    
 def seleciona_ano_mes(request):
     ano_atual= date.today()
     ano_atual = ano_atual.year
@@ -53,6 +56,7 @@ def seleciona_ano_mes(request):
     dados={'meses':meses}
     return JsonResponse(dados)
 
+@login_required
 def exibe_dados(request):
     ano_atual = date.today()
     mes_atual = ano_atual.month

@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from .models import Usuario, Animais
 from django.shortcuts import redirect
@@ -9,7 +10,7 @@ from django.db.models.aggregates import Count
 from datetime import datetime, date
 from configuracoes.models import Valores
 
-
+@login_required
 def cadastro(request):
     if request.method == "GET":
         #pesquisa todos os usuarios cadastrados
@@ -80,7 +81,8 @@ def cadastro(request):
         lista_usuarios =  {'lista_usuarios':Usuario.objects.all()}
         #return render(request,'termo.html', dados)
         return render(request, 'cadastro.html', lista_usuarios)
-    
+
+@login_required    
 def apagar_usuario(request, id):
     try:
         usuario = Usuario.objects.get(id=id)
@@ -90,6 +92,7 @@ def apagar_usuario(request, id):
     except:
         return redirect(reverse('cadastro'))
 
+@login_required
 def termo(request, id):
     usuario = Usuario.objects.get(id=id)
     dados = {
@@ -107,6 +110,7 @@ def termo(request, id):
         }
     return render(request,'termo.html', dados)
 
+@login_required
 def exibe_dados(request):
     if request.method == "POST":
         dados = request.POST.get('pesquisa_nome')
@@ -125,7 +129,8 @@ def exibe_dados(request):
             context = {'dados':data1}
             #print(context)
             return JsonResponse(context)
-        
+
+@login_required       
 def edita_dados(request):
     if request.method == "POST":
         id_user = request.POST.get('id')
@@ -140,7 +145,8 @@ def edita_dados(request):
             context = {'dados':data1, 'animais': animais1}
             #print(context)
             return JsonResponse(context)
-    
+
+@login_required   
 def att_usuario(request):
     if request.method == "POST":
         id1 = request.POST.get('id')
@@ -220,7 +226,7 @@ def att_usuario(request):
         #print(context)
         return JsonResponse(context)    
 
-
+@login_required
 def apaga_animal(request, id):
     try:
         animal = Animais.objects.get(id=id)
@@ -229,7 +235,8 @@ def apaga_animal(request, id):
         return redirect(reverse('cadastro'))
     except:
         return redirect(reverse('cadastro'))
- 
+
+@login_required 
 def pre(request, id):
     usuario = Usuario.objects.get(id=id)
     dados = {
@@ -247,6 +254,7 @@ def pre(request, id):
     }
     return render(request,'pre.html', dados)
 
+@login_required
 def pos(request, id):
     usuario = Usuario.objects.get(id=id)
     dados = {
@@ -264,6 +272,7 @@ def pos(request, id):
     }
     return render(request,'pos.html', dados)
 
+@login_required
 def obter_valores(request):
 
     data= date.today()

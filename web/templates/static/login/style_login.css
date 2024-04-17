@@ -1,0 +1,24 @@
+body{
+	background-image: linear-gradient( to right, rgb(6, 6, 229) 10%, black);
+}
+
+.form-container {
+	max-width:370px;
+	padding:1rem;
+}
+
+
+table {
+    border-collapse: separate;
+	border-spacing: 0;
+	background-color: #a4c3d9;
+	box-shadow: 5px 5px 5px grey;
+}
+
+table, td {
+    border: 1px solid black;
+	border-color: #a4c3d9;
+    border-radius: 10px;
+   	-moz-border-radius: 5px;
+    padding: 5px;
+}

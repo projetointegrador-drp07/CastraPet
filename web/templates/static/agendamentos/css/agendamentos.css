@@ -62,5 +62,11 @@ body{
 }
 
 th, td {
+    max-width: 280px;
+    word-wrap:break-word;
+    /**white-space: nowrap;**/
+}
+
+.bt-seleciona{
     white-space: nowrap;
-  }
+}

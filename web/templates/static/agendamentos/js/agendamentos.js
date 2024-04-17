@@ -95,7 +95,7 @@ function displayData(data) {
                                     +'<td class="userData" id="user-endereco-' + data['dados'][i]['id'] + '"name="user-endereco">' + data['dados'][i]['fields']['endereco'] + '</td>'
                                     +'<td class="userData" id="user-telefone1-' + data['dados'][i]['id'] + '"name="user-telefone1">' + data['dados'][i]['fields']['telefone1'] + '</td>'
                                     +'<td class="userData" id="user-telefone2-' + data['dados'][i]['id'] + '"name="user-telefone2">' + data['dados'][i]['fields']['telefone2'] + '</td>'
-                                    +'<td><span><i class="fas fa-trash"></i></span><button class="btn btn-secondary w-100 py-1" data-dismiss="modal" onclick="SelectUser('+ data["dados"][i]["id"] + ',\''+nome+'\')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-circle" viewBox="0 0 16 16">'
+                                    +'<td><span><i class="fas fa-trash"></i></span><button class="btn btn-secondary w-100 py-1 bt-seleciona" data-dismiss="modal" onclick="SelectUser('+ data["dados"][i]["id"] + ',\''+nome+'\')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-circle" viewBox="0 0 16 16">'
                                     +'<path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0"/>'
                                     +'<path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z"/>'
                                     +'</svg> Selecionar</button></a></td>'
@@ -106,6 +106,7 @@ function displayData(data) {
             url: '/static/dataTables/plug-ins/pt-BR.json',
             
         },
+        'columnDefs': [{'width': '20%', 'targets': [2]}],
         "bFilter": false,
     });
     
@@ -305,7 +306,7 @@ document.addEventListener('DOMContentLoaded', function(){
             url: '/static/dataTables/plug-ins/pt-BR.json',
         },
         "bFilter": false,
-        
+        'columnDefs': [{'width': '20%', 'targets': [2]}],
     });
 
 
@@ -354,4 +355,56 @@ function atualiza_percent(data){
     percent = document.querySelector("#percent");
     percent.insertAdjacentHTML("afterbegin",percentual,);
     
+}document.getElementById('botao_pesquisar').addEventListener('click', function(event){
+    // alert("Cheguei na pesquisa")
+    // ObterDados('');
+    ObterAgendamentos();
+})
+
+document.getElementById('pesquisa_agendamento').addEventListener('submit', function(event){
+    event.preventDefault();
+    dados = document.getElementById('input_pesquisa_nome').value;
+    console.log(dados)
+    ObterAgendamentos(dados);
+})
+
+
+function ObterAgendamentos(dados) {
+    csrf_token = document.querySelector('[name=csrfmiddlewaretoken]').value
+    $.ajax({
+        type:'POST',
+        url:'exibe_agendamentos',
+        headers:{'X-CSRFToken':csrf_token},
+        data:{
+            pesquisa_nome: dados,
+            csrfmiddlewaretoken: csrf_token,
+        },
+        success: (data) => {
+            displayAgendamentos(data)
+            console.log(data)
+        }
+        
+    })
+}
+
+function displayAgendamentos(data) {
+    document.getElementById('exibe_agendamentos').remove();
+    var novodiv = document.createElement("div");
+    novodiv.id = "exibe_agendamentos";
+    var pesquisa = document.querySelector("#pesquisa");
+    pesquisa.appendChild(novodiv);
+    const codigo = ' <table id = "tabela_agendamentos" class="table table-hover">'
+        +'<thead>'
+        +'<tr>'
+        +'<th scope="col">#</th>'
+        +'<th scope="col">CPF</th>'
+        +'<th scope="col">Nome</th>'
+
+        +'<th scope="col"></th>'
+        +'</tr>'
+        +'</thead>'
+        +'<tbody id="dados_agendamentos">'
+        
+    document.getElementById('exibe_agendamentos').innerHTML += codigo;
+
 }

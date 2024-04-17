@@ -6,13 +6,31 @@
     text-align: center;
     font-size: 25px;
     margin:0 auto;
-    padding:15px;
-    padding-left: 0px;
+    align-content: center;
     font-weight: bold;
     color:white;
-    box-shadow: 10px 5px 5px grey;
+    box-shadow: 5px 5px 5px grey;
+    margin: 10px;
 }
 
-#percent{
-    margin-left:5px;
+.dpd-seleciona{
+    top:25px;
+    right: -5px;
+}
+
+#valores{
+    align-content: center;
+}
+
+.btn-seleciona{
+    background-color: #a4c3d9;
+    border-color: #a4c3d9;
+}
+
+.btn-seleciona.focus{
+    background-color: #a4c3d9;
+}
+
+.btn-seleciona.dropdown-toggle{
+    background-color: #a4c3d9;
 }
