@@ -399,12 +399,108 @@ function displayAgendamentos(data) {
         +'<th scope="col">#</th>'
         +'<th scope="col">CPF</th>'
         +'<th scope="col">Nome</th>'
-
+        +'<th scope="col">Data Agendamento</th>'
+        +'<th scope="col"></th>'
         +'<th scope="col"></th>'
         +'</tr>'
         +'</thead>'
         +'<tbody id="dados_agendamentos">'
         
     document.getElementById('exibe_agendamentos').innerHTML += codigo;
+    for(i=0; i<data['dados'].length; i++){
+        //nomes =  data['dados'][i]['nomes_animais'];
+        //console.log(typeof(nomes));
+        
+        $('#tabela_agendamentos').append('<tr id="user-' + data['dados'][i]['id_usuario'] + '"><td class="userData" id="user-id-' + data['dados'][i]['id_usuario'] + '" name="user-id">' + data['dados'][i]['id_usuario'] + '</td>'
+                                    +'<td class="userData" id="user-cpf-' + data['dados'][i]['id_usuario'] + '" name="user-cpf">' + data['dados'][i]['cpf'] + '</td>'
+                                    +'<td class="userData" id="user-nome-' + data['dados'][i]['id_usuario'] + '"name="user-nome">' + data['dados'][i]['nome'] + '</td>'
+                                    +'<td class="userData" id="user-agendamento-' + data['dados'][i]['id_usuario'] + '"name="user-agendamento">' + data['dados'][i]['data_agendamento'] + '</td>'
+                                    +'<td><button class="btn btn-secondary w-100 py-1" onclick="VisualizaAnimal('+data['dados'][i]['id_agendamento']+')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">'
+                                    +'<path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>'
+                                    +'<path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>'
+                                    +'</svg> Visualizar</button></td>'
+                                    +'<td><button class="btn btn-secondary w-100 py-1" onclick="ExcluiAgendamento('+data['dados'][i]['id_agendamento']+')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">'
+                                    +'<path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>'
+                                    +'</svg> Excluir</button></td>'
+                                    )
+    }
+    $('#tabela_agendamentos').DataTable({
+        language: {
+            url: '/static/dataTables/plug-ins/pt-BR.json',
+            
+        },
+        
+        "bFilter": false,
+    });
+}
 
+function VisualizaAnimal(id){
+    console.log(id)
+    $.ajax({
+        type:'GET',
+        url:'exibe_animais/'+id,
+        //headers:{'X-CSRFToken':csrf_token},
+        data:{
+  
+        },
+        success: (data) => {
+            exibeModalAnimais(data);
+        }
+        
+    });
+    
+}
+
+function exibeModalAnimais(data){
+    document.getElementById('tabela_exibe_animais').remove();
+    var novodiv = document.createElement("div");
+    novodiv.id = "tabela_exibe_animais";
+    var pesquisa = document.querySelector("#exibe_animais_modal");
+    pesquisa.appendChild(novodiv);
+
+    const codigo =' <table id = "tabela_animais_agendamentos" class="table table-hover">'
+    +'<thead>'
+    +'<tr>'
+    +'<th scope="col">#</th>'
+    +'<th scope="col">Nome</th>'
+    +'</tr>'
+    +'</thead>'
+    +'<tbody id="dados_animais_agendamentos">'
+    document.getElementById('tabela_exibe_animais').innerHTML += codigo;
+    for(i=0; i<data['ids'].length; i++){
+        //nomes =  data['dados'][i]['nomes_animais'];
+        //console.log(typeof(nomes));
+        
+        $('#tabela_animais_agendamentos').append('<tr id="user-' + data['ids'][i]['ids'] + '"><td class="userData" id="user-id-' + data['ids'][i]['ids'] + '" name="user-id">' + data['ids'][i]['ids'] + '</td>'
+                                    +'<td class="userData" id="user-cpf-' + data['nomes'][i]['nomes'] + '" name="user-cpf">' + data['nomes'][i]['nomes'] + '</td>'
+                                    )
+    }
+    $('#tabela_animais_agendamentos').DataTable({
+        language: {
+            url: '/static/dataTables/plug-ins/pt-BR.json',
+            
+        },
+        "bPaginate": false,
+        "bFilter": false,
+    });
+    $('#ModalAgendamentos').modal('show')
+  
+
+}
+
+function ExcluiAgendamento(id){
+    console.log(id)
+    $.ajax({
+        type:'GET',
+        url:'exclui_agendamentos/'+id,
+        //headers:{'X-CSRFToken':csrf_token},
+        data:{
+  
+        },
+        success: (data) => {
+            dados = document.getElementById('input_pesquisa_nome').value;
+            ObterAgendamentos(dados);
+        }
+        
+    });
 }

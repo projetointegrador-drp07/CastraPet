@@ -6,7 +6,7 @@ import json
 from django.core import serializers
 from .models import Agendamentos, Animais_agendados
 from datetime import datetime
-
+from django.db.models import F
 
 # Create your views here.
 @login_required
@@ -117,48 +117,65 @@ def grava_agendamentos(request):
 def exibe_agendamentos(request):
     if request.method == "POST":
         dados = request.POST.get('pesquisa_nome')
-        print(dados)
+        #print(dados)
         if dados:
-            pesquisa = Agendamentos.objects.filter(cod_usuario__nome__icontains=dados)
-            print(pesquisa)
-            for i in pesquisa:
-                #print(i.cod_usuario)
-                nome=str(i.cod_usuario_id)
-
-            data1 = json.loads(serializers.serialize('json',pesquisa))
-            data1 = [
+            #pesquisa = Agendamentos.objects.filter(cod_usuario__nome__icontains=dados)
+            pesquisa = Usuario.objects.filter(nome__icontains=dados, agendamentos__data_agendamento__isnull=False).annotate(data_agendamento=F('agendamentos__data_agendamento'), id_agendamento=F('agendamentos__id')).order_by('-data_agendamento')
+            dados = [
                 {
-                    'fields': i['fields'], 
-                    'id': i['pk'], 
-                    'nome': str(Usuario.objects.values('nome').get(id=i['fields']['cod_usuario'])),
-                    } for i in data1
-                ]
-            #print(data1[2]['nome'])
-            print(data1)
-
+                    'id_agendamento': usuario.id_agendamento,
+                    'id_usuario': usuario.id,
+                    'nome': usuario.nome,
+                    'cpf': usuario.cpf,
+                    'data_agendamento': usuario.data_agendamento.strftime('%d-%m-%Y'),
+                    #'id_animal': json.dumps(list(Animais_agendados.objects.filter(cod_agendamento_id=usuario.id_agendamento).values_list('cod_animal_id', flat=True))),
+                    #'nomes_animais':json.dumps(list(Animais.objects.filter(id__in=Animais_agendados.objects.filter(cod_agendamento_id=usuario.id_agendamento).values_list('cod_animal_id', flat=True)).values_list('nome_animal', flat=True))),
+                    
+                }   
+                for usuario in pesquisa
+            ]
+            print(dados)
             context = {
-                'usuario':dados,
-                #'agendamento':pesquisa1,
+                'dados':dados,
                 }
-            #print(context)
+           
             return JsonResponse(context)
         else:
-            pesquisa= Agendamentos.objects.all()
-            print(pesquisa)
-            for i in pesquisa:
-                #print(i.cod_usuario)
-                nome=str(i.cod_usuario_id)
+            pesquisa = Usuario.objects.filter(agendamentos__data_agendamento__isnull=False).annotate(data_agendamento=F('agendamentos__data_agendamento'), id_agendamento=F('agendamentos__id')).order_by('-data_agendamento')
 
-            data1 = json.loads(serializers.serialize('json',pesquisa))
-            data1 = [
+            dados = [
                 {
-                    'fields': i['fields'], 
-                    'id': i['pk'], 
-                    'nome': str(Usuario.objects.values('nome').get(id=i['fields']['cod_usuario'])),
-                    } for i in data1
-                ]
-            #print(data1[2]['nome'])
-            print(data1)
-            context = {'dados':data1}
-            #print(context)
+                    'id_agendamento': usuario.id_agendamento,
+                    'id_usuario': usuario.id,
+                    'nome': usuario.nome,
+                    'cpf': usuario.cpf,
+                    'data_agendamento': usuario.data_agendamento.strftime('%d-%m-%Y'),
+                    #'id_animal': json.dumps(list(Animais_agendados.objects.filter(cod_agendamento_id=usuario.id_agendamento).values_list('cod_animal_id', flat=True))),
+                    #'nomes_animais':json.dumps(str(list(Animais.objects.filter(id__in=Animais_agendados.objects.filter(cod_agendamento_id=usuario.id_agendamento).values_list('cod_animal_id', flat=True)).values_list('nome_animal', flat=True)))),
+                }   
+                for usuario in pesquisa
+            ]
+            print(dados)
+            context = {
+                'dados':dados,
+                }
             return JsonResponse(context)
+        
+@login_required
+def exibe_animais(request, id):
+    id_animais = Animais_agendados.objects.filter(cod_agendamento_id=id).values_list('cod_animal_id', flat=True)
+    ids=[{ 'ids': a }for a in id_animais]
+    nomes_animais = Animais.objects.filter(id__in=Animais_agendados.objects.filter(cod_agendamento_id=id).values_list('cod_animal_id', flat=True)).values_list('nome_animal', flat=True)
+    nomes =[{ 'nomes': n }for n in nomes_animais]    
+    
+    context = {
+        'ids': ids,
+        'nomes':nomes,
+    }
+    return JsonResponse(context)
+
+@login_required
+def exclui_agendamentos(request, id):
+    print(id)
+    return HttpResponse('teste')
+
