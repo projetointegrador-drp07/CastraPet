@@ -429,7 +429,7 @@ function displayAgendamentos(data) {
             url: '/static/dataTables/plug-ins/pt-BR.json',
             
         },
-        
+        order:[3],
         "bFilter": false,
     });
 }
@@ -463,16 +463,21 @@ function exibeModalAnimais(data){
     +'<tr>'
     +'<th scope="col">#</th>'
     +'<th scope="col">Nome</th>'
+    +'<th scope="col">Data</th>'
     +'</tr>'
     +'</thead>'
     +'<tbody id="dados_animais_agendamentos">'
     document.getElementById('tabela_exibe_animais').innerHTML += codigo;
+    
     for(i=0; i<data['ids'].length; i++){
         //nomes =  data['dados'][i]['nomes_animais'];
         //console.log(typeof(nomes));
+        data1 = data['data'][0]['data'];
+        //console.log(data1)
         
-        $('#tabela_animais_agendamentos').append('<tr id="user-' + data['ids'][i]['ids'] + '"><td class="userData" id="user-id-' + data['ids'][i]['ids'] + '" name="user-id">' + data['ids'][i]['ids'] + '</td>'
-                                    +'<td class="userData" id="user-cpf-' + data['nomes'][i]['nomes'] + '" name="user-cpf">' + data['nomes'][i]['nomes'] + '</td>'
+        $('#tabela_animais_agendamentos').append('<tr id="animal-' + data['ids'][i]['ids'] + '"><td class="userData" id="animal-id-' + data['ids'][i]['ids'] + '" name="user-id">' + data['ids'][i]['ids'] + '</td>'
+                                    +'<td class="userData" id="animal-nome-' + data['nomes'][i]['nomes'] + '" name="animal_nome">' + data['nomes'][i]['nomes'] + '</td>'
+                                    +'<td class="userData" id="animal_data-' + data1 + '" name="animal_data">' + data1 + '</td>'
                                     )
     }
     $('#tabela_animais_agendamentos').DataTable({
@@ -490,17 +495,31 @@ function exibeModalAnimais(data){
 
 function ExcluiAgendamento(id){
     console.log(id)
-    $.ajax({
-        type:'GET',
-        url:'exclui_agendamentos/'+id,
-        //headers:{'X-CSRFToken':csrf_token},
-        data:{
-  
-        },
-        success: (data) => {
-            dados = document.getElementById('input_pesquisa_nome').value;
-            ObterAgendamentos(dados);
-        }
+
+    Swal.fire({
+        title: "Confirma exclusão do agendamento?",
+        text: "",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sim, confirme!",
+        cancelButtonText: "Cancelar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                type:'GET',
+                url:'exclui_agendamentos/'+id,
+                //headers:{'X-CSRFToken':csrf_token},
+                data:{
         
-    });
+                },
+                success: (data) => {
+                    dados = document.getElementById('input_pesquisa_nome').value;
+                    ObterAgendamentos(dados);
+                }
+                
+            });
+        }})
+
 }

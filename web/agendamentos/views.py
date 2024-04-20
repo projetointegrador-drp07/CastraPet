@@ -134,7 +134,7 @@ def exibe_agendamentos(request):
                 }   
                 for usuario in pesquisa
             ]
-            print(dados)
+            #print(dados)
             context = {
                 'dados':dados,
                 }
@@ -155,7 +155,7 @@ def exibe_agendamentos(request):
                 }   
                 for usuario in pesquisa
             ]
-            print(dados)
+            #print(dados)
             context = {
                 'dados':dados,
                 }
@@ -166,16 +166,43 @@ def exibe_animais(request, id):
     id_animais = Animais_agendados.objects.filter(cod_agendamento_id=id).values_list('cod_animal_id', flat=True)
     ids=[{ 'ids': a }for a in id_animais]
     nomes_animais = Animais.objects.filter(id__in=Animais_agendados.objects.filter(cod_agendamento_id=id).values_list('cod_animal_id', flat=True)).values_list('nome_animal', flat=True)
-    nomes =[{ 'nomes': n }for n in nomes_animais]    
-    
+    nomes =[{ 'nomes': n }for n in nomes_animais]
+    data_animais = Agendamentos.objects.filter(id=id).values_list('data_agendamento', flat=True)
+    data = [{
+        'data': dia.strftime('%d-%m-%Y'),
+    } for dia in data_animais]
+
+    #print(data)
     context = {
         'ids': ids,
         'nomes':nomes,
+        'data':data,
     }
     return JsonResponse(context)
 
 @login_required
 def exclui_agendamentos(request, id):
     print(id)
-    return HttpResponse('teste')
+    try:
+
+        agendamento = Agendamentos.objects.get(id=id)
+        id_animais = Animais_agendados.objects.filter(cod_agendamento_id=id).values_list('cod_animal_id', flat=True)
+        print(id_animais)
+        for ids in id_animais:
+
+            animal = Animais.objects.get(id = ids)
+            animal.castr = 0
+            animal.save()
+            print(ids)
+        agendamento.delete()
+        context =  {
+            'info': 'Excluido',
+        }
+        return JsonResponse(context)
+    except:
+        context = {
+            'info': 'nao excluido!',
+        }
+        return JsonResponse(context)
+    
 
