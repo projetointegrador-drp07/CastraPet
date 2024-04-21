@@ -24,4 +24,3 @@ resource "aws_instance" "ec2_castrapet" {
 resource "aws_eip" "ip_ec2_castrapet" {
   instance = aws_instance.ec2_castrapet.id
 }
-

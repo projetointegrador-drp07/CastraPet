@@ -1,0 +1,41 @@
+name: Deploy CastraPet Project - AWS
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  rsync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          aws-region: us-east-1
+          role-to-assume: arn:aws:iam::914256152987:role/GitHubActionsRole
+          role-session-name: castrapet-deploy-django-project
+          
+      - name: Get EC2 instance IP
+        id: get-instance-ip
+        run: |
+          instance_id=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=ec2-castrapet" --query "Reservations[*].Instances[*].InstanceId" --output text)
+          instance_ip=$(aws ec2 describe-instances --instance-ids $instance_id --query "Reservations[*].Instances[*].PublicIpAddress" --output text)
+          know_hosts=$(ssh-keyscan -H $instance_ip)  
+          echo "instance_ip=$instance_ip" >> $GITHUB_OUTPUT       
+          echo "know_hosts=$know_hosts" >> $GITHUB_OUTPUT
+
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: ${{ steps.get-instance-ip.outputs.know_hosts }}
+          
+      - name: Deploy with rsync
+        run: rsync -avz ./web ubuntu@${{ steps.get-instance-ip.outputs.instance_ip }}:/home/ubuntu/web
+
