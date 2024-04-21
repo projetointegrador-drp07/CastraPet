@@ -35,7 +35,7 @@ jobs:
           known_hosts: "placeholder"
 
       - name: Adding Known Hosts
-        run: ssh-keyscan -H ${{ steps.get-instance-ip.outputs.instance_ip }} >> /home/runner/.ssh/known_hosts
+        run: ssh-keyscan -p 22 ${{ steps.get-instance-ip.outputs.instance_ip }} >> /home/runner/.ssh/known_hosts
           
       - name: Deploy with rsync
         run: |
