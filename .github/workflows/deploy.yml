@@ -43,4 +43,4 @@ jobs:
 
       - name: Rsync Nginx directory
         run: |
-          rsync -avz ./ngnix ubuntu@${{ steps.get-instance-ip.outputs.instance_ip }}:/home/ubuntu/
+          rsync -avz ./nginx ubuntu@${{ steps.get-instance-ip.outputs.instance_ip }}:/home/ubuntu/
