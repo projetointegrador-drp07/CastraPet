@@ -201,6 +201,7 @@ function atualiza_dashboard(ano, mes){
             div.insertAdjacentHTML("afterbegin",percentual,);
             gera_grafico_animais(data);
             gera_grafico_bairros(data);
+            gera_grafico_agendamentos(data);
         }
         
     });
@@ -287,4 +288,38 @@ function gera_grafico_bairros(data){
                 indexAxis: 'y',
               }
         });
+}
+
+function gera_grafico_agendamentos(data){
+            //grafico agendamentos
+            document.getElementById("g_agendamentos").remove();
+            var novodiv = document.createElement("div");
+            novodiv.id = "g_agendamentos";
+            var pesquisa = document.querySelector("#grafico_agendamentos");
+            pesquisa.appendChild(novodiv);
+            codigo = '<canvas id="agendamentos"></canvas>';
+            document.getElementById('g_agendamentos').innerHTML += codigo;
+            const ctx2 = document.getElementById("agendamentos").getContext("2d");
+            console.log('agendamentos:'+data['agendamentos'])
+            console.log('falta agendar:'+data['falta_agendar'])
+            const myChart2 = new Chart(ctx2,{
+                type:'pie',
+                data:{
+                    labels: [
+                        'Agendados',
+                        'Faltam Agendar',
+                        
+                    ],
+                    datasets: [{
+                        label: 'Agendados / Faltam Agendar',
+                        data: [data['agendamentos'], data['falta_agendar']],
+                        backgroundColor: [
+                        'rgba(255, 99, 132, 0.6)',
+                        'rgba(54, 162, 235, 0.6)',
+  
+                        ],
+                        hoverOffset: 4,
+                    }],
+                }
+            });
 }

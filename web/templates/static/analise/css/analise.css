@@ -111,3 +111,10 @@ body{
     left:750px;
     width: 600px;
 }
+
+#grafico_agendamentos{
+    position: absolute;
+    top: 600px; 
+    left:150px;
+    width: 500px;
+}

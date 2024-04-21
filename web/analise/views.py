@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.db.models.aggregates import Count
 from cadastro.models import Usuario, Animais
+from agendamentos.models import Agendamentos, Animais_agendados
 from django.http import JsonResponse
 from datetime import date
 from configuracoes.models import Valores
@@ -104,6 +105,9 @@ def exibe_dados(request):
             qtde_bairros_json = bairro['qtde_cad_por_bairros']
             bairros_list.append(json.dumps(bairro_json, ensure_ascii=False))
             qtde_bairros.append(json.dumps(qtde_bairros_json, ensure_ascii=False))
+        
+        agendamentos = Agendamentos.objects.filter(data_agendamento__year=ano).count()
+        falta_agendar = animais_cadastrados_total - agendamentos
     else:
         total_cadastros_usuarios = Usuario.objects.filter(data_cadastro__year=ano, data_cadastro__month=mes).count()
         animais_cadastrados_total = Animais.objects.filter(data_cad_anim__year=ano, data_cad_anim__month=mes).count()
@@ -147,6 +151,8 @@ def exibe_dados(request):
 
         #print(type(bairros_list[0]))
         #print(bairros_list, qtde_bairros)
+        agendamentos = Agendamentos.objects.filter(data_agendamento__year=ano, data_agendamento__month=mes).count()
+        falta_agendar = animais_cadastrados_total - agendamentos
 
     dados = {
         'ano':ano,
@@ -161,6 +167,7 @@ def exibe_dados(request):
         'percentual': percentual,
         'bairros': bairros_list,
         'qtde_bairros': qtde_bairros,
+        'agendamentos': agendamentos,
+        'falta_agendar': falta_agendar,
     }
     return JsonResponse(dados)  
-  
