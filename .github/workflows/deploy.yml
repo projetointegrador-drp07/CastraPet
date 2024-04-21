@@ -34,7 +34,10 @@ jobs:
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          known_hosts: ${{ steps.get-instance-ip.outputs.know_hosts }}
+          known_hosts: "placeholder"
+
+      - name: Adding Known Hosts
+        run: ssh-keyscan -H ${{ steps.get-instance-ip.outputs.instance_ip }} >> ~/.ssh/known_hosts
           
       - name: Deploy with rsync
         run: |
