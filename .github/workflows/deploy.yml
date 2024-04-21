@@ -37,7 +37,10 @@ jobs:
       - name: Adding Known Hosts
         run: ssh-keyscan -p 22 ${{ steps.get-instance-ip.outputs.instance_ip }} >> /home/runner/.ssh/known_hosts
           
-      - name: Deploy with rsync
+      - name: Rsync Web directory
         run: |
-          rsync -avz ./web ubuntu@${{ steps.get-instance-ip.outputs.instance_ip }}:/home/ubuntu/web
-          rsync -avz ./ngnix ubuntu@${{ steps.get-instance-ip.outputs.instance_ip }}:/home/ubuntu/nginx
+          rsync -avz ./web ubuntu@${{ steps.get-instance-ip.outputs.instance_ip }}:/home/ubuntu/
+
+      - name: Rsync Nginx directory
+        run: |
+          rsync -avz ./ngnix ubuntu@${{ steps.get-instance-ip.outputs.instance_ip }}:/home/ubuntu/
