@@ -311,7 +311,7 @@ function gera_grafico_agendamentos(data){
                         
                     ],
                     datasets: [{
-                        label: 'Agendados / Faltam Agendar',
+                        //label: 'Agendados / Faltam Agendar',
                         data: [data['agendamentos'], data['falta_agendar']],
                         backgroundColor: [
                         'rgba(255, 99, 132, 0.6)',

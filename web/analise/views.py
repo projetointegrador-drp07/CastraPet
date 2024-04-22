@@ -106,7 +106,9 @@ def exibe_dados(request):
             bairros_list.append(json.dumps(bairro_json, ensure_ascii=False))
             qtde_bairros.append(json.dumps(qtde_bairros_json, ensure_ascii=False))
         
-        agendamentos = Agendamentos.objects.filter(data_agendamento__year=ano).count()
+        animais_cadastrados = Animais.objects.filter(data_cad_anim__year=ano)
+        animais_agendados = Agendamentos.objects.filter(animais_agendados__cod_animal_id__in=animais_cadastrados)
+        agendamentos = animais_agendados.count()
         falta_agendar = animais_cadastrados_total - agendamentos
     else:
         total_cadastros_usuarios = Usuario.objects.filter(data_cadastro__year=ano, data_cadastro__month=mes).count()
@@ -151,7 +153,11 @@ def exibe_dados(request):
 
         #print(type(bairros_list[0]))
         #print(bairros_list, qtde_bairros)
-        agendamentos = Agendamentos.objects.filter(data_agendamento__year=ano, data_agendamento__month=mes).count()
+        #agendamentos = Agendamentos.objects.filter(data_agendamento__year=ano, data_agendamento__month=mes).count()
+        #falta_agendar = animais_cadastrados_total - agendamentos
+        animais_cadastrados = Animais.objects.filter(data_cad_anim__month=mes, data_cad_anim__year=ano)
+        animais_agendados = Agendamentos.objects.filter(animais_agendados__cod_animal_id__in=animais_cadastrados)
+        agendamentos = animais_agendados.count()
         falta_agendar = animais_cadastrados_total - agendamentos
 
     dados = {
