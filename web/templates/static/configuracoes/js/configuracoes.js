@@ -51,7 +51,7 @@ function add_medico(){
     medico = $('input[id="medico"]').val();
     crmv = $('input[id="crmv"]').val();
     crmv_uf = document.getElementById('crmv-uf').value;
-    console.log(crmv_uf)
+    //console.log(crmv_uf)
             
     if(medico==="" || crmv ==="" || crmv_uf ==="s_opcao"){
         Swal.fire({
@@ -128,7 +128,7 @@ function remove_medico(id){
 
 function exibir_medico(){
     csrf_token = document.querySelector('[name=csrfmiddlewaretoken]').value
-    //console.log(dados)
+    ////console.log(dados)
     $.ajax({
         type:'POST',
         url:'exibe_profissionais',
@@ -173,7 +173,7 @@ function definir_valores(){
     canino_macho = $('input[id="canino_macho"]').val();
     felino_femea = $('input[id="felino_femea"]').val();
     felino_macho = $('input[id="felino_macho"]').val();
-    //console.log(referencia, canino_femea, canino_macho, felino_femea, felino_macho)
+    ////console.log(referencia, canino_femea, canino_macho, felino_femea, felino_macho)
     if(referencia==="" || canino_femea ==="" || canino_macho ==="" || felino_femea ==="" || felino_macho ===""){
         Swal.fire({
             icon: "error",
@@ -263,7 +263,7 @@ function atualiza_percent(data){
     }else if(percentual >= 75){
         document.getElementById("total").style.backgroundColor = "red";
     };
-    console.log(referencia, total, percentual)
+    //console.log(referencia, total, percentual)
     percent = document.querySelector("#percent");
     percent.insertAdjacentHTML("afterbegin",percentual,);
     

@@ -118,3 +118,38 @@ body{
     left:150px;
     width: 500px;
 }
+
+#grafico_tempo_medio{
+    position: absolute;
+    top: 700px;
+    left: 900px;
+    width: 500px;
+    background-color:#FFC75F;
+    display: inline-block;
+    height: 300px;
+    width: 450px;
+    margin: 0 auto; 
+    border-radius: 10px; 
+    box-shadow: 10px 5px 5px grey;    
+}
+
+#g_tempo_medio{
+    justify-content: center;
+    text-align: center; 
+    position: relative;
+    top: 40%;
+    transform: translateY(-50%); 
+    font-size:25px; 
+    font-weight:700;
+}
+
+#medio{
+    justify-content: center;
+    text-align: center; 
+    position: relative;
+    top: 20%;
+    transform: translateY(-50%); 
+    font-size:25px; 
+    font-weight:700;
+
+}

@@ -11,7 +11,7 @@ def configuracoes(request):
         valores = Valores.objects.all()
         if valores:
             for a in valores:
-                print(str(a.referencia))
+                #print(str(a.referencia))
                 referencia = {'referencia':str(a.referencia)}
                 canino_femea = {'canino_femea':str(a.canino_femea)}
                 canino_macho = {'canino_macho':str(a.canino_macho)}
@@ -39,7 +39,7 @@ def config_empresa(request):
 
         obj = Empresa.objects.all()
         if obj.exists():
-            print("Ja existe uma empresa no banco de dados")
+            #print("Ja existe uma empresa no banco de dados")
             att_empresa = Empresa.objects.get(id=1)
             att_empresa.nome = empresa
             att_empresa.endereco = endereco
@@ -47,7 +47,7 @@ def config_empresa(request):
             att_empresa.telefone2 = telefone2
             att_empresa.save()
         else:
-            print("nao existe uma empresa cadastrada")
+            #print("nao existe uma empresa cadastrada")
             nova_empresa = Empresa(
                 nome = empresa,
                 endereco = endereco,
@@ -65,7 +65,7 @@ def salva_profissionais(request):
         medico = request.POST.get('profissional')
         crmv = request.POST.get('crmv')
         uf = request.POST.get('uf')
-        print(medico, crmv, uf)
+        #print(medico, crmv, uf)
         obj = Profissionais(
             profissional = medico,
             crmv = crmv,
@@ -82,7 +82,7 @@ def exibe_profissionais(request):
         data1 = json.loads(serializers.serialize('json',dados_profissionais))
         data1 = [{'fields': i['fields'], 'id': i['pk']} for i in data1]
         context = {'dados':data1}
-        print(context)
+        #print(context)
         return JsonResponse(context)
 
 @login_required
@@ -91,19 +91,19 @@ def exclui_profissionais(request, id):
             try:
                 medico = Profissionais.objects.get(id=id)
                 medico.delete()
-                print('medico apagado com sucesso')
+                #print('medico apagado com sucesso')
                 dados_profissionais = Profissionais.objects.all()
                 data1 = json.loads(serializers.serialize('json',dados_profissionais))
                 data1 = [{'fields': i['fields'], 'id': i['pk']} for i in data1]
                 context = {'dados':data1}
-                print(context)
+                #print(context)
                 return JsonResponse(context)
             except:
                 dados_profissionais = Profissionais.objects.all()
                 data1 = json.loads(serializers.serialize('json',dados_profissionais))
                 data1 = [{'fields': i['fields'], 'id': i['pk']} for i in data1]
                 context = {'dados':data1}
-                print(context)
+                #print(context)
                 return JsonResponse(context)
             
 @login_required
@@ -117,7 +117,7 @@ def att_valores(request):
 
         obj = Valores.objects.all()
         if obj.exists():
-            print("Ja existem valoresno banco de dados")
+            #print("Ja existem valoresno banco de dados")
             att_valores = Valores.objects.get(id=1)
             att_valores.referencia = referencia
             att_valores.canino_femea = canino_femea
@@ -127,7 +127,7 @@ def att_valores(request):
             att_valores.save()
             
         else:
-            print("nao existe valores cadastrados")
+            #print("nao existe valores cadastrados")
             att_valores = Valores(
                 referencia = referencia,
                 canino_femea = canino_femea,

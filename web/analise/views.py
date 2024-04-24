@@ -1,13 +1,15 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from django.db.models.aggregates import Count
+from django.db.models.aggregates import Count, Avg
 from cadastro.models import Usuario, Animais
 from agendamentos.models import Agendamentos, Animais_agendados
 from django.http import JsonResponse
 from datetime import date
 from configuracoes.models import Valores
-from django.core import serializers
+from django.db.models.functions import ExtractDay, ExtractMonth, ExtractYear
+from django.db.models import F
 import json
+
 
 @login_required
 def analise(request):
@@ -25,7 +27,7 @@ def analise(request):
     else:
         meses = ''
 
-    print(anos, meses)
+    #print(anos, meses)
     if anos:
         anos = reversed(anos)
         meses = reversed(meses)
@@ -33,14 +35,14 @@ def analise(request):
             'anos':anos,
             'meses':meses
             }
-        print(dados)
+        #print(dados)
         return render(request, 'analise.html', dados)
     else:
         dados = {
             'anos':'',
             'meses':'',
             }
-        print(dados)
+        #print(dados)
         return render(request, 'analise.html', dados)
 
 @login_required    
@@ -53,7 +55,7 @@ def seleciona_ano_mes(request):
     for mes in dados_meses:
         meses.append(mes['data_cadastro__month'])
 
-    print(meses)
+    #print(meses)
     dados={'meses':meses}
     return JsonResponse(dados)
 
@@ -110,6 +112,19 @@ def exibe_dados(request):
         animais_agendados = Agendamentos.objects.filter(animais_agendados__cod_animal_id__in=animais_cadastrados)
         agendamentos = animais_agendados.count()
         falta_agendar = animais_cadastrados_total - agendamentos
+
+        tempo_medio_dias = Animais_agendados.objects.select_related('cod_agendamento', 'cod_animal__usuario').filter(
+            cod_animal__data_cad_anim__year=ano).annotate(
+            dia_agendamento=ExtractDay('cod_agendamento__data_agendamento'),
+            mes_agendamento=ExtractMonth('cod_agendamento__data_agendamento'),
+            ano_agendamento=ExtractYear('cod_agendamento__data_agendamento'),
+            dia_cadastro=ExtractDay('cod_animal__data_cad_anim'),
+            mes_cadastro=ExtractMonth('cod_animal__data_cad_anim'),
+            ano_cadastro=ExtractYear('cod_animal__data_cad_anim'),
+            tempo_medio=(F('ano_agendamento') * 365 + F('mes_agendamento') * 30 + F('dia_agendamento')) - (F('ano_cadastro') * 365 + F('mes_cadastro') * 30 + F('dia_cadastro'))
+        ).aggregate(media_tempo_medio=Avg('tempo_medio'))
+        
+        #print(f"Tempo médio em dias entre a data de cadastro de animais e a data do agendamento: {tempo_medio_dias['media_tempo_medio']}")
     else:
         total_cadastros_usuarios = Usuario.objects.filter(data_cadastro__year=ano, data_cadastro__month=mes).count()
         animais_cadastrados_total = Animais.objects.filter(data_cad_anim__year=ano, data_cad_anim__month=mes).count()
@@ -156,6 +171,19 @@ def exibe_dados(request):
         agendamentos = animais_agendados.count()
         falta_agendar = animais_cadastrados_total - agendamentos
 
+        tempo_medio_dias = Animais_agendados.objects.select_related('cod_agendamento', 'cod_animal__usuario').filter(
+            cod_animal__data_cad_anim__month=mes, cod_animal__data_cad_anim__year=ano
+        ).annotate(
+            dia_agendamento=ExtractDay('cod_agendamento__data_agendamento'),
+            mes_agendamento=ExtractMonth('cod_agendamento__data_agendamento'),
+            ano_agendamento=ExtractYear('cod_agendamento__data_agendamento'),
+            dia_cadastro=ExtractDay('cod_animal__data_cad_anim'),
+            mes_cadastro=ExtractMonth('cod_animal__data_cad_anim'),
+            ano_cadastro=ExtractYear('cod_animal__data_cad_anim'),
+            tempo_medio=(F('ano_agendamento') * 365 + F('mes_agendamento') * 30 + F('dia_agendamento')) - (F('ano_cadastro') * 365 + F('mes_cadastro') * 30 + F('dia_cadastro'))
+        ).aggregate(media_tempo_medio=Avg('tempo_medio'))
+        #print(f"Tempo médio em dias entre a data de cadastro de animais e a data do agendamento: {tempo_medio_dias['media_tempo_medio']}")
+
     dados = {
         'ano':ano,
         'mes':mes,
@@ -171,5 +199,6 @@ def exibe_dados(request):
         'qtde_bairros': qtde_bairros,
         'agendamentos': agendamentos,
         'falta_agendar': falta_agendar,
+        'tempo_medio': tempo_medio_dias['media_tempo_medio'],
     }
     return JsonResponse(dados)  

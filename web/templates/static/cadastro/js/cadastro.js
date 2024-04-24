@@ -101,7 +101,7 @@ function pesquisa_cep(cep, tipo) {
 document.getElementById('pesquisa_usuario').addEventListener('submit', function(event){
     event.preventDefault();
     dados = document.getElementById('pesquisa_nome').value;
-    //console.log(dados)
+    ////console.log(dados)
     ObterDados(dados);
 })
 
@@ -213,7 +213,7 @@ function apagar_usuario(id){
                     busca_valores()
                     //displayData(data)
                     dados = document.getElementById('pesquisa_nome').value;
-                    //console.log(dados)
+                    ////console.log(dados)
                     ObterDados(dados);
                     // alert("usuario apagado"+id);
                     Swal.fire({
@@ -259,7 +259,7 @@ function editUser(id){
                 cidade =  data['dados'][0]['fields']['cidade'];
                 uf = data['dados'][0]['fields']['uf'];
                 obs = data['dados'][0]['fields']['obs'];
-                //console.log(nome, cpf, rg, email, telefone1, telefone2, cep, endereco, numero, bairro, cidade, uf, obs)
+                ////console.log(nome, cpf, rg, email, telefone1, telefone2, cep, endereco, numero, bairro, cidade, uf, obs)
                 $('#form-id').val(id)
                 $('#nome_modal').val(nome);
                 $('#cpf_modal').val(cpf);
@@ -278,7 +278,7 @@ function editUser(id){
                 div_animais = document.getElementById("exibe_animais_modal");
                 div_animais.innerHTML="";
                 for(i=0;i<data['animais'].length; i++){
-                    console.log(data['animais'][i])
+                    //console.log(data['animais'][i])
                     especie =  data['animais'][i]['fields']['especie_animal'];
                     sexo =  data['animais'][i]['fields']['sexo_animal'];
                     div_animais.innerHTML += "<div id='animal_cadastrado-"+ data['animais'][i]['id'] + "'><div class='row'>"
@@ -361,7 +361,7 @@ document.getElementById('updateUser').addEventListener('submit', function(event)
         return cores.push(input.value);
     });
 
-    //console.log(ids, animais, especies, idades, sexos, cores)
+    ////console.log(ids, animais, especies, idades, sexos, cores)
     $.ajax({
         url: 'att_usuario',
         type:'POST',
@@ -392,7 +392,7 @@ document.getElementById('updateUser').addEventListener('submit', function(event)
         dataType: 'json',
         success: (data) => {
             dados = document.getElementById('pesquisa_nome').value;
-            //console.log(dados)
+            ////console.log(dados)
             ObterDados(dados);
             busca_valores();
         }
@@ -405,7 +405,7 @@ document.getElementById('updateUser').addEventListener('submit', function(event)
 });
 
 function apagar_animal_modal(id){
-    console.log(id)
+    //console.log(id)
     Swal.fire({
         title: "Confirma exclusão?",
         text: "Tem certeza que deseja excluir o animal ID: " + id + "?",
@@ -473,7 +473,7 @@ function apagar_animal_novo_modal(e){
 //     var uf =  $('input[id="UF"]').val();
 //     var obs =  document.getElementById('observacoes').value;
 
-//     //console.log(nome, cpf, rg, email, telefone1, telefone2, cep, endereco, numero, bairro, cidade, uf, obs)
+//     ////console.log(nome, cpf, rg, email, telefone1, telefone2, cep, endereco, numero, bairro, cidade, uf, obs)
 
 //     var animais = [];
 //     var nome_animal = document.querySelectorAll(".nome_animal");
@@ -503,7 +503,7 @@ function apagar_animal_novo_modal(e){
 //         return cores.push(input.value);
 //     });
 
-//     console.log(animais, especies, idades, sexos, cores)
+//     //console.log(animais, especies, idades, sexos, cores)
 //     //alert("cheguei na requisicao de dados")
 //     csrf_token = document.querySelector('[name=csrfmiddlewaretoken]').value
 //     $.ajax({
@@ -598,7 +598,7 @@ function atualiza_percent(data){
     }else if(percentual >= 75){
         document.getElementById("total").style.backgroundColor = "red";
     };
-    console.log(referencia, total, percentual)
+    //console.log(referencia, total, percentual)
     percent = document.querySelector("#percent");
     percent.insertAdjacentHTML("afterbegin",percentual,);
     

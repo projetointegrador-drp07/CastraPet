@@ -66,7 +66,7 @@ def seleciona_dados(request):
 def seleciona_animais(request):
     if request.method == "POST":
         id = request.POST.get('pesquisa_animal')
-        print(id)
+        #print(id)
         if id:
 
             data= Animais.objects.filter(usuario_id__exact=id)
@@ -84,12 +84,12 @@ def grava_agendamentos(request):
         animais = request.POST.getlist('animais[]')
 
         
-        print(id)
-        print(data_agendamento)
+        # print(id)
+        # print(data_agendamento)
 
         usu =  Usuario.objects.get(id = id)
         data_formatada = datetime.strptime(data_agendamento, '%d/%m/%Y').date()
-        print(data_formatada)
+        # print(data_formatada)
 
         agd = Agendamentos(
             data_agendamento = data_formatada,
@@ -98,8 +98,8 @@ def grava_agendamentos(request):
         agd.save()
 
         for animais in animais:
-            print(animais)
-            print(type(animais))
+            # print(animais)
+            # print(type(animais))
             cod_animal = Animais.objects.get(id = int(animais))
             anm = Animais_agendados(
                 cod_agendamento = agd,
@@ -182,18 +182,18 @@ def exibe_animais(request, id):
 
 @login_required
 def exclui_agendamentos(request, id):
-    print(id)
+    #print(id)
     try:
 
         agendamento = Agendamentos.objects.get(id=id)
         id_animais = Animais_agendados.objects.filter(cod_agendamento_id=id).values_list('cod_animal_id', flat=True)
-        print(id_animais)
+        #print(id_animais)
         for ids in id_animais:
 
             animal = Animais.objects.get(id = ids)
             animal.castr = 0
             animal.save()
-            print(ids)
+            #print(ids)
         agendamento.delete()
         context =  {
             'info': 'Excluido',

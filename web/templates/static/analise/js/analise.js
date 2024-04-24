@@ -35,7 +35,7 @@ function atualiza_percent(data){
     }else if(percentual >= 75){
         document.getElementById("total").style.backgroundColor = "red";
     };
-    console.log(referencia, total, percentual)
+    //console.log(referencia, total, percentual)
     percent = document.querySelector("#percent");
     percent.insertAdjacentHTML("afterbegin",percentual,);
     
@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
         //atualizar valores depois que tem alteração no mes
         $('#mes').change(function(){
-            //console.log($('#mes').val())
+            ////console.log($('#mes').val())
             atualiza_dashboard($('#ano option:selected').val(),$('#mes option:selected').val());
         });
         atualiza_dashboard($('#ano option:selected').val(),$('#mes option:selected').val());
@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function atualiza_select(data){
     //atualiza_percent(data);
-    console.log('ano_selecionado:'+data['meses'])
+    //console.log('ano_selecionado:'+data['meses'])
     const selectElement = document.getElementById('mes');
     //const select = document.getElementById("mySelect");
     selectElement.innerHTML='';
@@ -159,7 +159,7 @@ function atualiza_select(data){
 
 
 function atualiza_dashboard(ano, mes){
-    console.log(ano, mes)
+    //console.log(ano, mes)
 
     //atualiza total de cadastros
     document.getElementById("contador").remove();
@@ -182,6 +182,13 @@ function atualiza_dashboard(ano, mes){
     var pesquisa = document.querySelector("#dados_percentual_cadastros_mes");
     pesquisa.appendChild(novodiv);
 
+    //atualiza tempo medio
+    document.getElementById("medio").remove();
+    var novodiv = document.createElement("div");
+    novodiv.id = "medio";
+    var pesquisa = document.querySelector("#grafico_tempo_medio");
+    pesquisa.appendChild(novodiv);
+
     $.ajax({
         type:'GET',
         url:'exibe_dados?ano='+ano+'&mes='+mes+'',
@@ -189,7 +196,7 @@ function atualiza_dashboard(ano, mes){
   
         },
         success: (data) => {
-            //console.log(data['total_cadastros']);
+            ////console.log(data['total_cadastros']);
             cadastros = data['total_cadastros'];
             div = document.querySelector("#contador");
             div.insertAdjacentHTML("afterbegin",cadastros,);
@@ -199,6 +206,15 @@ function atualiza_dashboard(ano, mes){
             percentual = data['percentual'];
             div = document.querySelector("#porcentagem");
             div.insertAdjacentHTML("afterbegin",percentual,);
+            
+            if (data['tempo_medio']==null){
+                media = 0;
+            }else if(data['tempo_medio']!=null){
+                media = data['tempo_medio'].toFixed(0);
+            };
+            
+            div = document.querySelector("#medio");
+            div.insertAdjacentHTML("afterbegin",media,);
             gera_grafico_animais(data);
             gera_grafico_bairros(data);
             gera_grafico_agendamentos(data);
@@ -256,8 +272,8 @@ function gera_grafico_bairros(data){
         pesquisa.appendChild(novodiv);
         codigo = '<canvas id="bairros"></canvas>';
         document.getElementById('g_bairros').innerHTML += codigo;
-        console.log(data['bairros'][0])
-        console.log(data['qtde_bairros'][0])
+        //console.log(data['bairros'][0])
+        //console.log(data['qtde_bairros'][0])
         const ctx1 = document.getElementById("bairros").getContext("2d");
         // ctx.destroy()
         const myChart1 = new Chart(ctx1,{
@@ -300,8 +316,8 @@ function gera_grafico_agendamentos(data){
             codigo = '<canvas id="agendamentos"></canvas>';
             document.getElementById('g_agendamentos').innerHTML += codigo;
             const ctx2 = document.getElementById("agendamentos").getContext("2d");
-            console.log('agendamentos:'+data['agendamentos'])
-            console.log('falta agendar:'+data['falta_agendar'])
+            //console.log('agendamentos:'+data['agendamentos'])
+            //console.log('falta agendar:'+data['falta_agendar'])
             const myChart2 = new Chart(ctx2,{
                 type:'pie',
                 data:{

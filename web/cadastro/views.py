@@ -87,7 +87,7 @@ def apagar_usuario(request, id):
     try:
         usuario = Usuario.objects.get(id=id)
         usuario.delete()
-        print('apagado com sucesso')
+        #print('apagado com sucesso')
         return redirect(reverse('cadastro'))
     except:
         return redirect(reverse('cadastro'))
@@ -169,7 +169,7 @@ def att_usuario(request):
         idade_animal = request.POST.getlist('idades[]')
         sexo_animal = request.POST.getlist('sexos[]')
         cor_animal = request.POST.getlist('cores[]')
-        print(id_animal, nome_animal, especie_animal, idade_animal, sexo_animal, cor_animal)
+        #print(id_animal, nome_animal, especie_animal, idade_animal, sexo_animal, cor_animal)
 
         
         obj = Usuario.objects.get(id=id1)
@@ -193,9 +193,9 @@ def att_usuario(request):
         for id_animal, nome_animal, especie_animal, idade_animal, sexo_animal, cor_animal in zip(id_animal, nome_animal, especie_animal, idade_animal, sexo_animal, cor_animal):
              #   |animal = Animais(usuario = id1, nome_animal = nome_animal, especie_animal = especie_animal, idade_animal = idade_animal, sexo_animal = sexo_animal, cor_animal = cor_animal)
           #  animal.save()
-            print(id_animal)
+            #print(id_animal)
             if id_animal == "":
-                print("novo animal cadastrado")
+                #print("novo animal cadastrado")
                 animal = Animais(
                     usuario = obj,
                     nome_animal = nome_animal,
@@ -207,7 +207,7 @@ def att_usuario(request):
                 animal.save()
                 #print(animal)
             else:
-                print("atualizacao de animal")
+                #print("atualizacao de animal")
                 #animal = Animais(usuario = id1, 
                 animal = Animais.objects.get(id = id_animal)
                 #print(animal.nome_animal)
@@ -231,7 +231,7 @@ def apaga_animal(request, id):
     try:
         animal = Animais.objects.get(id=id)
         animal.delete()
-        print('animal apagado com sucesso')
+        #print('animal apagado com sucesso')
         return redirect(reverse('cadastro'))
     except:
         return redirect(reverse('cadastro'))
@@ -323,8 +323,8 @@ def obter_valores(request):
     if total > valor_referencia:
         print("ultrapassou o valor de referencia")
 
-    print('Valores: Qtde/Canino/Femea: {}, Qtde/Canino/Macho: {}, Qtde/Felino/Femea: {}, Qtde/Felino/Macho: {}'.format(canino_femea, canino_macho, felino_femea, felino_macho))
-    print('valor total: R$/Canino/Femea: {}, R$/Canino/Macho: {}, R$/Felino/Femea: {}, R$/Felino/Macho: {}'.format(valor_canino_femea, valor_canino_macho,valor_felino_femea,valor_felino_macho))
+    #print('Valores: Qtde/Canino/Femea: {}, Qtde/Canino/Macho: {}, Qtde/Felino/Femea: {}, Qtde/Felino/Macho: {}'.format(canino_femea, canino_macho, felino_femea, felino_macho))
+    #print('valor total: R$/Canino/Femea: {}, R$/Canino/Macho: {}, R$/Felino/Femea: {}, R$/Felino/Macho: {}'.format(valor_canino_femea, valor_canino_macho,valor_felino_femea,valor_felino_macho))
 
     context = {'valor_total':total, 'referencia':valor_referencia}
     return JsonResponse(context)

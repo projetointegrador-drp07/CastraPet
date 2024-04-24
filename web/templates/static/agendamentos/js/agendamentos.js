@@ -25,12 +25,12 @@ document.addEventListener('DOMContentLoaded', function() {
             //alert('clicked ' + info.dateStr);
             var data_escolhida = new Date(info.dateStr);
             var dia = data_escolhida.getDate() +1;
-            console.log(dia);
+            //console.log(dia);
             var mes = data_escolhida.getMonth() + 1;
-            console.log(mes +1);
+            //console.log(mes +1);
             var ano = data_escolhida.getFullYear();
-            console.log(ano);
-            console.log(data_escolhida);
+            //console.log(ano);
+            //console.log(data_escolhida);
             //correcao = format
             //data_escolhida.toLocaleDateString('pt-BR');
             $('#data_selecionada').val(dia +"/"+mes + "/"+ano);
@@ -48,7 +48,7 @@ function ObterDados() {
     csrf_token = document.querySelector('[name=csrfmiddlewaretoken]').value
     dados = $("#pesquisa_nome").val();
     tipo = $("#selecao_pesquisa").val();
-    //console.log(tipo)
+    ////console.log(tipo)
     $.ajax({
         type:'POST',
         url:'seleciona_dados',
@@ -113,7 +113,7 @@ function displayData(data) {
 }
 
 function SelectUser(id, nome){
-    console.log(nome);
+    //console.log(nome);
     $('#codigo').val(id);
     $('#nome').val(nome);
     Seleciona_Animais(id);
@@ -121,7 +121,7 @@ function SelectUser(id, nome){
 
 function Seleciona_Animais(id){
     csrf_token = document.querySelector('[name=csrfmiddlewaretoken]').value
-    //console.log(dados)
+    ////console.log(dados)
     $.ajax({
         type:'POST',
         url:'seleciona_animais',
@@ -137,7 +137,7 @@ function Seleciona_Animais(id){
     })
 }
 function Exibe_Animais(data){
-    console.log(data)
+    //console.log(data)
     document.getElementById('exibe_animais').remove();
     var novodiv = document.createElement("div");
     novodiv.id = "exibe_animais";
@@ -213,26 +213,26 @@ function agendar(){
             var id_animais = [].map.call(ids_animal, function(input){
                 return ids.push(input.value);
             });
-            console.log("quantidade de itens que podem selecionados")
-            console.log(ids.length)
+            //console.log("quantidade de itens que podem selecionados")
+            //console.log(ids.length)
             for (i=0;i<ids.length;i++){
-                //console.log(ids[i])
+                ////console.log(ids[i])
                 varia = ids[i]
-                console.log("id do item:")
-                console.log(varia)
+                //console.log("id do item:")
+                //console.log(varia)
                 controle = document.getElementById('seleciona_animal-'+varia);
-                console.log("Esta selecionado ou nao:")
-                console.log(controle.checked)
+                //console.log("Esta selecionado ou nao:")
+                //console.log(controle.checked)
                 if(!controle.checked){
                     var index = ids.indexOf(varia)
-                    console.log("vou excluir o item da posicao:")
-                    console.log(index)
+                    //console.log("vou excluir o item da posicao:")
+                    //console.log(index)
                     ids.splice(index,1)
                     i--
                 }
            
             }
-            console.log(ids)
+            //console.log(ids)
             if(ids.length>0){
                 Swal.fire({
                     title: "Confirma agendamento?",
@@ -351,7 +351,7 @@ function atualiza_percent(data){
     }else if(percentual >= 75){
         document.getElementById("total").style.backgroundColor = "red";
     };
-    console.log(referencia, total, percentual)
+    //console.log(referencia, total, percentual)
     percent = document.querySelector("#percent");
     percent.insertAdjacentHTML("afterbegin",percentual,);
     
@@ -364,7 +364,7 @@ function atualiza_percent(data){
 document.getElementById('pesquisa_agendamento').addEventListener('submit', function(event){
     event.preventDefault();
     dados = document.getElementById('input_pesquisa_nome').value;
-    console.log(dados)
+    //console.log(dados)
     ObterAgendamentos(dados);
 })
 
@@ -381,7 +381,7 @@ function ObterAgendamentos(dados) {
         },
         success: (data) => {
             displayAgendamentos(data)
-            console.log(data)
+            //console.log(data)
         }
         
     })
@@ -409,7 +409,7 @@ function displayAgendamentos(data) {
     document.getElementById('exibe_agendamentos').innerHTML += codigo;
     for(i=0; i<data['dados'].length; i++){
         //nomes =  data['dados'][i]['nomes_animais'];
-        //console.log(typeof(nomes));
+        ////console.log(typeof(nomes));
         
         $('#tabela_agendamentos').append('<tr id="user-' + data['dados'][i]['id_usuario'] + '"><td class="userData" id="user-id-' + data['dados'][i]['id_usuario'] + '" name="user-id">' + data['dados'][i]['id_usuario'] + '</td>'
                                     +'<td class="userData" id="user-cpf-' + data['dados'][i]['id_usuario'] + '" name="user-cpf">' + data['dados'][i]['cpf'] + '</td>'
@@ -435,7 +435,7 @@ function displayAgendamentos(data) {
 }
 
 function VisualizaAnimal(id){
-    console.log(id)
+    //console.log(id)
     $.ajax({
         type:'GET',
         url:'exibe_animais/'+id,
@@ -471,9 +471,9 @@ function exibeModalAnimais(data){
     
     for(i=0; i<data['ids'].length; i++){
         //nomes =  data['dados'][i]['nomes_animais'];
-        //console.log(typeof(nomes));
+        ////console.log(typeof(nomes));
         data1 = data['data'][0]['data'];
-        //console.log(data1)
+        ////console.log(data1)
         
         $('#tabela_animais_agendamentos').append('<tr id="animal-' + data['ids'][i]['ids'] + '"><td class="userData" id="animal-id-' + data['ids'][i]['ids'] + '" name="user-id">' + data['ids'][i]['ids'] + '</td>'
                                     +'<td class="userData" id="animal-nome-' + data['nomes'][i]['nomes'] + '" name="animal_nome">' + data['nomes'][i]['nomes'] + '</td>'
@@ -494,7 +494,7 @@ function exibeModalAnimais(data){
 }
 
 function ExcluiAgendamento(id){
-    console.log(id)
+    //console.log(id)
 
     Swal.fire({
         title: "Confirma exclusão do agendamento?",
