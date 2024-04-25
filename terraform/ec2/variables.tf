@@ -6,6 +6,7 @@ variable aws_region {
 variable default_tags {
   type = map(string)
   default = {
+    Name         = "ec2-castrapet"
     repo         = "castrapet"
     organization = "projetointegrador-drp07"
     created_by   = "terraform"

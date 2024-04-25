@@ -33,20 +33,20 @@ jobs:
 
       - name: Terraform Init
         run: |
-          cd terraform/ec2
+          cd terraform/vpc
           terraform init
 
       - name: Terraform Validate
         run: |
-          cd terraform/ec2
+          cd terraform/vpc
           terraform validate
 
       - name: Terraform Plan
         run: |
-          cd terraform/ec2
+          cd terraform/vpc
           terraform plan
 
       - name: Terraform Apply
         run: |
-          cd terraform/ec2
+          cd terraform/vpc
           terraform apply -auto-approve

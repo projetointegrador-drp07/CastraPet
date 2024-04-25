@@ -2,11 +2,11 @@ name: Create Federation - GitHub and AWS
 
 on:
   workflow_dispatch:
-  # push:
-  #   branches:
-  #     - main
-  #   paths:
-  #     - 'terraform/iam/**'
+  push:
+    branches:
+      - main
+    paths:
+      - 'terraform/iam/**'
 
 jobs:
   terraform_apply:
