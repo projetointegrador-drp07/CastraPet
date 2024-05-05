@@ -1,24 +1,21 @@
 #!/bin/bash
+export DEBIAN_FRONTEND=noninteractive
 
-cp -R . /etc/nginx
-chmod -R 0644 /etc/nginx
+sudo ufw allow 80
+sudo ufw allow 443
+sudo ufw allow 'NGINX Full'
 
-cp sites-available/castrapet.conf /etc/nginx/sites-available/castrapet.conf
-mkdir -p /etc/nginx/sites-enabled
-ln -s /etc/nginx/sites-available/castrapet.conf /etc/nginx/sites-enabled/
+sudo apt update
+sudo apt install nginx -y
+sudo apt install certbot python3-certbot-nginx -y
 
-openssl dhparam -out /etc/nginx/dhparam.pem 2048
-mkdir -p /var/www/_letsencrypt
-chown nginx /var/www/_letsencrypt
+sudo cp -R . /etc/nginx
+sudo chmod -R 0644 /etc/nginx
 
-sed -i -r 's/(listen .*443)/\1; #/g; s/(ssl_(certificate|certificate_key|trusted_certificate) )/#;#\1/g; s/(server \{)/\1\n    ssl off;/g' /etc/nginx/sites-available/castrapet.conf
+sudo ln -s /etc/nginx/sites-available/castrapet.conf /etc/nginx/sites-enabled/
 
-certbot certonly --webroot -d castrapet.online --email info@castrapet.online -w /var/www/_letsencrypt -n --agree-tos --force-renewal
+sudo certbot --nginx -d castrapet.online --noninteractive --agree-tos --force-renewal
 
-sed -i -r -z 's/#?; ?#//g; s/(server \{)\n    ssl off;/\1/g' /etc/nginx/sites-available/castrapet.conf
-
-echo -e '#!/bin/bash\nnginx -t && systemctl reload nginx' > /etc/letsencrypt/renewal-hooks/post/nginx-reload.sh
-chmod a+x /etc/letsencrypt/renewal-hooks/post/nginx-reload.sh
-
-nginx -t && systemctl reload nginx
+sudo nginx -t && systemctl restart nginx
+sudo systemctl enable --now nginx
 nginx -g "daemon off;"

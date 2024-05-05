@@ -1,0 +1,18 @@
+[Unit]
+Description=gunicorn daemon castrapet
+After=network.target
+
+[Service]
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/home/ubuntu/web
+ExecStart=/home/ubuntu/web/venv/bin/gunicorn \
+          --workers=3 \
+          --bind unix:/run/gunicorn.sock \
+          --log-level=error \
+          --access-logfile=/home/ubuntu/web/gunicorn_access.log \
+          --error-logfile=/home/ubuntu/web/gunicorn_error.log \
+          castrapet.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
