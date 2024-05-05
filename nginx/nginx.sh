@@ -13,7 +13,7 @@ chown nginx /var/www/_letsencrypt
 
 sed -i -r 's/(listen .*443)/\1; #/g; s/(ssl_(certificate|certificate_key|trusted_certificate) )/#;#\1/g; s/(server \{)/\1\n    ssl off;/g' /etc/nginx/sites-available/castrapet.conf
 
-certbot certonly --webroot -d castrapet.com --email info@castrapet.com -w /var/www/_letsencrypt -n --agree-tos --force-renewal
+certbot certonly --webroot -d castrapet.online --email info@castrapet.online -w /var/www/_letsencrypt -n --agree-tos --force-renewal
 
 sed -i -r -z 's/#?; ?#//g; s/(server \{)\n    ssl off;/\1/g' /etc/nginx/sites-available/castrapet.conf
 
