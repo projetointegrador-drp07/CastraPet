@@ -1,11 +1,11 @@
 #!/bin/sh
 
-apk add python3-dev build-base linux-headers pcre-dev
+sudo apt install python3-dev build-base pcre-dev
 
-pip install uwsgi
-pip install -r requirements.txt
+pip3 install uwsgi
+pip3 install -r requirements.txt
 
 python3 manage.py migrate --no-input
 python3 manage.py collectstatic --no-input
 
-uwsgi --ini /code/castrapet.uwsgi.ini
+uwsgi --ini /home/ubuntu/web/castrapet.uwsgi.ini
