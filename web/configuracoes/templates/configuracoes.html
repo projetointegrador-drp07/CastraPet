@@ -164,8 +164,8 @@
                     <label for="referencia">Valor de Referencia Mensal Total:</label>
                     <div class="input-group-prepend">
                         <span class="input-group-text">R$</span>
+                        <input type="number" id="referencia" class="form-control" placeholder="" name="referencia"  required maxlength="10" value="{{referencia.referencia}}">
                     </div>
-                    <input type="number" id="referencia" class="form-control" placeholder="" name="referencia"  required maxlength="10" value="{{referencia.referencia}}">
                 </div>
            
             {%if canino_femea %}
@@ -173,8 +173,8 @@
                     <label for="canino_femea">Valor Castração para Canino/Fêmea:</label>
                     <div class="input-group-prepend">
                         <span class="input-group-text">R$</span>
+                        <input type="number" min="1" id="canino_femea" class="form-control" placeholder="" name="canino_femea"  required maxlength="10" value="{{canino_femea.canino_femea}}">
                     </div>
-                    <input type="number" min="1" id="canino_femea" class="form-control" placeholder="" name="canino_femea"  required maxlength="10" value="{{canino_femea.canino_femea}}">
                 </div>
             {%endif%}
             {%if canino_macho%}
@@ -182,8 +182,8 @@
                     <label for="canino_macho">Valor Castração para Canino/Macho:</label>
                     <div class="input-group-prepend">
                         <span class="input-group-text">R$</span>
+                        <input type="number" min="1" id="canino_macho" class="form-control" placeholder="" name="canino_macho"  required maxlength="10" value="{{canino_macho.canino_macho}}">
                     </div>
-                    <input type="number" min="1" id="canino_macho" class="form-control" placeholder="" name="canino_macho"  required maxlength="10" value="{{canino_macho.canino_macho}}">
                 </div>
             {%endif%}
             {%if felino_femea %}
@@ -191,8 +191,8 @@
                     <label for="felino_femea">Valor Castração para Felino/Fêmea:</label>
                     <div class="input-group-prepend">
                         <span class="input-group-text">R$</span>
+                        <input type="number" min="1" id="felino_femea" class="form-control" placeholder="" name="felino_femea"  required maxlength="10" value="{{felino_femea.felino_femea}}">
                     </div>
-                    <input type="number" min="1" id="felino_femea" class="form-control" placeholder="" name="felino_femea"  required maxlength="10" value="{{felino_femea.felino_femea}}">
                 </div>
             {%endif%}
             {%if felino_macho%}
@@ -200,8 +200,8 @@
                     <label for="felino_macho">Valor Castração para Felino/Macho:</label>
                     <div class="input-group-prepend">
                         <span class="input-group-text">R$</span>
+                        <input type="number" min="1" id="felino_macho" class="form-control" placeholder="" name="felino_macho"  required maxlength="10" value="{{felino_macho.felino_macho}}">
                     </div>
-                    <input type="number" min="1" id="felino_macho" class="form-control" placeholder="" name="felino_macho"  required maxlength="10" value="{{felino_macho.felino_macho}}">
                 </div>
             {%endif%}
                 <div class="form-group col-md">
