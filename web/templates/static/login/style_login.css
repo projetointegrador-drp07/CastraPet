@@ -1,5 +1,5 @@
 body{
-	background-image: linear-gradient( to right, rgb(6, 6, 229) 10%, black);
+	background:linear-gradient( to right, rgb(234, 234, 236) 10%, rgb(234,234,236));
 }
 
 .form-container {
